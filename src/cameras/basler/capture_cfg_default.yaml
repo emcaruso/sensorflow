@@ -1,0 +1,37 @@
+fps: 60
+exposure_time: 10000
+gamma: 1
+
+pixel_format:
+  val: BayerRG8
+  valid_options:
+    - Mono8
+    - BayerRG8
+    - RGB8
+
+converter:
+  val: PixelType_RGB8packed
+  valid_options:
+    - PixelType_Mono8packed
+    - PixelType_BayerRG8packed
+    - PixelType_RGB8packed
+
+grab_strategy:
+  val: GrabStrategy_OneByOne
+  valid_options:
+    - GrabStrategy_LatestImageOnly
+    - GrabStrategy_LatestImage
+    - GrabStrategy_OneByOne
+    - GrabStrategy_UpcomingIMage
+
+color_space:
+  val: sRgb
+  valid_options:
+    - sRgb
+    - Off
+
+crop:
+  do: False
+  slot: 1
+
+timeout: 5000
