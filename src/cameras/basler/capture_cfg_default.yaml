@@ -1,5 +1,5 @@
-fps: 60
-exposure_time: 10000
+fps: 2
+exposure_time: 20000
 gamma: 1
 
 pixel_format:
@@ -31,7 +31,7 @@ color_space:
     - Off
 
 crop:
-  do: False
+  do: True
   slot: 1
 
 timeout: 5000
