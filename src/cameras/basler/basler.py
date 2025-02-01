@@ -15,6 +15,7 @@ sys.path.append(Path(__file__).parents[2].as_posix())
 sys.path.append(Path(__file__).parent.as_posix())
 from camera_controller import CameraControllerAbstract
 from utils_basler import fps2microseconds, microseconds2fps
+from synchronization import synchronize_cameras
 import multiprocessing as mp
 
 
@@ -78,31 +79,31 @@ class CameraController(CameraControllerAbstract):
         
 
 
-    def synchronize_cameras(self) -> bool:
-        for i, cam in enumerate(self.cam_array):
-            if cam.BslPeriodicSignalSource.Value != 'PtpClock':
-                self.logger.info(f"Syncing camera {i}...")
-                cam.PtpEnable.Value = False
-                cam.BslPtpPriority1.Value = 128
-                cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
-                cam.BslPtpNetworkMode.Value = "Multicast"
-                cam.BslPtpTwoStep.Value = False
-                cam.PtpEnable.Value = True
-
-                # Wait until correctly initialized or timeout
-                time1 = time.time()
-                while True:
-                    cam.PtpDataSetLatch.Execute()
-                    synced = (cam.PtpStatus.GetValue() in ['Master', 'Slave'])
-                    if synced:
-                        self.logger.info(f"Camera {i} synced as {cam.PtpStatus.GetValue()}")
-                        break 
-
-                    if (time.time() - time1) > 30:
-                        self.logger.warning('PTP not locked -> Timeout')
-                        return False
-
-        return True
+    # def synchronize_cameras(self) -> bool:
+    #     for i, cam in enumerate(self.cam_array):
+    #         if cam.BslPeriodicSignalSource.Value != 'PtpClock':
+    #             self.logger.info(f"Syncing camera {i}...")
+    #             cam.PtpEnable.Value = False
+    #             cam.BslPtpPriority1.Value = 128
+    #             cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
+    #             cam.BslPtpNetworkMode.Value = "Multicast"
+    #             cam.BslPtpTwoStep.Value = False
+    #             cam.PtpEnable.Value = True
+    #
+    #             # Wait until correctly initialized or timeout
+    #             time1 = time.time()
+    #             while True:
+    #                 cam.PtpDataSetLatch.Execute()
+    #                 synced = (cam.PtpStatus.GetValue() in ['Master', 'Slave'])
+    #                 if synced:
+    #                     self.logger.info(f"Camera {i} synced as {cam.PtpStatus.GetValue()}")
+    #                     break 
+    #
+    #                 if (time.time() - time1) > 30:
+    #                     self.logger.warning('PTP not locked -> Timeout')
+    #                     return False
+    #
+    #     return True
 
     def set_camera_fps(self, cam: pylon.InstantCamera, fps : float, i : int) -> None:
         cam.BslPeriodicSignalPeriod = fps2microseconds(fps)
@@ -150,7 +151,11 @@ class CameraController(CameraControllerAbstract):
         self.logger.info("Cameras started asynchronously")
     
     def start_cameras_synchronous(self, cfg = None) -> None:
-        self.synchronize_cameras()
+        success = synchronize_cameras(self.cam_array, self.logger)
+        if not success:
+            error_msg = "Cameras could not be synchronized"
+            self.logger.error(error_msg)
+            raise ValueError(error_msg)
         self.set_cameras_config()
         self.cam_array.StartGrabbing(getattr(pylon,self.capture_cfg.grab_strategy.val))  # fast
         self.logger.info("Cameras started synchronously")
