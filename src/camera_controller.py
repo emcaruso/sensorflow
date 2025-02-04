@@ -69,6 +69,11 @@ class CameraControllerAbstract(ABC):
     def show_streams():
         pass
 
+    @abstractmethod
+    def get_devices_info():
+        pass
+
+
 
 def get_camera_controller(capture_cfg_path : str = str(Path(__file__).parents[1] / "configs" / "basler_default.yaml"), logger : Logger = None):
 
@@ -97,7 +102,7 @@ def get_camera_controller(capture_cfg_path : str = str(Path(__file__).parents[1]
 if __name__ == "__main__":
     logger = get_logger_default()
     cam_controller = get_camera_controller(logger = logger)
-    cam_controller.start_cameras_synchronous()
+    cam_controller.start_cameras_synchronous_latest()
     cam_controller.camera_is_exposing(0)
     # images = cam_controller.show_streams()
     # while True:

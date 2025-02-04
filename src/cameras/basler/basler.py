@@ -5,6 +5,7 @@ from pathlib import Path
 from logging import Logger
 from pypylon import pylon
 from omegaconf import DictConfig
+from typing import Dict, List
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
 from utils_ema.multiprocess import run_in_multiprocess
@@ -74,6 +75,7 @@ class CameraController(CameraControllerAbstract):
         # load pfs files
         self.open_cameras()
         self.load_features()
+        self.get_devices_info()
 
     def set_camera_fps(self, cam: pylon.InstantCamera, fps : float) -> None:
         cam.BslPeriodicSignalPeriod = fps2microseconds(fps)
@@ -103,7 +105,7 @@ class CameraController(CameraControllerAbstract):
                 return True
             wasexposing = isexposing
 
-    def set_camera_crop(self):
+    def set_camera_crop(self) -> None:
         if self.cfg.crop.do:
             slot = self.cfg.crop.slot
             for cam in self.cam_array:
@@ -139,7 +141,7 @@ class CameraController(CameraControllerAbstract):
         if self.cam_array.IsOpen():
             self.cam_array.Close()
 
-    def __start_base(self, strategy : str, synch : bool, verbose : bool = True):
+    def __start_base(self, strategy : str, synch : bool, verbose : bool = True) -> None:
         self.open_cameras()
         if synch:
             success = synchronize_cameras(self.cam_array, self.logger)
@@ -189,7 +191,7 @@ class CameraController(CameraControllerAbstract):
         return img
 
     
-    def grab_images(self, dtype=torch.float32):
+    def grab_images(self, dtype=torch.float32) -> List[List[Image]]:
         res = []
         imgs = []
         for cam in self.cam_array:
@@ -199,20 +201,43 @@ class CameraController(CameraControllerAbstract):
         return imgs
 
 
-    def show_stream(self, cam_id : int):
+    def show_stream(self, cam_id : int) -> None:
         cam = self.cam_array[cam_id]
         while True:
             img = self.grab_image(cam)
             k = img.show(wk=1)
-
             if k == ord("q"):
                 break
-        pass
 
-    def show_streams(self):
+    def show_streams(self) -> None:
         while True:
             imgs = self.grab_images()
             k = Image.show_multiple_images(imgs, wk=1)
-
             if k == ord("q"):
                 break
+
+    def get_devices_info(self) -> Dict:
+        self.devices_info = []
+
+        # get cam sensorsize
+        path = Path(__file__).parent / "basler_sensorsizes.yaml"
+        assert(path.exists())
+        sensorsizes = load_yaml(str(path))
+
+        # get cam infos
+        for i, device in enumerate(self.devices):
+            self.devices_info.append({})
+            for info_key in self.cfg.camera_info:
+                info = None
+                if getattr(device, "Is" + info_key + "Available")():
+                    info = getattr(device, "Get" + info_key)()
+                self.devices_info[i][info_key] = info
+
+            assert("ModelName" in self.devices_info[i])
+            model_name = self.devices_info[i]["ModelName"]
+            if model_name not in sensorsizes:
+                error_msg = f"Model {model_name} not found in sensorsizes, put the sensorsize in file {path}"
+                self.logger.error(error_msg)
+                raise ValueError(error_msg)
+            sensor_size = sensorsizes[model_name]
+            self.devices_info[i]["SensorSize"] = sensor_size 

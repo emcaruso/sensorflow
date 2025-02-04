@@ -35,3 +35,10 @@ crop:
   slot: 1
 
 timeout: 5000
+
+camera_info:
+  - "VendorName"
+  - "ModelName"
+  - "IpAddress"
+  - "SerialNumber"
+  - "MacAddress"
