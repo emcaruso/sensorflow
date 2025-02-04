@@ -10,6 +10,7 @@ from utils_ema.config_utils import load_yaml
 from postprocessing import Postprocessing
 import multiprocessing as mp
 import time
+import omegaconf
 
 
 class Collector():
@@ -96,15 +97,20 @@ class Collector():
         rmtree(self.cfg.paths.save_path, ignore_errors=True)
         os.makedirs(self.cfg.paths.save_path)
 
-        # create folders
-        for i in range(len(images_list)):
-            os.makedirs(os.path.join(self.cfg.paths.save_path, f"cam_{i}"))
-
-        # save images
+        # save data
         for i, images in enumerate(images_list):
-            for j, image in enumerate(images):
-                image.save(str(Path(self.cfg.paths.save_path) / f"cam_{j}" / f"img_{i}.png"))
+            img_name = "img_" + str(i).zfill(3)
 
+            # save images
+            for j, image in enumerate(images):
+                cam_name = "cam_" + str(j).zfill(3)
+                image.save(str(Path(self.cfg.paths.save_path) / f"{cam_name}" / f"{img_name}.png"))
+
+        # save devices info
+        devices_info = self.cam_controller.get_devices_info()
+        with open(str(Path(self.cfg.paths.save_path) / "devices_info.yaml"), 'w') as f:
+            omegaconf.OmegaConf.save(devices_info, f)
+         
 
 
 

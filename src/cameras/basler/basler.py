@@ -217,7 +217,7 @@ class CameraController(CameraControllerAbstract):
                 break
 
     def get_devices_info(self) -> Dict:
-        self.devices_info = []
+        devices_info = {}
 
         # get cam sensorsize
         path = Path(__file__).parent / "basler_sensorsizes.yaml"
@@ -226,18 +226,20 @@ class CameraController(CameraControllerAbstract):
 
         # get cam infos
         for i, device in enumerate(self.devices):
-            self.devices_info.append({})
+            cam_name = "cam_"+ str(i).zfill(3)
+            devices_info[cam_name] = {}
             for info_key in self.cfg.camera_info:
                 info = None
                 if getattr(device, "Is" + info_key + "Available")():
                     info = getattr(device, "Get" + info_key)()
-                self.devices_info[i][info_key] = info
+                devices_info[cam_name][info_key] = info
 
-            assert("ModelName" in self.devices_info[i])
-            model_name = self.devices_info[i]["ModelName"]
+            assert("ModelName" in devices_info[cam_name])
+            model_name = devices_info[cam_name]["ModelName"]
             if model_name not in sensorsizes:
                 error_msg = f"Model {model_name} not found in sensorsizes, put the sensorsize in file {path}"
                 self.logger.error(error_msg)
                 raise ValueError(error_msg)
             sensor_size = sensorsizes[model_name]
-            self.devices_info[i]["SensorSize"] = sensor_size 
+            devices_info[cam_name]["SensorSize"] = sensor_size 
+        return devices_info
