@@ -1,0 +1,7 @@
+paths:
+  camera_cfg: "${oc.env:YAML_DIR}/basler_default.yaml"
+  light_cfg: "${oc.env:YAML_DIR}/gardasoft_default.yaml"
+  collection_cfg: "${oc.env:YAML_DIR}/collection_strategies/sequence_default.yaml" # null for no particular collection modes
+  # postprocessing_cfg: null # null for no postprocessing
+  postprocessing_cfg: "${oc.env:YAML_DIR}/postprocessing_default.yaml" # null for no postprocessing
+  save_path: "${oc.env:YAML_DIR}/../data/grabbed"

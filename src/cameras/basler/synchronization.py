@@ -5,7 +5,7 @@ import time
 def check_synchronization(cams : pylon.InstantCameraArray) -> bool:
     stats = []
     for cam in cams:
-        if cam.BslPeriodicSignalSource.GetValue() != 'PtpClock':
+        if cam.BslPeriodicSignalSource.ToString() != 'PtpClock':
             return False
         stats.append(cam.PtpStatus.GetValue())
 
@@ -18,12 +18,10 @@ def check_synchronization(cams : pylon.InstantCameraArray) -> bool:
     else:
         return False
     
-
 def synchronize_cameras(cams : pylon.InstantCameraArray, logger : Logger) -> bool:
     if not check_synchronization(cams):
         logger.info("Synchronizing cameras...")
     else:
-        logger.info("Cameras already synchronized")
         return True
 
     synchronize_camera(cams[0]) # Master
@@ -46,8 +44,6 @@ def synchronize_cameras(cams : pylon.InstantCameraArray, logger : Logger) -> boo
 
     return success
          
-
-
 
 def synchronize_camera(cam : pylon.InstantCamera) -> None:
     cam.PtpEnable.Value = False

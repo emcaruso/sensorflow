@@ -1,0 +1,7 @@
+light_sequence:
+  sequence:
+    - 1
+    - 2
+  rounds: 4
+
+cam_params_override:

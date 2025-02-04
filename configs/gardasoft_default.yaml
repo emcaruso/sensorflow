@@ -1,0 +1,8 @@
+sensor_type: gardasoft
+
+ip: "192.168.1.100"
+port_in: 30313
+port_out: 30312
+n_channels: 16
+protocol: "tcp"
+ampere_max: 1

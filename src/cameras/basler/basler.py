@@ -1,14 +1,13 @@
 import sys
-import numpy as np
+import time
 import torch
-import os
 from pathlib import Path
 from logging import Logger
 from pypylon import pylon
-from omegaconf import DictConfig, OmegaConf
-from utils_ema.multiprocess import map_unordered, run_function_in_parallel
+from omegaconf import DictConfig
 from utils_ema.image import Image
-import time
+from utils_ema.config_utils import load_yaml
+from utils_ema.multiprocess import run_in_multiprocess
 
 # local imports
 sys.path.append(Path(__file__).parents[2].as_posix())
@@ -21,14 +20,11 @@ import multiprocessing as mp
 
 class CameraController(CameraControllerAbstract):
 
-    def __init__(self, logger : Logger, capture_cfg : DictConfig = OmegaConf.load(Path(__file__).parent / "capture_cfg_default.yaml"), cameras_config_path : str = str(Path(__file__ ).parents[3] / "data" / "pfs_files")):
-        
-        self.capture_cfg = capture_cfg
-        self.cameras_config_path = cameras_config_path
+    def __init__(self, capture_cfg_path : str, logger : Logger):
+        self.capture_cfg_path =capture_cfg_path 
+        self.cfg = load_yaml(capture_cfg_path)
         self.logger = logger
-        self.cams_available = False
-        self.image_buffer = mp.Queue()
-        
+        self.load_devices()
 
 
     @property
@@ -40,13 +36,15 @@ class CameraController(CameraControllerAbstract):
         self.n_devices = val
 
     def load_features(self):
-        if Path(self.cameras_config_path).exists():
+        if not Path(self.cfg.pfs_path).exists():
+            raise ValueError(f"Path {self.cfg.pfs_path} does not exist")
+        else:
             for i, cam in enumerate(self.cam_array):
                 device = self.devices[i]
                 sn = device.GetSerialNumber()
                 mn = device.GetModelName()
                 iden = f"{mn}_{sn}"
-                path = Path(self.cameras_config_path) / f"{iden}.pfs"
+                path = Path(self.cfg.pfs_path) / f"{iden}.pfs"
                 if path.exists():
                     self.logger.info(f"Loading features for camera {iden}")
                     pylon.FeaturePersistence_Load(str(path), cam.GetNodeMap(), True)
@@ -68,53 +66,46 @@ class CameraController(CameraControllerAbstract):
 
         # set converter
         self.converter = pylon.ImageFormatConverter()
-        self.converter.OutputPixelFormat = getattr(pylon,self.capture_cfg.converter.val)
+        self.converter.OutputPixelFormat = getattr(pylon,self.cfg.converter.val)
 
         # logger
         self.logger.info(f"{self.n_devices} Basler camera detected")
 
         # load pfs files
-        self.__open_cameras()
+        self.open_cameras()
         self.load_features()
-        
 
-
-    # def synchronize_cameras(self) -> bool:
-    #     for i, cam in enumerate(self.cam_array):
-    #         if cam.BslPeriodicSignalSource.Value != 'PtpClock':
-    #             self.logger.info(f"Syncing camera {i}...")
-    #             cam.PtpEnable.Value = False
-    #             cam.BslPtpPriority1.Value = 128
-    #             cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
-    #             cam.BslPtpNetworkMode.Value = "Multicast"
-    #             cam.BslPtpTwoStep.Value = False
-    #             cam.PtpEnable.Value = True
-    #
-    #             # Wait until correctly initialized or timeout
-    #             time1 = time.time()
-    #             while True:
-    #                 cam.PtpDataSetLatch.Execute()
-    #                 synced = (cam.PtpStatus.GetValue() in ['Master', 'Slave'])
-    #                 if synced:
-    #                     self.logger.info(f"Camera {i} synced as {cam.PtpStatus.GetValue()}")
-    #                     break 
-    #
-    #                 if (time.time() - time1) > 30:
-    #                     self.logger.warning('PTP not locked -> Timeout')
-    #                     return False
-    #
-    #     return True
-
-    def set_camera_fps(self, cam: pylon.InstantCamera, fps : float, i : int) -> None:
+    def set_camera_fps(self, cam: pylon.InstantCamera, fps : float) -> None:
         cam.BslPeriodicSignalPeriod = fps2microseconds(fps)
-        cam.BslPeriodicSignalDelay = 0
+        cam.BslPeriodicSignalDelay = self.cfg.trigger.delay
         cam.TriggerSelector.Value = "FrameStart"
         cam.TriggerMode.Value = "On"
         cam.TriggerSource.Value = "PeriodicSignal1"
 
+    def set_trigger_ouput(self, cam : pylon.InstantCamera) -> None:
+        cam.BslPeriodicSignalDelay.Value = 0
+        cam.LineSelector.Value = self.cfg.trigger.line
+        cam.LineMode.Value = "Output"
+        cam.LineSource.Value = "ExposureActive"
+
+    def camera_is_exposing(self, cam_id : int) -> bool:
+        cam = self.cam_array[cam_id]
+        cam.LineSelector.SetValue(self.cfg.trigger.line)
+        return cam.LineStatus.GetValue()
+
+    def wait_exposure_end(self, cam_id : int) -> bool:
+        cam = self.cam_array[cam_id]
+        cam.LineSelector.SetValue(self.cfg.trigger.line)
+        wasexposing = cam.LineStatus.GetValue()
+        while True:
+            isexposing = cam.LineStatus.GetValue()
+            if wasexposing and not isexposing:
+                return True
+            wasexposing = isexposing
+
     def set_camera_crop(self):
-        if self.capture_cfg.crop.do:
-            slot = self.capture_cfg.crop.slot
+        if self.cfg.crop.do:
+            slot = self.cfg.crop.slot
             for cam in self.cam_array:
                 cam.BslMultipleROIRowsEnable.Value = True
                 cam.BslMultipleROIColumnsEnable.Value = True
@@ -130,39 +121,53 @@ class CameraController(CameraControllerAbstract):
     def set_cameras_config(self) -> bool:
 
         for i, cam in enumerate(self.cam_array):
-            self.set_camera_fps(cam, self.capture_cfg.fps, i)
-            cam.BslColorSpace.Value = self.capture_cfg.color_space.val
-            cam.PixelFormat.Value = self.capture_cfg.pixel_format.val
-            cam.ExposureTime.SetValue(self.capture_cfg.exposure_time)
+            self.set_camera_fps(cam, self.cfg.trigger.fps)
+            cam.BslColorSpace.Value = self.cfg.color_space.val
+            cam.PixelFormat.Value = self.cfg.pixel_format.val
+            cam.ExposureTime.SetValue(self.cfg.exposure_time)
             self.set_camera_crop()
+            self.set_trigger_ouput(cam) # set output trigger from master
             cam.SetCameraContext(i)
 
         return True
 
-    def __open_cameras(self) -> bool:
-        self.cam_array.Open()
-        return True
+    def open_cameras(self) -> None:
+        if not self.cam_array.IsOpen():
+            self.cam_array.Open()
 
     def stop_cameras(self) -> None:
-        self.cam_array.Close()
+        if self.cam_array.IsOpen():
+            self.cam_array.Close()
 
-    def start_cameras_asynchronous(self, cfg = None) -> None:
-        self.cam_array.StartGrabbing(getattr(pylon,self.capture_cfg.grab_strategy.val))  # fast
-        self.logger.info("Cameras started asynchronously")
-    
-    def start_cameras_synchronous(self, cfg = None) -> None:
-        success = synchronize_cameras(self.cam_array, self.logger)
-        if not success:
-            error_msg = "Cameras could not be synchronized"
-            self.logger.error(error_msg)
-            raise ValueError(error_msg)
+    def __start_base(self, strategy : str, synch : bool, verbose : bool = True):
+        self.open_cameras()
+        if synch:
+            success = synchronize_cameras(self.cam_array, self.logger)
+            if not success:
+                error_msg = "Cameras could not be synchronized"
+                self.logger.error(error_msg)
+                raise ValueError(error_msg)
         self.set_cameras_config()
-        self.cam_array.StartGrabbing(getattr(pylon,self.capture_cfg.grab_strategy.val))  # fast
-        self.logger.info("Cameras started synchronously")
+        self.cam_array.StartGrabbing(getattr(pylon,strategy))  # fast
+        if verbose:
+            self.logger.info(f"Cameras started, synch = {synch}, strategy = {strategy}")
+
+    def start_cameras_asynchronous_latest(self, verbose : bool = True) -> None:
+        self.__start_base(synch = False, strategy = "GrabStrategy_LatestImages", verbose=verbose)
+    
+    def start_cameras_synchronous_latest(self, verbose : bool = True) -> None:
+        self.__start_base(synch = True, strategy = "GrabStrategy_LatestImages", verbose=verbose)
+
+    def start_cameras_asynchronous_oneByOne(self, verbose : bool = True) -> None:
+        self.__start_base(synch = False, strategy = "GrabStrategy_OneByOne", verbose=verbose)
+
+    def start_cameras_synchronous_oneByOne(self, verbose : bool = True) -> None:
+        self.__start_base(synch = True, strategy = "GrabStrategy_OneByOne", verbose=verbose)
+
 
     def __grab_image_base(self, cam : pylon.InstantCamera, dtype=torch.float32 ) -> Image:
         grabResult = cam.RetrieveResult(
-            self.capture_cfg.timeout, pylon.TimeoutHandling_ThrowException
+            self.cfg.timeout, pylon.TimeoutHandling_ThrowException
         )
         return grabResult
 
@@ -177,19 +182,18 @@ class CameraController(CameraControllerAbstract):
             return img
         return None
 
-    def grab_image(self, cam : pylon.InstantCamera, dtype=torch.float32 ) -> Image:
-        # self.logger.debug("Grabbing image with camera: "+ str(cam.GetContextInfo()) )
+    def grab_image(self, cam_id : int, dtype=torch.float32 ) -> Image:
+        cam = self.cam_array[cam_id]
         grabResult = self.__grab_image_base(cam, dtype)
         img = self.__process_result(grabResult, dtype)
         return img
 
     
     def grab_images(self, dtype=torch.float32):
-        # self.logger.debug("Grabbing images")
         res = []
         imgs = []
         for cam in self.cam_array:
-            res.append( self.__grab_image_base(cam, dtype) )
+            res.append(self.__grab_image_base(cam, dtype))
         for r in res:
             imgs.append(self.__process_result(r, dtype))
         return imgs
