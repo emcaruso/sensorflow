@@ -56,7 +56,7 @@ class Collector():
                     self.logger.warning(f"Light on took {delta} seconds, more than the maximum interval: {interval}")
                 time.sleep(self.period - delta)
 
-    def capture_light_sequence(self, postprocess : bool = True):
+    def capture_light_sequence(self):
         if self.collection_cfg is None:
             error_msg = "Not able to collect light sequence: Collection config not found"
             self.logger.error(error_msg)
@@ -68,30 +68,32 @@ class Collector():
         p.start()
         self.cam_controller.grab_images() # remove first image from buffer
         images_list = []
+        images_postprocessed_list = []
         for _ in range(self.collection_cfg.light_sequence.rounds + len(self.collection_cfg.light_sequence.sequence)):
             images = self.cam_controller.grab_images()
-            if postprocess:
-                images = self.postprocessing.postprocess(images)
             images_list.append(images)
+            images_postprocessed = self.postprocessing.postprocess(images)
+            images_postprocessed_list.append(images_postprocessed)
         for images in images_list:
-            Image.show_multiple_images(images, wk = 0)
+            Image.show_multiple_images(images_postprocessed, wk = 0)
         self.cam_controller.stop_cameras()
         return images_list
 
-    def capture_manual(self, postprocess : bool = True):
+    def capture_manual(self):
         self.cam_controller.start_cameras_synchronous_latest()
         images_list = []
+        images_postprocessed_list = []
         while True:
             images = self.cam_controller.grab_images()
-            if postprocess:
-                images = self.postprocessing.postprocess(images)
+            images_postprocessed = self.postprocessing.postprocess(images)
             key = Image.show_multiple_images(images, wk = 1)
             if key == ord('q'):
                 break
             if key == 32:
                 self.logger.info(f"Images captured (total: {len(images_list)} per cam)")
                 images_list.append(images)
-        return images_list
+                images_postprocessed_list.append(images_postprocessed)
+        return images_list, images_postprocessed_list
 
     def save(self, images_list):
         rmtree(self.cfg.paths.save_path, ignore_errors=True)
@@ -110,6 +112,13 @@ class Collector():
         devices_info = self.cam_controller.get_devices_info()
         with open(str(Path(self.cfg.paths.save_path) / "devices_info.yaml"), 'w') as f:
             omegaconf.OmegaConf.save(devices_info, f)
+        self.logger.info(f"Devices info saved in {self.cfg.paths.save_path}")
+
+        # save collection config
+        if self.collection_cfg is not None:
+            with open(str(Path(self.cfg.paths.save_path) / "collection_cfg.yaml"), 'w') as f:
+                omegaconf.OmegaConf.save(self.collection_cfg, f)
+            self.logger.info(f"Collection config saved in {self.cfg.paths.save_path}")
          
 
 
@@ -119,7 +128,7 @@ if __name__ == "__main__":
     logger = get_logger_default()
     c = Collector(logger)
 
-    images_list = c.capture_manual()
+    images_list, _ = c.capture_manual()
     c.save(images_list)
 
     # time.sleep(1)
