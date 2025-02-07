@@ -3,6 +3,7 @@ import os
 from shutil import rmtree
 from pathlib import Path
 from light_controller import get_light_controller
+from omegaconf import DictConfig
 from logging import Logger
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
@@ -14,19 +15,14 @@ import omegaconf
 
 
 class Collector():
-    def __init__(self, logger : Logger, config_path : str = str(Path(__file__).parents[1] / "configs" / "collector_default.yaml")):
+    def __init__(self, logger : Logger, cfg : DictConfig):
         self.logger = logger
-        self.cfg = load_yaml(config_path)
-        self.light_controller = get_light_controller(light_controller_cfg_path=self.cfg.paths.light_cfg, logger = logger)
-        self.cam_controller = get_camera_controller(capture_cfg_path=self.cfg.paths.camera_cfg, logger = logger)
-        self.postprocessing = Postprocessing(postprocessing_cfg_path=self.cfg.paths.postprocessing_cfg, logger = logger)
-        self.load_collection_cfg()
+        self.cfg = cfg
+        self.light_controller = get_light_controller(cfg=self.cfg.lights, logger = logger)
+        self.cam_controller = get_camera_controller(cfg=self.cfg.cameras, logger = logger)
+        self.postprocessing = Postprocessing(cfg=self.cfg.postprocessings)
+        self.collection_cfg = self.cfg.strategies
         self.check_real_fps()
-
-    def load_collection_cfg(self):
-        self.collection_cfg = None
-        if self.cfg.paths.collection_cfg is not None:
-            self.collection_cfg = load_yaml(self.cfg.paths.collection_cfg)
 
     def check_real_fps(self):
         self.logger.info("Checking real fps...")
@@ -126,18 +122,3 @@ class Collector():
          
         return True
 
-
-
-# executable for debug
-if __name__ == "__main__":
-    logger = get_logger_default()
-    c = Collector(logger)
-
-    images_list, _ = c.capture_manual()
-    c.save(images_list)
-
-    # time.sleep(1)
-    # for i in range(1):
-    #     for i in range(8):
-    #         c.capture_with_light(i, 0)
-    #

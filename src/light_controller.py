@@ -1,10 +1,11 @@
 from pathlib import Path
 from logging import Logger
+from omegaconf import DictConfig
 from abc import ABC, abstractmethod
 import importlib
 import sys
 from utils_ema.image import Image
-from utils_ema.config_utils import load_yaml
+from utils_ema.config_utils import DictConfig, load_yaml
 from utils_ema.log import get_logger_default
 
 class LightControllerAbstract(ABC):
@@ -36,18 +37,17 @@ class LightControllerAbstract(ABC):
         pass
 
 
-def get_light_controller(light_controller_cfg_path : str = str(Path(__file__).parents[1] / "configs" / "gardasoft_default.yaml"), logger : Logger = None):
+def get_light_controller(cfg : DictConfig = None, logger : Logger = None):
+
+    # null light controller
+    if cfg is None:
+        return None
 
     # get logger
     if logger is None:
         logger = get_logger_default()
 
-    # get proper sensor type
-    if not Path(light_controller_cfg_path).exists():
-        raise FileNotFoundError(f"Light controller config file {light_controller_cfg_path} not found")
-
-    capture_cfg = load_yaml(light_controller_cfg_path)
-    sensor_type = capture_cfg.sensor_type
+    sensor_type = cfg.sensor_type
     lights_dir = Path(__file__).parent / 'lights' / sensor_type
 
     # check if sensor type is present in folder
@@ -61,7 +61,7 @@ def get_light_controller(light_controller_cfg_path : str = str(Path(__file__).pa
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     cls = getattr(module, "LightController")
-    return cls(logger=logger, light_controller_cfg_path=light_controller_cfg_path )
+    return cls(logger=logger, cfg=cfg )
 
 # executable for debug
 if __name__ == "__main__":

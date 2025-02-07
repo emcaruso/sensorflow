@@ -1,7 +1,27 @@
+defaults:
+  - _self_
+  - cameras: basler
+  - lights: gardasoft
+  - strategies: light_sequence # null for no particular collection modes
+  - postprocessings: none
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
 paths:
-  camera_cfg: "${oc.env:YAML_DIR}/basler_default.yaml"
-  light_cfg: "${oc.env:YAML_DIR}/gardasoft_default.yaml"
-  collection_cfg: "${oc.env:YAML_DIR}/collection_strategies/sequence_default.yaml" # null for no particular collection modes
-  # postprocessing_cfg: null # null for no postprocessing
-  postprocessing_cfg: "${oc.env:YAML_DIR}/postprocessing_default.yaml" # null for no postprocessing
-  save_path: "${oc.env:YAML_DIR}/../data/grabbed"
+  save_path: "${oc.env:ROOT}/data/grabbed"
+  log_path: "${oc.env:ROOT}/data/logs"
+
+mode:
+  val: manual
+  valid_options:
+    - manual
+    - light_sequence
+
+save:
+  raw: false
+  postprocessed: true

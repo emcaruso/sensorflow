@@ -21,9 +21,8 @@ import multiprocessing as mp
 
 class CameraController(CameraControllerAbstract):
 
-    def __init__(self, capture_cfg_path : str, logger : Logger):
-        self.capture_cfg_path =capture_cfg_path 
-        self.cfg = load_yaml(capture_cfg_path)
+    def __init__(self, logger : Logger, cfg : DictConfig):
+        self.cfg = cfg
         self.logger = logger
         self.load_devices()
 

@@ -1,24 +1,21 @@
-from utils_ema.config_utils import load_yaml
+from utils_ema.config_utils import DictConfig, load_yaml
 from utils_ema.image import Image
-from logging import Logger
+
 
 class Postprocessing():
-    def __init__(self, postprocessing_cfg_path : str, logger : Logger):
-        self.logger = logger
+    def __init__(self, cfg : DictConfig):
         self.functions = []
         self.kwargs = []
-        self.init_postprocessings(postprocessing_cfg_path)
+        self.cfg = cfg
+        self.init_postprocessings()
 
-    def init_postprocessings(self, postprocessing_cfg_path : str) -> bool:
-        if postprocessing_cfg_path is None:
-            return False
-        self.postprocessing_cfg = load_yaml(postprocessing_cfg_path)
-        if "functions" not in self.postprocessing_cfg:
+    def init_postprocessings(self) -> bool:
+        if "functions" not in self.cfg:
             raise ValueError("No functions in postprocessing config")
-        if self.postprocessing_cfg.functions is None:
+        if self.cfg.functions is None:
             return False
 
-        for k,v in self.postprocessing_cfg.functions.items():
+        for k,v in self.cfg.functions.items():
             if k not in dir(self):
                 raise ValueError(f"Function {k} not found in postprocessing class")
             self.functions.append(getattr(self, k))

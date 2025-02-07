@@ -391,7 +391,7 @@ requires-dist = [
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "rootutils", specifier = ">=1.0.7" },
     { name = "torch", specifier = ">=2.6.0" },
-    { name = "utils-ema", directory = "../../utils_ema" },
+    { name = "utils-ema", editable = "../../utils-ema" },
 ]
 
 [[package]]
@@ -616,5 +616,5 @@ wheels = [
 
 [[package]]
 name = "utils-ema"
-version = "1.0"
-source = { directory = "../../utils_ema" }
+version = "0.1.0"
+source = { editable = "../../utils-ema" }

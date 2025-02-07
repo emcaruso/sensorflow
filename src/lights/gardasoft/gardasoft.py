@@ -1,18 +1,16 @@
+from typing import Dict
 from utils_ema.net_controller import NetController
-from utils_ema.config_utils import load_yaml
+from utils_ema.config_utils import DictConfig, load_yaml
 from pathlib import Path
 import time
 from logging import Logger
+from omegaconf import DictConfig
 
 
 class LightController:
 
-    def __init__(self, logger : Logger, light_controller_cfg_path : str = ""):
-        if light_controller_cfg_path == "":
-            light_controller_cfg_path =str(Path(__file__).parent / "light_controller_default.yaml") 
-
-        self.light_controller_cfg_path =light_controller_cfg_path 
-        self.cfg = load_yaml(light_controller_cfg_path)
+    def __init__(self, logger : Logger, cfg : DictConfig):
+        self.cfg = cfg
         self.logger = logger
 
         if not NetController.check_reachability(self.cfg.ip):
