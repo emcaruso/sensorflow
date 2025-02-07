@@ -36,15 +36,15 @@ class CameraController(CameraControllerAbstract):
         self.n_devices = val
 
     def load_features(self):
-        if not Path(self.cfg.pfs_path).exists():
-            raise ValueError(f"Path {self.cfg.pfs_path} does not exist")
+        if not Path(self.cfg.pfs_dir).exists():
+            raise ValueError(f"Path {self.cfg.pfs_dir} does not exist")
         else:
             for i, cam in enumerate(self.cam_array):
                 device = self.devices[i]
                 sn = device.GetSerialNumber()
                 mn = device.GetModelName()
                 iden = f"{mn}_{sn}"
-                path = Path(self.cfg.pfs_path) / f"{iden}.pfs"
+                path = Path(self.cfg.pfs_dir) / f"{iden}.pfs"
                 if path.exists():
                     self.logger.info(f"Loading features for camera {iden}")
                     pylon.FeaturePersistence_Load(str(path), cam.GetNodeMap(), True)

@@ -13,8 +13,8 @@ hydra:
     dir: .
 
 paths:
-  save_path: "${oc.env:ROOT}/data/grabbed"
-  log_path: "${oc.env:ROOT}/data/logs"
+  save_dir: "${oc.env:ROOT}/data/grabbed"
+  log_dir: "${oc.env:ROOT}/data/logs"
 
 mode:
   val: manual

@@ -21,7 +21,7 @@ def main(cfg: DictConfig):
     OmegaConf.resolve(cfg)
 
     # init logger
-    logger = get_logger_default(out_path=cfg.paths.log_path)
+    logger = get_logger_default(out_path=cfg.paths.log_dir)
 
     # run the program
     logger.info("Program started.")
@@ -42,11 +42,11 @@ def run(cfg: DictConfig, logger: Logger):
     if cfg.save.raw:
         res = c.save(images_list)
         if res: 
-            self.logger.info(f"Raw images saved in {self.cfg.paths.save_path}")
+            logger.info(f"Raw images saved in {cfg.paths.save_dir}")
     if cfg.save.postprocessed:
         res = c.save(postprocessed)
         if res: 
-            self.logger.info(f"Postprocessed images saved in {self.cfg.paths.save_path}")
+            logger.info(f"Postprocessed images saved in {cfg.paths.save_dir}")
 
 
 if __name__ == "__main__":

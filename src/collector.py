@@ -96,8 +96,8 @@ class Collector():
             self.logger.info(f"Not saving because no images are captured")
             return False
 
-        rmtree(self.cfg.paths.save_path, ignore_errors=True)
-        os.makedirs(self.cfg.paths.save_path)
+        rmtree(self.cfg.paths.save_dir, ignore_errors=True)
+        os.makedirs(self.cfg.paths.save_dir)
 
         # save data
         for i, images in enumerate(images_list):
@@ -106,19 +106,19 @@ class Collector():
             # save images
             for j, image in enumerate(images):
                 cam_name = "cam_" + str(j).zfill(3)
-                image.save(str(Path(self.cfg.paths.save_path) / f"{cam_name}" / f"{img_name}.png"))
+                image.save(str(Path(self.cfg.paths.save_dir) / f"{cam_name}" / f"{img_name}.png"))
 
         # save devices info
         devices_info = self.cam_controller.get_devices_info()
-        with open(str(Path(self.cfg.paths.save_path) / "devices_info.yaml"), 'w') as f:
+        with open(str(Path(self.cfg.paths.save_dir) / "devices_info.yaml"), 'w') as f:
             omegaconf.OmegaConf.save(devices_info, f)
-        self.logger.info(f"Devices info saved in {self.cfg.paths.save_path}")
+        self.logger.info(f"Devices info saved in {self.cfg.paths.save_dir}")
 
         # save collection config
         if self.collection_cfg is not None:
-            with open(str(Path(self.cfg.paths.save_path) / "collection_cfg.yaml"), 'w') as f:
+            with open(str(Path(self.cfg.paths.save_dir) / "collection_cfg.yaml"), 'w') as f:
                 omegaconf.OmegaConf.save(self.collection_cfg, f)
-            self.logger.info(f"Collection config saved in {self.cfg.paths.save_path}")
+            self.logger.info(f"Collection config saved in {self.cfg.paths.save_dir}")
          
         return True
 
