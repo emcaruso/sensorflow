@@ -14,7 +14,7 @@ hydra:
 
 paths:
   save_dir: "${oc.env:ROOT}/data/grabbed"
-  log_dir: "${oc.env:ROOT}/data/logs"
+  log_file: "${oc.env:ROOT}/data/logs/log.txt"
 
 mode:
   val: manual

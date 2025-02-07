@@ -21,7 +21,7 @@ def main(cfg: DictConfig):
     OmegaConf.resolve(cfg)
 
     # init logger
-    logger = get_logger_default(out_path=cfg.paths.log_dir)
+    logger = get_logger_default(out_path=cfg.paths.log_file)
 
     # run the program
     logger.info("Program started.")
