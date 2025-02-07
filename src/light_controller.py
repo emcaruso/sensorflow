@@ -1,12 +1,11 @@
 from pathlib import Path
 from logging import Logger
-from log_default import get_logger_default
 from abc import ABC, abstractmethod
 import importlib
 import sys
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
-
+from utils_ema.log import get_logger_default
 
 class LightControllerAbstract(ABC):
 

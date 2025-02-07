@@ -3,10 +3,10 @@ import os
 from shutil import rmtree
 from pathlib import Path
 from light_controller import get_light_controller
-from log_default import get_logger_default
 from logging import Logger
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
+from utils_ema.log import get_logger_default
 from postprocessing import Postprocessing
 import multiprocessing as mp
 import time
@@ -95,7 +95,11 @@ class Collector():
                 images_postprocessed_list.append(images_postprocessed)
         return images_list, images_postprocessed_list
 
-    def save(self, images_list):
+    def save(self, images_list) -> bool:
+        if images_list == []:
+            self.logger.info(f"Not saving because no images are captured")
+            return False
+
         rmtree(self.cfg.paths.save_path, ignore_errors=True)
         os.makedirs(self.cfg.paths.save_path)
 
@@ -120,6 +124,7 @@ class Collector():
                 omegaconf.OmegaConf.save(self.collection_cfg, f)
             self.logger.info(f"Collection config saved in {self.cfg.paths.save_path}")
          
+        return True
 
 
 
