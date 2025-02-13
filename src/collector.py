@@ -1,17 +1,18 @@
-from camera_controller import get_camera_controller
-import os
+import os, sys
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from shutil import rmtree
 from pathlib import Path
-from light_controller import get_light_controller
 from omegaconf import DictConfig
 from logging import Logger
-from utils_ema.image import Image
-from utils_ema.config_utils import load_yaml
-from utils_ema.log import get_logger_default
-from postprocessing import Postprocessing
 import multiprocessing as mp
 import time
 import omegaconf
+from utils_ema.image import Image
+from utils_ema.config_utils import load_yaml
+from utils_ema.log import get_logger_default
+from camera_controller import get_camera_controller
+from light_controller import get_light_controller
+from postprocessing import Postprocessing
 
 
 class Collector():

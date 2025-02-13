@@ -1,23 +1,17 @@
+import os, sys
 import hydra
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
-import os, sys
 from pathlib import Path
-import rootutils
-from utils_ema.log import get_logger_default
 from logging import Logger
+from utils_ema.log import get_logger_default
 from collector import Collector
-
-# set root path
-root_dir = rootutils.find_root(search_from=".", indicator=".git")
-rootutils.set_root(root_dir / "src", pythonpath=True)
-
 
 # load conf with hydra and run
 @hydra.main(version_base=None)
 def main(cfg: DictConfig):
 
-    os.environ["ROOT"] =str(root_dir) 
+    os.environ["ROOT"] =str(os.getcwd()) 
     OmegaConf.resolve(cfg)
 
     # init logger
