@@ -150,6 +150,14 @@ class Collector():
 
     def save(self, save_raw : bool = False, save_postprocessed : bool = True, verbose = True) -> bool:
 
+        # if not save_raw, delete raw images
+        if not save_raw:
+            rmtree(str(Path(self.cfg.paths.save_dir) / "raw"), ignore_errors=True)
+
+        # if not save_postprocessed, delete postprocessed images
+        if not save_postprocessed:
+            rmtree(str(Path(self.cfg.paths.save_dir) / "postprocessed"), ignore_errors=True)
+
         # save images (if any)
         self.__counter = 0
         for i in range(len(self.__images_list)):
@@ -158,6 +166,7 @@ class Collector():
             if save_postprocessed:
                 self.__save(self.__images_postprocessed_list[i], raw = False, verbose = verbose)
             self.__counter += 1
+
 
         # save devices info
         devices_info = self.cam_controller.get_devices_info()
