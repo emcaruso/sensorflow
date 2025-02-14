@@ -54,7 +54,7 @@ class Collector():
                     self.logger.warning(f"Light on took {delta} seconds, more than the maximum interval: {interval}")
                 time.sleep(self.period - delta)
 
-    def __collect(self, images : List[Image], images_show : List[Image], in_ram : bool = False):
+    def __collect(self, images : List[Image], images_show : List[Image], in_ram : bool = True):
 
         out_dir = Path(self.cfg.paths.save_dir)
         if not os.path.exists(out_dir):
@@ -78,7 +78,7 @@ class Collector():
         rmtree(self.cfg.paths.save_dir, ignore_errors=True)
         os.makedirs(self.cfg.paths.save_dir)
 
-    def capture_light_sequence(self, in_ram : bool = False, show : bool = False):
+    def capture_light_sequence(self, in_ram : bool = True, show : bool = False):
         self.__collect_init()
 
         if self.collection_cfg is None:
@@ -99,7 +99,7 @@ class Collector():
                 Image.show_multiple_images(images_postprocessed, wk = 0)
         self.cam_controller.stop_cameras()
 
-    def capture_manual(self, in_ram : bool = False):
+    def capture_manual(self, in_ram : bool = True):
         self.__collect_init()
 
         self.cam_controller.start_cameras_synchronous_latest()
@@ -112,7 +112,9 @@ class Collector():
             if key == 32:
                 self.__collect(images, images_postprocessed, in_ram)
 
-    def capture_n_images(self, n : int, in_ram : bool = False, show : bool = False):
+    def capture_n_images(self, n : int, in_ram : bool = True, show : bool = False):
+        self.__collect_init()
+        self.cam_controller.start_cameras_synchronous_latest()
 
         # Preliminary
         while True:
