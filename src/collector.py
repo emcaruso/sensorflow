@@ -112,23 +112,41 @@ class Collector():
             if key == 32:
                 self.__collect(images, images_postprocessed, in_ram)
 
-    def capture_n_images(self, n : int, in_ram : bool = True, show : bool = False):
-        self.__collect_init()
-        self.cam_controller.start_cameras_synchronous_latest()
-
-        # Preliminary
+    def preliminary_show(self):
         while True:
             images = self.cam_controller.grab_images()
             images_postprocessed = self.postprocessing.postprocess(images)
             key = Image.show_multiple_images(images_postprocessed, wk = 1)
             if key == 32:
                 break
-            
-        # Collect
+
+    def capture_n_images(self, n : int, in_ram : bool = True, show : bool = False):
+        self.__collect_init()
+        self.cam_controller.start_cameras_synchronous_latest()
+
+        self.preliminary_show()
+
         for _ in range(n):
             images = self.cam_controller.grab_images()
             images_postprocessed = self.postprocessing.postprocess(images)
+            if show:
+                Image.show_multiple_images(images_postprocessed, wk = 1)
             self.__collect(images, images_postprocessed, in_ram)
+
+    def capture_till_q(self, in_ram : bool = True):
+        self.__collect_init()
+        self.cam_controller.start_cameras_synchronous_latest()
+
+        self.preliminary_show()
+
+        while True:
+            images = self.cam_controller.grab_images()
+            images_postprocessed = self.postprocessing.postprocess(images)
+            self.__collect(images, images_postprocessed, in_ram)
+            wk = Image.show_multiple_images(images_postprocessed, wk = 1)
+            if wk == ord('q'):
+                break
+
 
     def save(self, save_raw : bool = False, save_postprocessed : bool = True, verbose = True) -> bool:
 
