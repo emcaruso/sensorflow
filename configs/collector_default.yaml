@@ -13,9 +13,8 @@ hydra:
     dir: .
 
 paths:
-  save_dir: "${oc.env:ROOT}/data/grabbed"
-  log_file: "${oc.env:ROOT}/data/log.txt"
-  diahane: "${oc.env:ROOT}/data/log.txt"
+  save_dir: "${oc.env:ROOT}/results/grabbed"
+  log_file: "${oc.env:ROOT}/results/log.txt"
 
 mode:
   val: manual

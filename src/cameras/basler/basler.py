@@ -123,6 +123,9 @@ class CameraController(CameraControllerAbstract):
 
         for i, cam in enumerate(self.cam_array):
             self.set_camera_fps(cam, self.cfg.trigger.fps)
+            cam.BslColorSpace.Value = "Off"
+            cam.Gain.Value = self.cfg.gain
+            cam.Gamma.Value = self.cfg.gamma
             cam.BslColorSpace.Value = self.cfg.color_space.val
             cam.PixelFormat.Value = self.cfg.pixel_format.val
             cam.ExposureTime.SetValue(self.cfg.exposure_time)
