@@ -112,13 +112,17 @@ class Collector():
             if key == 32:
                 self.__collect(images, images_postprocessed, in_ram)
 
-    def preliminary_show(self):
+    def preliminary_show(self, trigger = None):
         while True:
             images = self.cam_controller.grab_images()
             images_postprocessed = self.postprocessing.postprocess(images)
             key = Image.show_multiple_images(images_postprocessed, wk = 1)
-            if key == 32:
-                break
+            if trigger is None:
+                if key == 32:
+                    break
+            else:
+                if trigger(images):
+                    break
 
     def capture_n_images(self, n : int, in_ram : bool = True, show : bool = False):
         self.__collect_init()
@@ -133,11 +137,11 @@ class Collector():
                 Image.show_multiple_images(images_postprocessed, wk = 1)
             self.__collect(images, images_postprocessed, in_ram)
 
-    def capture_till_q(self, in_ram : bool = True):
+    def capture_till_q(self, in_ram : bool = True, trigger = None):
         self.__collect_init()
         self.cam_controller.start_cameras_synchronous_latest()
 
-        self.preliminary_show()
+        self.preliminary_show(trigger = trigger)
 
         while True:
             images = self.cam_controller.grab_images()
@@ -184,13 +188,14 @@ class Collector():
 
     def __save(self, images : List[Image], raw : bool, verbose : bool = False):
         subdir = "raw" if raw else "postprocessed"
+        print("subdir", subdir)
         img_name = str(self.__counter).zfill(3) + ".png"
         if images is not None:
             for cam_id in range(len(images)):
                 cam_name = "cam_" + str(cam_id).zfill(3)
                 image = images[cam_id]
                 o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name 
-                if not os.path.exists(o_dir):
+                if not o_dir.exists():
                     os.makedirs(o_dir)
                 image.save_parallel(o_dir / img_name, verbose = verbose)
 
