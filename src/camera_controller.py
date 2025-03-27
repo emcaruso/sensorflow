@@ -2,11 +2,7 @@ from pathlib import Path
 from logging import Logger
 from abc import ABC, abstractmethod
 import importlib
-import sys
 from omegaconf import DictConfig
-from typing import Dict
-from utils_ema.image import Image
-from utils_ema.config_utils import load_yaml
 from utils_ema.log import get_logger_default
 
 
@@ -21,11 +17,6 @@ class CameraControllerAbstract(ABC):
     @abstractmethod
     def num_cameras(self, val):
         pass
-    #
-    # @staticmethod
-    # @abstractmethod
-    # def init_safe(): # init cameras and check if they are available
-    #     pass
     
     @abstractmethod
     def start_cameras_asynchronous_oneByOne():

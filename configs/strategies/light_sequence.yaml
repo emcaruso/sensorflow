@@ -2,6 +2,6 @@ light_sequence:
   sequence:
     - 1
     - 2
-  rounds: 4
+  rounds: 100
 
 cam_params_override:

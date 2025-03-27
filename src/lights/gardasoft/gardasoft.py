@@ -164,9 +164,5 @@ class LightController:
     def led_off(self, channel):
         self.set_led_continuous(channel=channel, amp=0)
 
-    # def led_pulse(self, channel,
-
-    # def led_pulse(self, channel,
-
     def clear_settings(self):
         self.__send_message("CL")

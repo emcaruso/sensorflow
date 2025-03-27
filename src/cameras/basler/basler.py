@@ -1,22 +1,19 @@
 import sys
-import time
 import torch
 from pathlib import Path
 from logging import Logger
 from pypylon import pylon
 from omegaconf import DictConfig
-from typing import Dict, List
+from typing import Dict, List, Optional
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
-from utils_ema.multiprocess import run_in_multiprocess
 
 # local imports
 sys.path.append(Path(__file__).parents[2].as_posix())
 sys.path.append(Path(__file__).parent.as_posix())
 from camera_controller import CameraControllerAbstract
-from utils_basler import fps2microseconds, microseconds2fps
+from utils_basler import fps2microseconds
 from synchronization import synchronize_cameras
-import multiprocessing as mp
 
 
 class CameraController(CameraControllerAbstract):
@@ -51,7 +48,7 @@ class CameraController(CameraControllerAbstract):
 
     def load_devices(self) -> None:
 
-        # get cameras
+        # get devices
         self.tlf = pylon.TlFactory.GetInstance()
         self.devices = self.tlf.EnumerateDevices([pylon.DeviceInfo(),])
         self.n_devices = len(self.devices)
@@ -60,6 +57,7 @@ class CameraController(CameraControllerAbstract):
             self.logger.error(error_msg)
             raise ValueError(error_msg)
 
+        # get cameras
         self.cam_array = pylon.InstantCameraArray(self.n_devices)
         for i, cam in enumerate(self.cam_array):
             cam.Attach(self.tlf.CreateDevice(self.devices[i]))
@@ -75,6 +73,7 @@ class CameraController(CameraControllerAbstract):
         self.open_cameras()
         self.load_features()
         self.get_devices_info()
+        self.set_cameras_config()
 
     def set_camera_fps(self, cam: pylon.InstantCamera, fps : float) -> None:
         cam.BslPeriodicSignalPeriod = fps2microseconds(fps)
@@ -127,7 +126,7 @@ class CameraController(CameraControllerAbstract):
             cam.Gain.Value = self.cfg.gain
             cam.Gamma.Value = self.cfg.gamma
             cam.BslColorSpace.Value = self.cfg.color_space.val
-            cam.PixelFormat.Value = self.cfg.pixel_format.val
+            cam.PixelFormat.SetValue(self.cfg.pixel_format.val)
             cam.ExposureTime.SetValue(self.cfg.exposure_time)
             self.set_camera_crop()
             self.set_trigger_ouput(cam) # set output trigger from master
@@ -151,8 +150,8 @@ class CameraController(CameraControllerAbstract):
                 error_msg = "Cameras could not be synchronized"
                 self.logger.error(error_msg)
                 raise ValueError(error_msg)
-        self.set_cameras_config()
-        self.cam_array.StartGrabbing(getattr(pylon,strategy))  # fast
+        if not self.cam_array.IsGrabbing():
+            self.cam_array.StartGrabbing(getattr(pylon,strategy))
         if verbose:
             self.logger.info(f"Cameras started, synch = {synch}, strategy = {strategy}")
 
@@ -188,19 +187,26 @@ class CameraController(CameraControllerAbstract):
 
     def grab_image(self, cam_id : int, dtype=torch.float32 ) -> Image:
         cam = self.cam_array[cam_id]
-        grabResult = self.__grab_image_base(cam, dtype)
+        while True:
+            grabResult = self.__grab_image_base(cam, dtype)
+            if grabResult.GrabSucceeded():
+                break
         img = self.__process_result(grabResult, dtype)
         return img
 
     
-    def grab_images(self, dtype=torch.float32) -> List[List[Image]]:
-        res = []
-        imgs = []
-        for cam in self.cam_array:
-            res.append(self.__grab_image_base(cam, dtype))
-        for r in res:
-            imgs.append(self.__process_result(r, dtype))
-        return imgs
+    def grab_images(self, camera_ids: Optional[List[int]] = None, dtype=torch.float32) -> List[Image]:
+        camera_ids = list(range(self.n_devices)) if camera_ids is None else camera_ids
+        while True:
+            res = []
+            for id in camera_ids:
+                cam = self.cam_array[id]
+                res.append(self.__grab_image_base(cam, dtype))
+
+            succ = [ r.GrabSucceeded() for r in res]
+            if all(succ):
+                imgs = [self.__process_result(r, dtype) for r in res]
+                return imgs
 
 
     def show_stream(self, cam_id : int) -> None:
@@ -224,24 +230,38 @@ class CameraController(CameraControllerAbstract):
         # get cam sensorsize
         path = Path(__file__).parent / "basler_sensorsizes.yaml"
         assert(path.exists())
-        sensorsizes = load_yaml(str(path))
+        pixelsizes = load_yaml(str(path))
 
         # get cam infos
         for i, device in enumerate(self.devices):
             cam_name = "cam_"+ str(i).zfill(3)
             devices_info[cam_name] = {}
+
             for info_key in self.cfg.camera_info:
                 info = None
-                if getattr(device, "Is" + info_key + "Available")():
+                try:
                     info = getattr(device, "Get" + info_key)()
+                except:
+                    info = getattr(self.cam_array[i], info_key)
                 devices_info[cam_name][info_key] = info
 
+
+            # crop info
+            cam = self.cam_array[i]
+            cam_info = {}
+            cam_info["resolution_native"] = [cam.SensorWidth.GetValue(), cam.SensorHeight.GetValue()]
+            cam_info["crop_resolution"] = [cam.BslMultipleROIRowSize.GetValue(), cam.BslMultipleROIColumnSize.GetValue()]
+            cam_info["crop_offset"] = [cam.BslMultipleROIRowOffset.GetValue(), cam.BslMultipleROIColumnOffset.GetValue()]
+            for key in cam_info:
+                devices_info[cam_name][key] = cam_info[key]
+
+            # pixelsize info
             assert("ModelName" in devices_info[cam_name])
             model_name = devices_info[cam_name]["ModelName"]
-            if model_name not in sensorsizes:
-                error_msg = f"Model {model_name} not found in sensorsizes, put the sensorsize in file {path}"
+            if model_name not in pixelsizes:
+                error_msg = f"Model {model_name} not found in pixelsizes, put the sensorsize in file {path}"
                 self.logger.error(error_msg)
                 raise ValueError(error_msg)
-            sensor_size = sensorsizes[model_name]
-            devices_info[cam_name]["SensorSize"] = sensor_size 
+            sensor_size = pixelsizes[model_name]
+            devices_info[cam_name]["PixelSizeMicrometers"] = sensor_size 
         return devices_info

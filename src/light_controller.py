@@ -37,10 +37,11 @@ class LightControllerAbstract(ABC):
         pass
 
 
-def get_light_controller(cfg : DictConfig = None, logger : Logger = None):
+def get_light_controller(cfg : DictConfig = {}, logger : Logger = None):
 
     # null light controller
-    if cfg is None:
+    if cfg == {}:
+        logger.info("No light controller specified")
         return None
 
     # get logger

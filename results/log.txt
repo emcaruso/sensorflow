@@ -1,0 +1,497 @@
+2025-03-13 11:07:39,977 - global_logger - INFO - Program started.
+2025-03-13 11:07:43,075 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:07:43,788 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:08:17,544 - global_logger - INFO - Program started.
+2025-03-13 11:08:20,643 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:08:21,299 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:08:21,441 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:08:23,650 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:08:25,842 - global_logger - INFO - Checking real fps...
+2025-03-13 11:09:13,975 - global_logger - INFO - Program started.
+2025-03-13 11:09:17,027 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:09:17,697 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:09:17,839 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:09:20,038 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:09:22,220 - global_logger - INFO - Checking real fps...
+2025-03-13 11:09:24,266 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 11:11:52,156 - global_logger - INFO - Program started.
+2025-03-13 11:11:55,235 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:11:55,895 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:11:56,037 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:11:58,234 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:12:00,420 - global_logger - INFO - Checking real fps...
+2025-03-13 11:12:02,257 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:12:03,330 - global_logger - INFO - Images captured (total: 1 per cam)
+2025-03-13 11:12:03,826 - global_logger - INFO - Images captured (total: 2 per cam)
+2025-03-13 11:12:04,326 - global_logger - INFO - Images captured (total: 3 per cam)
+2025-03-13 11:12:04,840 - global_logger - INFO - Images captured (total: 4 per cam)
+2025-03-13 11:12:05,170 - global_logger - INFO - Images captured (total: 5 per cam)
+2025-03-13 11:12:05,870 - global_logger - INFO - Images captured (total: 6 per cam)
+2025-03-13 11:12:35,125 - global_logger - INFO - Program started.
+2025-03-13 11:12:38,179 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:12:38,859 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:12:39,002 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:12:41,195 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:12:43,378 - global_logger - INFO - Checking real fps...
+2025-03-13 11:12:45,267 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:12:46,329 - global_logger - INFO - Images captured (total: 1 per cam)
+2025-03-13 11:12:46,832 - global_logger - INFO - Images captured (total: 2 per cam)
+2025-03-13 11:12:47,331 - global_logger - INFO - Images captured (total: 3 per cam)
+2025-03-13 11:12:47,832 - global_logger - INFO - Images captured (total: 4 per cam)
+2025-03-13 11:12:48,356 - global_logger - INFO - Images captured (total: 5 per cam)
+2025-03-13 11:12:48,701 - global_logger - INFO - Images captured (total: 6 per cam)
+2025-03-13 11:13:07,325 - global_logger - INFO - Program started.
+2025-03-13 11:13:10,435 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:13:11,100 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:13:11,243 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:13:13,439 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:13:15,627 - global_logger - INFO - Checking real fps...
+2025-03-13 11:13:17,767 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:13:18,837 - global_logger - INFO - Images captured (total: 1 per cam)
+2025-03-13 11:13:19,345 - global_logger - INFO - Images captured (total: 2 per cam)
+2025-03-13 11:13:19,836 - global_logger - INFO - Images captured (total: 3 per cam)
+2025-03-13 11:13:20,348 - global_logger - INFO - Images captured (total: 4 per cam)
+2025-03-13 11:14:15,638 - global_logger - INFO - Program started.
+2025-03-13 11:14:18,723 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:14:19,391 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:14:19,532 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:14:21,722 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:14:23,904 - global_logger - INFO - Checking real fps...
+2025-03-13 11:14:25,757 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:14:26,833 - global_logger - INFO - Images captured (total: 1 per cam)
+2025-03-13 11:14:27,333 - global_logger - INFO - Images captured (total: 2 per cam)
+2025-03-13 11:14:27,834 - global_logger - INFO - Images captured (total: 3 per cam)
+2025-03-13 11:14:28,330 - global_logger - INFO - Images captured (total: 4 per cam)
+2025-03-13 11:14:29,332 - global_logger - INFO - Images captured (total: 5 per cam)
+2025-03-13 11:14:30,341 - global_logger - INFO - Images captured (total: 6 per cam)
+2025-03-13 11:14:31,347 - global_logger - INFO - Images captured (total: 7 per cam)
+2025-03-13 11:14:32,352 - global_logger - INFO - Images captured (total: 8 per cam)
+2025-03-13 11:14:33,357 - global_logger - INFO - Images captured (total: 9 per cam)
+2025-03-13 11:14:33,865 - global_logger - INFO - Images captured (total: 10 per cam)
+2025-03-13 11:14:34,514 - global_logger - INFO - Images captured (total: 11 per cam)
+2025-03-13 11:15:25,482 - global_logger - INFO - Program started.
+2025-03-13 11:15:28,547 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:15:29,292 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:15:29,437 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:15:31,644 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:15:33,848 - global_logger - INFO - Checking real fps...
+2025-03-13 11:15:35,777 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:15:36,829 - global_logger - INFO - Images captured (total: 1 per cam)
+2025-03-13 11:15:37,346 - global_logger - INFO - Images captured (total: 2 per cam)
+2025-03-13 11:15:37,862 - global_logger - INFO - Images captured (total: 3 per cam)
+2025-03-13 11:15:38,334 - global_logger - INFO - Images captured (total: 4 per cam)
+2025-03-13 11:15:38,836 - global_logger - INFO - Images captured (total: 5 per cam)
+2025-03-13 11:15:39,327 - global_logger - INFO - Images captured (total: 6 per cam)
+2025-03-13 11:15:39,829 - global_logger - INFO - Images captured (total: 7 per cam)
+2025-03-13 11:15:40,340 - global_logger - INFO - Images captured (total: 8 per cam)
+2025-03-13 11:16:05,086 - global_logger - INFO - Program started.
+2025-03-13 11:16:08,163 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:16:08,835 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:16:08,979 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:16:11,172 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:16:13,361 - global_logger - INFO - Checking real fps...
+2025-03-13 11:16:15,267 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:24:21,073 - global_logger - INFO - Program started.
+2025-03-13 11:24:24,163 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:24:24,821 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:24:24,964 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:24:27,160 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:24:29,330 - global_logger - INFO - Checking real fps...
+2025-03-13 11:24:29,337 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 11:24:29,355 - global_logger - INFO - Master synchronized
+2025-03-13 11:24:29,377 - global_logger - INFO - Slaves synchronized
+2025-03-13 11:24:31,258 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:28:06,914 - global_logger - INFO - Program started.
+2025-03-13 11:28:10,019 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:28:10,699 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:28:10,842 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:28:13,032 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:28:15,220 - global_logger - INFO - Checking real fps...
+2025-03-13 11:28:17,259 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:47:58,592 - global_logger - INFO - Program started.
+2025-03-13 11:48:01,699 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:48:02,360 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:48:02,504 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:48:04,696 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:48:06,885 - global_logger - INFO - Checking real fps...
+2025-03-13 11:48:08,765 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:48:49,460 - global_logger - INFO - Program started.
+2025-03-13 11:48:52,515 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:48:53,184 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:48:53,327 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:48:55,519 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:48:57,710 - global_logger - INFO - Checking real fps...
+2025-03-13 11:49:00,016 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:50:37,288 - global_logger - INFO - Program started.
+2025-03-13 11:50:40,355 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:50:41,024 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:50:41,169 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:50:43,362 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:50:45,538 - global_logger - INFO - Checking real fps...
+2025-03-13 11:50:46,677 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:51:15,342 - global_logger - INFO - Program started.
+2025-03-13 11:51:18,435 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:51:19,105 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:51:19,249 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:51:21,449 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:51:23,628 - global_logger - INFO - Checking real fps...
+2025-03-13 11:51:25,017 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:54:08,193 - global_logger - INFO - Program started.
+2025-03-13 11:54:11,299 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:54:11,964 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:54:12,106 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:54:14,302 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:54:16,480 - global_logger - INFO - Checking real fps...
+2025-03-13 11:54:18,019 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:54:57,349 - global_logger - INFO - Program started.
+2025-03-13 11:55:00,451 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:55:01,119 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:55:01,262 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:55:03,448 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:55:05,631 - global_logger - INFO - Checking real fps...
+2025-03-13 11:55:08,020 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 11:56:14,679 - global_logger - INFO - Program started.
+2025-03-13 11:56:17,763 - global_logger - INFO - Light controller connection is working
+2025-03-13 11:56:18,453 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 11:56:18,599 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 11:56:20,789 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 11:56:22,984 - global_logger - INFO - Checking real fps...
+2025-03-13 11:56:26,270 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:08:00,591 - global_logger - INFO - Program started.
+2025-03-13 12:08:03,683 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:08:04,344 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:08:04,486 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:08:06,676 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:08:08,858 - global_logger - INFO - Checking real fps...
+2025-03-13 12:08:11,276 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:08:53,804 - global_logger - INFO - Program started.
+2025-03-13 12:08:56,867 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:08:57,535 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:08:57,678 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:08:59,871 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:09:02,056 - global_logger - INFO - Checking real fps...
+2025-03-13 12:09:04,116 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:09:58,751 - global_logger - INFO - Program started.
+2025-03-13 12:10:01,827 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:10:02,485 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:10:02,629 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:10:04,808 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:10:06,973 - global_logger - INFO - Checking real fps...
+2025-03-13 12:19:01,982 - global_logger - INFO - Program started.
+2025-03-13 12:19:05,059 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:19:05,724 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:19:05,868 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:19:08,055 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:19:10,237 - global_logger - INFO - Checking real fps...
+2025-03-13 12:19:16,970 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:19:32,168 - global_logger - INFO - Program started.
+2025-03-13 12:19:35,267 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:19:35,943 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:19:36,087 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:19:38,277 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:19:40,459 - global_logger - INFO - Checking real fps...
+2025-03-13 12:19:44,071 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:20:17,770 - global_logger - INFO - Program started.
+2025-03-13 12:20:20,835 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:20:21,496 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:20:21,640 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:20:23,825 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:20:26,009 - global_logger - INFO - Checking real fps...
+2025-03-13 12:21:02,285 - global_logger - INFO - Program started.
+2025-03-13 12:21:05,379 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:21:06,049 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:21:06,192 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:21:08,383 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:21:10,562 - global_logger - INFO - Checking real fps...
+2025-03-13 12:21:13,451 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:21:43,204 - global_logger - INFO - Program started.
+2025-03-13 12:21:46,275 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:21:46,940 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:21:47,082 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:21:49,266 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:21:51,449 - global_logger - INFO - Checking real fps...
+2025-03-13 12:21:54,741 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:26:47,880 - global_logger - INFO - Program started.
+2025-03-13 12:26:50,979 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:58:00,316 - global_logger - INFO - Program started.
+2025-03-13 12:58:03,427 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:58:04,112 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:58:04,256 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:58:06,441 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:58:08,627 - global_logger - INFO - Checking real fps...
+2025-03-13 12:58:16,864 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:58:38,991 - global_logger - INFO - Program started.
+2025-03-13 12:58:42,083 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:58:42,752 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:58:42,896 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:58:45,082 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:58:47,266 - global_logger - INFO - Checking real fps...
+2025-03-13 12:58:50,154 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 12:59:51,151 - global_logger - INFO - Program started.
+2025-03-13 12:59:54,211 - global_logger - INFO - Light controller connection is working
+2025-03-13 12:59:54,888 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 12:59:55,032 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 12:59:57,223 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 12:59:59,413 - global_logger - INFO - Checking real fps...
+2025-03-13 13:00:02,515 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 13:01:45,292 - global_logger - INFO - Program started.
+2025-03-13 13:01:48,387 - global_logger - INFO - Light controller connection is working
+2025-03-13 13:01:49,057 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 13:01:49,200 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 13:01:51,388 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 13:01:53,568 - global_logger - INFO - Checking real fps...
+2025-03-13 13:01:55,276 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:15:28,191 - global_logger - INFO - Program started.
+2025-03-13 14:15:31,299 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:15:31,965 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:15:32,107 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:15:34,295 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:15:36,484 - global_logger - INFO - Checking real fps...
+2025-03-13 14:16:12,331 - global_logger - INFO - Program started.
+2025-03-13 14:16:15,395 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:16:16,059 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:16:16,203 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:16:18,392 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:16:20,573 - global_logger - INFO - Checking real fps...
+2025-03-13 14:16:23,812 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:16:54,611 - global_logger - INFO - Program started.
+2025-03-13 14:16:57,699 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:16:58,387 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:16:58,530 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:17:00,727 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:17:02,909 - global_logger - INFO - Checking real fps...
+2025-03-13 14:17:18,382 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:19:00,558 - global_logger - INFO - Program started.
+2025-03-13 14:19:03,651 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:19:04,330 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:19:04,473 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:19:06,657 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:19:08,848 - global_logger - INFO - Checking real fps...
+2025-03-13 14:19:12,013 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:22:31,832 - global_logger - INFO - Program started.
+2025-03-13 14:22:34,915 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:22:35,599 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:22:45,680 - global_logger - INFO - Program started.
+2025-03-13 14:22:48,739 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:22:49,422 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:22:49,565 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:22:51,751 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:22:53,935 - global_logger - INFO - Checking real fps...
+2025-03-13 14:22:58,615 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:23:21,221 - global_logger - INFO - Program started.
+2025-03-13 14:23:24,323 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:23:24,999 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:23:25,142 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:23:27,333 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:23:29,522 - global_logger - INFO - Checking real fps...
+2025-03-13 14:23:32,915 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:24:34,338 - global_logger - INFO - Program started.
+2025-03-13 14:24:37,411 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:24:38,079 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:24:38,222 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:24:40,418 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:24:42,609 - global_logger - INFO - Checking real fps...
+2025-03-13 14:24:46,126 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:25:14,875 - global_logger - INFO - Program started.
+2025-03-13 14:25:17,987 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:25:18,649 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:25:18,791 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:25:20,985 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:25:23,175 - global_logger - INFO - Checking real fps...
+2025-03-13 14:25:26,876 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:26:20,198 - global_logger - INFO - Images captured (total: 1 per cam)
+2025-03-13 14:31:02,380 - global_logger - INFO - Program started.
+2025-03-13 14:31:05,443 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:31:06,110 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:31:06,255 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:31:08,444 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:31:10,645 - global_logger - INFO - Checking real fps...
+2025-03-13 14:31:15,779 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:31:46,641 - global_logger - INFO - Program started.
+2025-03-13 14:31:49,731 - global_logger - INFO - Light controller connection is working
+2025-03-13 14:31:50,409 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:31:50,557 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:31:52,750 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:31:54,941 - global_logger - INFO - Checking real fps...
+2025-03-13 14:32:20,799 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:35:10,638 - global_logger - INFO - Program started.
+2025-03-13 14:37:12,287 - global_logger - INFO - Program started.
+2025-03-13 14:37:25,363 - global_logger - WARNING - Light controller connection not reachable!
+2025-03-13 14:37:26,035 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:37:26,179 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:37:28,375 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:37:30,570 - global_logger - INFO - Checking real fps...
+2025-03-13 14:37:32,041 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:39:11,947 - global_logger - INFO - Program started.
+2025-03-13 14:40:25,934 - global_logger - INFO - Program started.
+2025-03-13 14:41:08,245 - global_logger - INFO - Program started.
+2025-03-13 14:42:39,360 - global_logger - INFO - Program started.
+2025-03-13 14:43:55,877 - global_logger - INFO - Program started.
+2025-03-13 14:44:26,619 - global_logger - INFO - Program started.
+2025-03-13 14:45:07,093 - global_logger - INFO - Program started.
+2025-03-13 14:46:07,301 - global_logger - INFO - Program started.
+2025-03-13 14:46:15,295 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:46:15,437 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:46:17,632 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:46:19,832 - global_logger - INFO - Checking real fps...
+2025-03-13 14:46:21,371 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:47:01,857 - global_logger - INFO - Program started.
+2025-03-13 14:47:02,519 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:47:02,662 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:47:04,851 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:47:07,036 - global_logger - INFO - Checking real fps...
+2025-03-13 14:47:07,038 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 14:47:13,169 - global_logger - INFO - Master synchronized
+2025-03-13 14:47:26,918 - global_logger - INFO - Slaves synchronized
+2025-03-13 14:47:28,450 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:48:18,994 - global_logger - INFO - Program started.
+2025-03-13 14:48:19,661 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:48:19,805 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:48:21,992 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:48:24,183 - global_logger - INFO - Checking real fps...
+2025-03-13 14:48:26,160 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:48:54,943 - global_logger - INFO - Program started.
+2025-03-13 14:48:55,601 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:48:55,744 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:48:57,931 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:49:00,126 - global_logger - INFO - Checking real fps...
+2025-03-13 14:49:02,160 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_OneByOne
+2025-03-13 14:51:38,533 - global_logger - INFO - Program started.
+2025-03-13 14:51:53,018 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:51:53,164 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:51:55,356 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:53:26,630 - global_logger - INFO - Program started.
+2025-03-13 14:53:33,045 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:53:40,902 - global_logger - INFO - Program started.
+2025-03-13 14:53:41,563 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:53:41,706 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:53:43,900 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:53:46,095 - global_logger - INFO - Checking real fps...
+2025-03-13 14:55:43,101 - global_logger - INFO - Program started.
+2025-03-13 14:55:43,759 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 14:55:43,904 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 14:55:46,101 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 14:55:48,290 - global_logger - INFO - Checking real fps...
+2025-03-13 14:58:58,458 - global_logger - INFO - Program started.
+2025-03-13 14:58:58,458 - global_logger - INFO - No light controller specified
+2025-03-13 15:04:19,588 - global_logger - INFO - Program started.
+2025-03-13 15:04:19,588 - global_logger - INFO - No light controller specified
+2025-03-13 15:04:20,247 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 15:04:27,160 - global_logger - INFO - Program started.
+2025-03-13 15:04:27,160 - global_logger - INFO - No light controller specified
+2025-03-13 15:04:27,816 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 15:04:27,959 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 15:04:30,158 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 15:04:32,345 - global_logger - INFO - Checking real fps...
+2025-03-13 15:04:35,154 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 15:05:12,087 - global_logger - INFO - Program started.
+2025-03-13 15:05:12,087 - global_logger - INFO - No light controller specified
+2025-03-13 15:05:12,745 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 15:05:12,889 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 15:05:15,088 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 15:05:17,283 - global_logger - INFO - Checking real fps...
+2025-03-13 15:05:18,824 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 15:39:59,908 - global_logger - INFO - Program started.
+2025-03-13 15:39:59,908 - global_logger - INFO - No light controller specified
+2025-03-13 15:40:00,581 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 15:40:00,724 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 15:40:02,926 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 15:40:05,109 - global_logger - INFO - Checking real fps...
+2025-03-13 15:40:05,110 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 15:40:11,605 - global_logger - INFO - Master synchronized
+2025-03-13 15:40:18,153 - global_logger - ERROR - Slaves not synchronized
+2025-03-13 15:40:18,154 - global_logger - ERROR - Cameras could not be synchronized
+2025-03-13 15:46:09,327 - global_logger - INFO - Program started.
+2025-03-13 15:46:09,327 - global_logger - INFO - No light controller specified
+2025-03-13 15:46:10,003 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 15:46:19,604 - global_logger - INFO - Program started.
+2025-03-13 15:46:19,604 - global_logger - INFO - No light controller specified
+2025-03-13 15:46:20,321 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 15:46:20,465 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 15:46:22,675 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 15:46:24,870 - global_logger - INFO - Checking real fps...
+2025-03-13 15:46:26,430 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 16:36:19,019 - global_logger - INFO - Program started.
+2025-03-13 16:36:19,019 - global_logger - INFO - No light controller specified
+2025-03-13 16:36:19,687 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:36:19,831 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:36:22,028 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:36:24,218 - global_logger - INFO - Checking real fps...
+2025-03-13 16:36:24,219 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 16:36:42,495 - global_logger - INFO - Program started.
+2025-03-13 16:36:42,495 - global_logger - INFO - No light controller specified
+2025-03-13 16:36:43,162 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:36:43,306 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:36:45,497 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:36:47,682 - global_logger - INFO - Checking real fps...
+2025-03-13 16:36:47,683 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 16:36:54,288 - global_logger - INFO - Master synchronized
+2025-03-13 16:37:10,077 - global_logger - INFO - Slaves synchronized
+2025-03-13 16:37:11,410 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 16:43:47,005 - global_logger - INFO - Program started.
+2025-03-13 16:43:47,005 - global_logger - INFO - No light controller specified
+2025-03-13 16:43:47,681 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:43:47,825 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:43:50,019 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:43:52,200 - global_logger - INFO - Checking real fps...
+2025-03-13 16:43:52,205 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 16:43:52,225 - global_logger - INFO - Master synchronized
+2025-03-13 16:43:52,250 - global_logger - INFO - Slaves synchronized
+2025-03-13 16:43:53,772 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 16:44:25,609 - global_logger - INFO - Program started.
+2025-03-13 16:44:25,609 - global_logger - INFO - No light controller specified
+2025-03-13 16:44:26,287 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:44:26,430 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:44:28,628 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:44:30,821 - global_logger - INFO - Checking real fps...
+2025-03-13 16:44:32,442 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 16:45:01,306 - global_logger - INFO - Program started.
+2025-03-13 16:45:01,306 - global_logger - INFO - No light controller specified
+2025-03-13 16:45:01,980 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:45:02,124 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:45:04,320 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:45:06,514 - global_logger - INFO - Checking real fps...
+2025-03-13 16:45:08,112 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 16:48:31,935 - global_logger - INFO - Program started.
+2025-03-13 16:48:31,935 - global_logger - INFO - No light controller specified
+2025-03-13 16:48:32,610 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:48:40,805 - global_logger - INFO - Program started.
+2025-03-13 16:48:40,805 - global_logger - INFO - No light controller specified
+2025-03-13 16:48:41,493 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:48:41,637 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:48:43,842 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:48:46,045 - global_logger - INFO - Checking real fps...
+2025-03-13 16:48:47,453 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 16:49:23,804 - global_logger - INFO - Program started.
+2025-03-13 16:49:23,804 - global_logger - INFO - No light controller specified
+2025-03-13 16:49:24,093 - global_logger - ERROR - No devices detected!
+2025-03-13 16:49:35,072 - global_logger - INFO - Program started.
+2025-03-13 16:49:35,072 - global_logger - INFO - No light controller specified
+2025-03-13 16:49:35,556 - global_logger - INFO - 1 Basler camera detected
+2025-03-13 16:49:35,628 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:49:37,821 - global_logger - INFO - Checking real fps...
+2025-03-13 16:49:37,823 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 16:49:53,606 - global_logger - INFO - Program started.
+2025-03-13 16:49:53,606 - global_logger - INFO - No light controller specified
+2025-03-13 16:49:54,271 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:49:54,416 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:49:56,606 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:49:58,788 - global_logger - INFO - Checking real fps...
+2025-03-13 16:49:58,790 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 16:50:05,012 - global_logger - INFO - Program started.
+2025-03-13 16:50:05,012 - global_logger - INFO - No light controller specified
+2025-03-13 16:50:05,680 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 16:50:05,823 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 16:50:08,017 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 16:50:10,196 - global_logger - INFO - Checking real fps...
+2025-03-13 16:50:10,197 - global_logger - INFO - Synchronizing cameras...
+2025-03-13 16:50:16,596 - global_logger - INFO - Master synchronized
+2025-03-13 16:50:29,908 - global_logger - INFO - Slaves synchronized
+2025-03-13 16:50:31,387 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-03-13 17:02:56,303 - global_logger - INFO - Program started.
+2025-03-13 17:02:56,304 - global_logger - INFO - No light controller specified
+2025-03-13 17:02:56,962 - global_logger - INFO - 2 Basler camera detected
+2025-03-13 17:02:57,105 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333929
+2025-03-13 17:02:59,320 - global_logger - INFO - Loading features for camera a2A4504-5gcBAS_40333932
+2025-03-13 17:03:01,513 - global_logger - INFO - Checking real fps...
+2025-03-13 17:03:03,094 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages

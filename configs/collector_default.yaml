@@ -1,7 +1,7 @@
 defaults:
   - _self_
   - cameras: basler
-  - lights: gardasoft
+  - lights: none
   - strategies: light_sequence # null for no particular collection modes
   - postprocessings: none
   - override hydra/hydra_logging: disabled
@@ -21,6 +21,8 @@ mode:
   valid_options:
     - manual
     - light_sequence
+  one_cam_at_time: False
+  in_ram: False
 
 save:
   raw: false
