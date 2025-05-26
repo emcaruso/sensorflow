@@ -1,0 +1,6 @@
+sensor_type: microtec
+
+port: "/dev/ttyUSB0"
+baudrate: 160000
+n_channels: 32
+loop_interval_ms: 100

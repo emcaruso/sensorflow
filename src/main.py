@@ -25,22 +25,29 @@ def main(cfg: DictConfig):
 
 # run the program
 def run(cfg: DictConfig, logger: Logger):
-    c = Collector(logger=logger, cfg = cfg)
+    coll = Collector(logger=logger, cfg = cfg)
 
     images_list = []
-    if cfg.mode.val == "manual":
-        images_list, postprocessed = c.capture_manual()
-    elif cfg.mode.val == "light_sequence":
-        images_list, postprocessed = c.capture_light_sequence()
+    if cfg.test_lights: 
+        if coll.light_controller is None:
+            raise ValueError("No light controller specified in the config file.")
+        else:
+            coll.light_controller.test_leds()
 
-    if cfg.save.raw:
-        res = c.save(images_list)
-        if res: 
-            logger.info(f"Raw images saved in {cfg.paths.save_dir}")
-    if cfg.save.postprocessed:
-        res = c.save(postprocessed)
-        if res: 
-            logger.info(f"Postprocessed images saved in {cfg.paths.save_dir}")
+    else:
+        if cfg.mode.val == "manual":
+            images_list, postprocessed = coll.capture_manual()
+        elif cfg.mode.val == "light_sequence":
+            images_list, postprocessed = coll.capture_light_sequence()
+
+        if cfg.save.raw:
+            res = coll.save(images_list)
+            if res: 
+                logger.info(f"Raw images saved in {cfg.paths.save_dir}")
+        if cfg.save.postprocessed:
+            res = coll.save(postprocessed)
+            if res: 
+                logger.info(f"Postprocessed images saved in {cfg.paths.save_dir}")
 
 
 if __name__ == "__main__":

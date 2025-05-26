@@ -23,7 +23,6 @@ class Collector():
         self.cam_controller = get_camera_controller(cfg=self.cfg.cameras, logger = logger)
         self.postprocessing = Postprocessing(cfg=self.cfg.postprocessings)
         self.collection_cfg = self.cfg.strategies
-        self.check_real_fps()
 
     def check_real_fps(self):
         self.logger.info("Checking real fps...")
@@ -151,15 +150,24 @@ class Collector():
             self.__collect(images, images_postprocessed, in_ram)
 
     @collect_function
-    def capture_till_q(self, in_ram : bool = True, trigger = None):
+    def capture_till_q(self, in_ram : bool = True, trigger_start = None, trigger_capture = None):
         self.cam_controller.start_cameras_synchronous_latest()
 
-        self.preliminary_show(trigger = trigger)
+        # preliminary show with trigger start
+        self.preliminary_show(trigger = trigger_start)
 
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
-            self.__collect(images, images_postprocessed, in_ram)
+
+            # trigger capture
+            if trigger_capture is None:
+                self.__collect(images, images_postprocessed, in_ram)
+            else:
+                if trigger_capture(images):
+                    self.__collect(images, images_postprocessed, in_ram)
+
+            # show + exit
             wk = Image.show_multiple_images(images_postprocessed, wk = 1)
             if wk == ord('q'):
                 break

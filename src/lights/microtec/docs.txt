@@ -1,0 +1,2 @@
+# you need to add your user to the dialout group to access serial ports
+sudo usermod -a -G dialout <username>

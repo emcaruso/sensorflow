@@ -70,6 +70,11 @@ class CameraControllerAbstract(ABC):
 
 def get_camera_controller(cfg : DictConfig, logger : Logger = None):
 
+    # null camera controller
+    if cfg["sensor_type"] == "none":
+        logger.info("No cameras specified")
+        return None
+
     # get logger
     if logger is None:
         logger = get_logger_default()
@@ -88,5 +93,8 @@ def get_camera_controller(cfg : DictConfig, logger : Logger = None):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     cls = getattr(module, "CameraController")
+
+    self.check_real_fps()
+
     return cls(logger=logger, cfg=cfg)
 
