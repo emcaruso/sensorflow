@@ -27,3 +27,5 @@ mode:
 save:
   raw: false
   postprocessed: true
+
+test_lights: False

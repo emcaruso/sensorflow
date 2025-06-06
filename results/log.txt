@@ -3820,3 +3820,385 @@
 2025-05-26 18:02:46,004 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
 2025-05-26 18:02:47,008 - global_logger - INFO - All leds off
 2025-05-26 18:02:48,525 - global_logger - INFO - Program ended.
+2025-05-26 18:04:30,762 - global_logger - INFO - Program started.
+2025-05-26 18:04:33,826 - global_logger - INFO - Light controller connection is working
+2025-05-26 18:04:33,826 - global_logger - INFO - No cameras specified
+2025-05-26 18:04:33,827 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-05-26 18:04:34,841 - global_logger - INFO - Channel 0
+2025-05-26 18:04:37,771 - global_logger - INFO - Channel 1
+2025-05-26 18:04:41,559 - global_logger - INFO - Channel 2
+2025-05-26 18:04:42,294 - global_logger - INFO - Channel 3
+2025-05-26 18:04:42,751 - global_logger - INFO - Channel 4
+2025-05-26 18:04:43,209 - global_logger - INFO - Channel 5
+2025-05-26 18:04:43,939 - global_logger - INFO - Channel 6
+2025-05-26 18:04:45,594 - global_logger - INFO - Channel 7
+2025-05-26 18:04:46,689 - global_logger - INFO - Channel 8
+2025-05-26 18:04:51,294 - global_logger - INFO - Program ended.
+2025-05-26 18:05:17,517 - global_logger - INFO - Program started.
+2025-05-26 18:05:17,521 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-05-26 18:05:17,521 - global_logger - INFO - Light controller connection is working
+2025-05-26 18:05:17,521 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-05-26 18:05:19,524 - global_logger - INFO - Starting light controller loop.
+2025-05-26 18:05:19,525 - global_logger - INFO - No cameras specified
+2025-05-26 18:05:19,526 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-05-26 18:05:21,470 - global_logger - INFO - All leds on
+2025-05-26 18:05:22,457 - global_logger - INFO - All leds off
+2025-05-26 18:05:39,841 - global_logger - INFO - Program started.
+2025-05-26 18:05:39,845 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-05-26 18:05:39,845 - global_logger - INFO - Light controller connection is working
+2025-05-26 18:05:39,845 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-05-26 18:05:41,848 - global_logger - INFO - Starting light controller loop.
+2025-05-26 18:05:41,848 - global_logger - INFO - No cameras specified
+2025-05-26 18:05:41,849 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-05-26 18:05:43,850 - global_logger - INFO - Channel 0
+2025-05-26 18:05:44,860 - global_logger - INFO - Channel 1
+2025-05-26 18:05:45,453 - global_logger - INFO - Channel 2
+2025-05-26 18:05:45,654 - global_logger - INFO - Channel 3
+2025-05-26 18:05:45,854 - global_logger - INFO - Channel 4
+2025-05-26 18:05:46,181 - global_logger - INFO - Channel 5
+2025-05-26 18:05:46,555 - global_logger - INFO - Channel 6
+2025-05-26 18:05:47,447 - global_logger - INFO - Channel 7
+2025-05-26 18:05:47,907 - global_logger - INFO - Channel 8
+2025-05-26 18:05:48,297 - global_logger - INFO - Channel 9
+2025-05-26 18:05:48,730 - global_logger - INFO - Channel 10
+2025-05-26 18:05:49,262 - global_logger - INFO - Channel 11
+2025-05-26 18:05:49,667 - global_logger - INFO - Channel 12
+2025-05-26 18:05:50,380 - global_logger - INFO - Channel 13
+2025-05-26 18:05:50,935 - global_logger - INFO - Channel 14
+2025-05-26 18:05:51,317 - global_logger - INFO - Channel 15
+2025-05-26 18:05:53,232 - global_logger - INFO - Channel 16
+2025-05-26 18:11:34,897 - global_logger - INFO - Program started.
+2025-05-26 18:11:34,901 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-05-26 18:11:34,901 - global_logger - INFO - Light controller connection is working
+2025-05-26 18:11:34,901 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-05-26 18:11:36,904 - global_logger - INFO - Starting light controller loop.
+2025-05-26 18:11:36,905 - global_logger - INFO - No cameras specified
+2025-05-26 18:11:36,906 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-05-26 18:11:41,085 - global_logger - INFO - All leds off
+2025-05-26 18:11:53,671 - global_logger - INFO - Program started.
+2025-05-26 18:11:56,677 - global_logger - INFO - Light controller connection is working
+2025-05-26 18:11:56,677 - global_logger - INFO - No cameras specified
+2025-05-26 18:11:56,677 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-05-26 18:12:18,620 - global_logger - INFO - Channel 0
+2025-05-26 18:12:21,388 - global_logger - INFO - Channel 15
+2025-05-26 18:12:24,493 - global_logger - INFO - Channel 0
+2025-05-26 18:12:26,923 - global_logger - INFO - Channel 1
+2025-05-26 18:12:31,063 - global_logger - INFO - Channel 2
+2025-05-26 18:13:11,212 - global_logger - INFO - Channel 3
+2025-05-26 18:13:12,157 - global_logger - INFO - Channel 4
+2025-05-26 18:13:14,871 - global_logger - INFO - Channel 5
+2025-05-26 18:13:22,806 - global_logger - INFO - Channel 6
+2025-05-26 18:13:23,174 - global_logger - INFO - Channel 7
+2025-05-26 18:13:27,794 - global_logger - INFO - Channel 8
+2025-05-26 18:13:40,596 - global_logger - INFO - Channel 9
+2025-05-26 18:13:41,616 - global_logger - INFO - Channel 8
+2025-05-26 18:13:42,509 - global_logger - INFO - Channel 9
+2025-05-26 18:13:43,852 - global_logger - INFO - Channel 10
+2025-05-26 18:13:46,605 - global_logger - INFO - Channel 11
+2025-05-26 18:13:46,872 - global_logger - INFO - Channel 12
+2025-05-26 18:13:51,868 - global_logger - INFO - Channel 13
+2025-05-26 18:13:57,183 - global_logger - INFO - Channel 14
+2025-05-26 18:14:10,958 - global_logger - INFO - Channel 13
+2025-05-26 18:14:14,633 - global_logger - INFO - Channel 12
+2025-05-26 18:14:18,038 - global_logger - INFO - Channel 13
+2025-05-26 18:14:20,650 - global_logger - INFO - Program ended.
+2025-06-03 15:46:06,236 - global_logger - INFO - Program started.
+2025-06-03 15:46:06,240 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-06-03 15:46:06,240 - global_logger - INFO - Light controller connection is working
+2025-06-03 15:46:06,240 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-06-03 15:46:08,244 - global_logger - INFO - Starting light controller loop.
+2025-06-03 15:46:08,245 - global_logger - INFO - No cameras specified
+2025-06-03 15:46:08,246 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-06-03 15:46:10,403 - global_logger - INFO - All leds on
+2025-06-03 15:46:11,115 - global_logger - INFO - Channel 0
+2025-06-03 15:46:11,542 - global_logger - INFO - Channel 31
+2025-06-03 15:46:11,992 - global_logger - INFO - Channel 0
+2025-06-03 15:46:12,205 - global_logger - INFO - Channel 1
+2025-06-03 15:46:12,452 - global_logger - INFO - Channel 2
+2025-06-03 15:46:12,932 - global_logger - INFO - Channel 3
+2025-06-03 15:46:13,285 - global_logger - INFO - Channel 2
+2025-06-03 15:46:13,486 - global_logger - INFO - Channel 1
+2025-06-03 15:46:13,780 - global_logger - INFO - Channel 2
+2025-06-03 15:46:14,036 - global_logger - INFO - Channel 3
+2025-06-03 15:46:14,610 - global_logger - INFO - Channel 4
+2025-06-03 15:46:14,811 - global_logger - INFO - Channel 5
+2025-06-03 15:46:15,012 - global_logger - INFO - Channel 6
+2025-06-03 15:46:15,213 - global_logger - INFO - Channel 7
+2025-06-03 15:46:15,414 - global_logger - INFO - Channel 8
+2025-06-03 15:46:15,745 - global_logger - INFO - Channel 9
+2025-06-03 15:46:19,942 - global_logger - INFO - Channel 8
+2025-06-03 15:46:24,615 - global_logger - INFO - Channel 7
+2025-06-03 15:46:28,455 - global_logger - INFO - Channel 6
+2025-06-03 15:46:28,656 - global_logger - INFO - Channel 5
+2025-06-03 15:46:29,002 - global_logger - INFO - Channel 4
+2025-06-03 15:46:29,203 - global_logger - INFO - Channel 3
+2025-06-03 15:46:29,467 - global_logger - INFO - Channel 2
+2025-06-03 15:46:29,722 - global_logger - INFO - Channel 1
+2025-06-03 15:46:30,017 - global_logger - INFO - Channel 0
+2025-06-03 15:47:04,201 - global_logger - INFO - Channel 1
+2025-06-03 15:48:31,052 - global_logger - INFO - Channel 2
+2025-06-03 15:48:31,389 - global_logger - INFO - Channel 3
+2025-06-03 15:48:31,682 - global_logger - INFO - Channel 4
+2025-06-03 15:48:32,025 - global_logger - INFO - Channel 5
+2025-06-03 15:48:32,367 - global_logger - INFO - Channel 6
+2025-06-03 15:48:32,674 - global_logger - INFO - Channel 7
+2025-06-03 15:48:33,012 - global_logger - INFO - Channel 8
+2025-06-03 15:48:33,549 - global_logger - INFO - Channel 9
+2025-06-03 15:48:33,969 - global_logger - INFO - Channel 10
+2025-06-03 15:48:34,309 - global_logger - INFO - Channel 11
+2025-06-03 15:48:34,579 - global_logger - INFO - Channel 12
+2025-06-03 15:48:34,812 - global_logger - INFO - Channel 13
+2025-06-03 15:48:35,029 - global_logger - INFO - Channel 14
+2025-06-03 15:48:35,284 - global_logger - INFO - Channel 15
+2025-06-03 15:48:35,629 - global_logger - INFO - Channel 16
+2025-06-03 15:48:35,937 - global_logger - INFO - Channel 17
+2025-06-03 15:48:36,317 - global_logger - INFO - Channel 18
+2025-06-03 15:48:36,835 - global_logger - INFO - Channel 19
+2025-06-03 15:48:37,127 - global_logger - INFO - Channel 20
+2025-06-03 15:48:37,452 - global_logger - INFO - Channel 21
+2025-06-03 15:48:37,752 - global_logger - INFO - Channel 22
+2025-06-03 15:48:38,059 - global_logger - INFO - Channel 23
+2025-06-03 15:48:38,574 - global_logger - INFO - Channel 24
+2025-06-03 15:48:38,817 - global_logger - INFO - Channel 25
+2025-06-03 15:48:39,087 - global_logger - INFO - Channel 26
+2025-06-03 15:48:39,409 - global_logger - INFO - Channel 27
+2025-06-03 15:48:39,760 - global_logger - INFO - Channel 28
+2025-06-03 15:48:45,362 - global_logger - INFO - Channel 27
+2025-06-03 15:48:45,580 - global_logger - INFO - Channel 26
+2025-06-03 15:48:45,780 - global_logger - INFO - Channel 25
+2025-06-03 15:48:45,981 - global_logger - INFO - Channel 24
+2025-06-03 15:48:46,212 - global_logger - INFO - Channel 23
+2025-06-03 15:48:46,437 - global_logger - INFO - Channel 22
+2025-06-03 15:48:46,699 - global_logger - INFO - Channel 21
+2025-06-03 15:48:46,900 - global_logger - INFO - Channel 20
+2025-06-03 15:48:47,101 - global_logger - INFO - Channel 19
+2025-06-03 15:48:47,301 - global_logger - INFO - Channel 18
+2025-06-03 15:48:47,502 - global_logger - INFO - Channel 17
+2025-06-03 15:48:47,703 - global_logger - INFO - Channel 16
+2025-06-03 15:48:47,904 - global_logger - INFO - Channel 15
+2025-06-03 15:48:48,190 - global_logger - INFO - Channel 14
+2025-06-03 15:48:48,390 - global_logger - INFO - Channel 13
+2025-06-03 15:48:48,591 - global_logger - INFO - Channel 12
+2025-06-03 15:48:48,954 - global_logger - INFO - Channel 13
+2025-06-03 15:48:49,155 - global_logger - INFO - Channel 14
+2025-06-03 15:48:50,237 - global_logger - INFO - Channel 13
+2025-06-03 15:48:51,924 - global_logger - INFO - Channel 14
+2025-06-03 15:48:52,218 - global_logger - INFO - Channel 15
+2025-06-03 15:48:53,427 - global_logger - INFO - Channel 16
+2025-06-06 16:43:24,201 - global_logger - INFO - Program started.
+2025-06-06 16:43:24,201 - global_logger - INFO - No light controller specified
+2025-06-06 16:43:25,987 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 16:45:36,869 - global_logger - INFO - Program started.
+2025-06-06 16:45:36,869 - global_logger - INFO - No light controller specified
+2025-06-06 16:45:38,609 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 16:45:38,996 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 16:45:41,138 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 16:45:43,100 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 16:45:45,091 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 16:45:47,052 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 16:45:49,033 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 16:45:51,636 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 16:45:51,637 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 16:45:57,778 - global_logger - INFO - Master synchronized
+2025-06-06 16:48:45,941 - global_logger - INFO - Program started.
+2025-06-06 16:48:45,941 - global_logger - INFO - No light controller specified
+2025-06-06 16:48:47,683 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 16:48:48,071 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 16:48:50,221 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 16:48:52,185 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 16:48:54,179 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 16:48:56,141 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 16:48:58,124 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 16:49:00,728 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 16:49:00,729 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 16:49:07,181 - global_logger - INFO - Master synchronized
+2025-06-06 16:49:21,777 - global_logger - INFO - Slaves synchronized
+2025-06-06 16:49:22,552 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-06-06 16:53:04,934 - global_logger - INFO - Program started.
+2025-06-06 16:53:04,934 - global_logger - INFO - No light controller specified
+2025-06-06 16:53:06,654 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 16:53:07,045 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 16:53:09,194 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 16:53:11,159 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 16:53:13,151 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 16:53:15,123 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 16:53:17,119 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 16:53:19,717 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 16:53:19,718 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 16:53:25,961 - global_logger - INFO - Master synchronized
+2025-06-06 16:56:40,444 - global_logger - INFO - Program started.
+2025-06-06 16:56:40,444 - global_logger - INFO - No light controller specified
+2025-06-06 16:56:42,175 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 16:56:42,564 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 16:56:44,712 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 16:56:46,672 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 16:56:48,668 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 16:56:50,634 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 16:56:52,619 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 16:56:55,230 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 16:56:55,987 - global_logger - INFO - Cameras started, synch = False, strategy = GrabStrategy_LatestImages
+2025-06-06 17:17:09,775 - global_logger - INFO - Program started.
+2025-06-06 17:17:09,775 - global_logger - INFO - No light controller specified
+2025-06-06 17:17:11,506 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:17:25,184 - global_logger - INFO - Program started.
+2025-06-06 17:17:25,184 - global_logger - INFO - No light controller specified
+2025-06-06 17:17:26,924 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:17:27,317 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:17:29,487 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:17:31,468 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:17:33,484 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:17:35,472 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:17:37,477 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:17:40,096 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:17:40,587 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-06-06 17:20:25,435 - global_logger - INFO - Program started.
+2025-06-06 17:20:25,435 - global_logger - INFO - No light controller specified
+2025-06-06 17:20:27,160 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:20:27,549 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:20:29,700 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:20:31,661 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:20:33,655 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:20:35,631 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:20:37,619 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:20:40,219 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:20:40,221 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:20:46,641 - global_logger - INFO - Master synchronized
+2025-06-06 17:29:00,011 - global_logger - INFO - Program started.
+2025-06-06 17:29:00,011 - global_logger - INFO - No light controller specified
+2025-06-06 17:29:01,791 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:29:02,185 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:29:04,403 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:29:06,439 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:29:08,513 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:29:10,561 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:29:12,619 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:29:15,304 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:29:15,332 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:29:15,349 - global_logger - ERROR - Master not synchronized
+2025-06-06 17:29:37,836 - global_logger - INFO - Program started.
+2025-06-06 17:29:37,836 - global_logger - INFO - No light controller specified
+2025-06-06 17:29:39,311 - global_logger - INFO - 5 Basler camera detected
+2025-06-06 17:29:39,635 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:29:41,640 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:29:43,691 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:29:45,705 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:29:47,725 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:29:50,267 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4]
+2025-06-06 17:29:50,290 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:29:50,305 - global_logger - ERROR - Master not synchronized
+2025-06-06 17:36:57,858 - global_logger - INFO - Program started.
+2025-06-06 17:36:57,859 - global_logger - INFO - No light controller specified
+2025-06-06 17:36:59,588 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:36:59,976 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:37:02,133 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:37:04,095 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:37:06,086 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:37:08,057 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:37:10,041 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:37:12,648 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:37:12,649 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:37:18,792 - global_logger - ERROR - Master not synchronized
+2025-06-06 17:37:38,733 - global_logger - INFO - Program started.
+2025-06-06 17:37:38,733 - global_logger - INFO - No light controller specified
+2025-06-06 17:37:40,460 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:37:40,847 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:37:43,014 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:38:12,372 - global_logger - INFO - Program started.
+2025-06-06 17:38:12,372 - global_logger - INFO - No light controller specified
+2025-06-06 17:38:14,102 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:38:14,491 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:38:16,663 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:38:18,644 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:38:20,638 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:38:22,611 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:38:24,588 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:38:27,194 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:38:27,205 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:38:27,221 - global_logger - INFO - Master synchronized
+2025-06-06 17:39:20,311 - global_logger - INFO - Program started.
+2025-06-06 17:39:20,311 - global_logger - INFO - No light controller specified
+2025-06-06 17:39:22,059 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:39:22,453 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:39:24,651 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:39:26,648 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:39:28,673 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:39:30,681 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:39:32,671 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:39:35,292 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:39:35,312 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:39:35,328 - global_logger - INFO - Master synchronized
+2025-06-06 17:39:35,328 - global_logger - INFO - Synchronizing camera 1
+2025-06-06 17:39:35,328 - global_logger - INFO - Synchronizing camera 2
+2025-06-06 17:39:41,991 - global_logger - INFO - Camera 2 synchronized
+2025-06-06 17:39:41,991 - global_logger - INFO - Synchronizing camera 3
+2025-06-06 17:39:53,173 - global_logger - INFO - Program started.
+2025-06-06 17:39:53,173 - global_logger - INFO - No light controller specified
+2025-06-06 17:39:54,952 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:39:55,343 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:39:57,535 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:39:59,529 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:40:01,554 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:40:03,568 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:40:05,560 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:40:08,190 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:40:08,211 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:40:08,227 - global_logger - INFO - Master synchronized
+2025-06-06 17:40:08,227 - global_logger - INFO - Synchronizing camera 1
+2025-06-06 17:40:08,227 - global_logger - INFO - Synchronizing camera 2
+2025-06-06 17:40:14,884 - global_logger - INFO - Camera 2 synchronized
+2025-06-06 17:40:14,884 - global_logger - INFO - Synchronizing camera 3
+2025-06-06 17:40:14,903 - global_logger - INFO - Camera 3 synchronized
+2025-06-06 17:40:14,903 - global_logger - INFO - Synchronizing camera 4
+2025-06-06 17:40:14,922 - global_logger - INFO - Camera 4 synchronized
+2025-06-06 17:40:14,922 - global_logger - INFO - Synchronizing camera 5
+2025-06-06 17:41:38,227 - global_logger - INFO - Camera 5 synchronized
+2025-06-06 17:41:38,228 - global_logger - INFO - Synchronizing camera 6
+2025-06-06 17:46:16,441 - global_logger - INFO - Camera 6 synchronized
+2025-06-06 17:47:05,562 - global_logger - INFO - Program started.
+2025-06-06 17:47:05,562 - global_logger - INFO - No light controller specified
+2025-06-06 17:47:07,332 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:47:07,729 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:47:10,484 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:47:12,514 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:47:14,574 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:47:16,616 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:47:18,668 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:47:21,378 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:47:21,406 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:47:21,422 - global_logger - INFO - Master synchronized
+2025-06-06 17:47:21,433 - global_logger - INFO - Synchronizing slave 1
+2025-06-06 17:47:28,286 - global_logger - INFO - Slave 1 synchronized
+2025-06-06 17:47:28,297 - global_logger - INFO - Synchronizing slave 2
+2025-06-06 17:47:28,305 - global_logger - INFO - Slave 2 synchronized
+2025-06-06 17:47:28,316 - global_logger - INFO - Synchronizing slave 3
+2025-06-06 17:49:46,772 - global_logger - INFO - Slave 3 synchronized
+2025-06-06 17:49:46,782 - global_logger - INFO - Synchronizing slave 4
+2025-06-06 17:51:49,979 - global_logger - INFO - Slave 4 synchronized
+2025-06-06 17:51:50,003 - global_logger - INFO - Synchronizing slave 5
+2025-06-06 17:53:14,349 - global_logger - INFO - Slave 5 synchronized
+2025-06-06 17:57:14,068 - global_logger - INFO - Program started.
+2025-06-06 17:57:14,068 - global_logger - INFO - No light controller specified
+2025-06-06 17:57:15,797 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:57:23,546 - global_logger - INFO - Program started.
+2025-06-06 17:57:23,546 - global_logger - INFO - No light controller specified
+2025-06-06 17:57:25,280 - global_logger - INFO - 6 Basler camera detected
+2025-06-06 17:57:25,669 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-06 17:57:27,827 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-06 17:57:29,798 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-06 17:57:31,787 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-06 17:57:33,761 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-06 17:57:35,744 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-06 17:57:38,354 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-06 17:57:38,356 - global_logger - INFO - Synchronizing cameras...
+2025-06-06 17:57:38,469 - global_logger - ERROR - Master not synchronized
+2025-06-06 17:57:38,479 - global_logger - INFO - Synchronizing slave 1
+2025-06-06 17:57:44,885 - global_logger - INFO - Slave 1 synchronized
+2025-06-06 17:57:44,896 - global_logger - INFO - Synchronizing slave 2
+2025-06-06 17:58:11,419 - global_logger - INFO - Slave 2 synchronized
+2025-06-06 17:58:11,430 - global_logger - INFO - Synchronizing slave 3
+2025-06-06 17:58:38,843 - global_logger - INFO - Slave 3 synchronized
+2025-06-06 17:58:38,854 - global_logger - INFO - Synchronizing slave 4
+2025-06-06 17:59:06,740 - global_logger - INFO - Slave 4 synchronized
+2025-06-06 17:59:06,750 - global_logger - INFO - Synchronizing slave 5
+2025-06-06 17:59:35,535 - global_logger - INFO - Slave 5 synchronized
+2025-06-06 17:59:46,348 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages

@@ -17,7 +17,7 @@ class CameraControllerAbstract(ABC):
     @abstractmethod
     def num_cameras(self, val):
         pass
-    
+
     @abstractmethod
     def start_cameras_asynchronous_oneByOne():
         pass
@@ -67,8 +67,7 @@ class CameraControllerAbstract(ABC):
         pass
 
 
-
-def get_camera_controller(cfg : DictConfig, logger : Logger = None):
+def get_camera_controller(cfg: DictConfig, logger: Logger = None):
 
     # null camera controller
     if cfg["sensor_type"] == "none":
@@ -81,10 +80,10 @@ def get_camera_controller(cfg : DictConfig, logger : Logger = None):
 
     # get proper sensor type
     sensor_type = cfg.sensor_type
-    camera_dir = Path(__file__).parent / 'cameras' / sensor_type
+    camera_dir = Path(__file__).parent / "cameras" / sensor_type
 
     # check if sensor type is present in folder
-    module_path = camera_dir / (sensor_type+".py")
+    module_path = camera_dir / (sensor_type + ".py")
     if not (module_path).exists():
         raise FileNotFoundError(f"Sensor {sensor_type} not found in {camera_dir}")
 
@@ -94,7 +93,6 @@ def get_camera_controller(cfg : DictConfig, logger : Logger = None):
     spec.loader.exec_module(module)
     cls = getattr(module, "CameraController")
 
-    self.check_real_fps()
+    # self.check_real_fps()
 
     return cls(logger=logger, cfg=cfg)
-

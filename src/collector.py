@@ -1,6 +1,7 @@
 import os, sys
 import torch
 from typing import List
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from shutil import rmtree
 from pathlib import Path
@@ -15,19 +16,19 @@ from light_controller import get_light_controller
 from postprocessing import Postprocessing
 
 
-class Collector():
-    def __init__(self, logger : Logger, cfg : DictConfig):
+class Collector:
+    def __init__(self, logger: Logger, cfg: DictConfig):
         self.logger = logger
         self.cfg = cfg
-        self.light_controller = get_light_controller(cfg=self.cfg.lights, logger = logger)
-        self.cam_controller = get_camera_controller(cfg=self.cfg.cameras, logger = logger)
+        self.light_controller = get_light_controller(cfg=self.cfg.lights, logger=logger)
+        self.cam_controller = get_camera_controller(cfg=self.cfg.cameras, logger=logger)
         self.postprocessing = Postprocessing(cfg=self.cfg.postprocessings)
         self.collection_cfg = self.cfg.strategies
 
     def check_real_fps(self):
         self.logger.info("Checking real fps...")
-        self.cam_controller.start_cameras_synchronous_latest(verbose = False)
-        period_nominal = (1/self.cam_controller.cfg.trigger.fps)
+        self.cam_controller.start_cameras_synchronous_latest(verbose=False)
+        period_nominal = 1 / self.cam_controller.cfg.trigger.fps
 
         # get real fps
         self.cam_controller.wait_exposure_end(0)
@@ -37,7 +38,7 @@ class Collector():
         if period_real > period_nominal + 0.05:
             error_msg = f"Real fps is {1/period_real}, less than nominal fps: {1/period_nominal}"
             self.logger.warning(error_msg)
-        self.fps = 1/period_real
+        self.fps = 1 / period_real
         self.period = period_real
         self.cam_controller.stop_cameras()
 
@@ -46,28 +47,33 @@ class Collector():
         def wrapper(self, *args, **kwargs):
             rmtree(self.cfg.paths.save_dir, ignore_errors=True)
             if self.cfg.mode.one_cam_at_time:
-                camera_ids = [ [i] for i in range(self.cam_controller.num_cameras)]
+                camera_ids = [[i] for i in range(self.cam_controller.num_cameras)]
             else:
-                camera_ids = [ list(range(self.cam_controller.num_cameras)) ]
+                camera_ids = [list(range(self.cam_controller.num_cameras))]
             for ids in camera_ids:
                 self.__collect_init()
                 self.logger.info(f"Collecting for cameras: {ids}")
                 self.camera_ids = ids
                 func(self, *args, **kwargs)
+
         return wrapper
 
     def __led_sequence_updater(self):
         for _ in range(self.collection_cfg.light_sequence.rounds):
             for light_idx in self.collection_cfg.light_sequence.sequence:
                 time1 = time.time()
-                self.light_controller.led_on(light_idx, only = True)
+                self.light_controller.led_on(light_idx, only=True)
                 delta = time.time() - time1
                 interval = self.period - 0.01
                 if delta > interval:
-                    self.logger.warning(f"Light on took {delta} seconds, more than the maximum interval: {interval}")
+                    self.logger.warning(
+                        f"Light on took {delta} seconds, more than the maximum interval: {interval}"
+                    )
                 time.sleep(self.period - delta)
 
-    def __collect(self, images : List[Image], images_show : List[Image], in_ram : bool = True):
+    def __collect(
+        self, images: List[Image], images_show: List[Image], in_ram: bool = True
+    ):
 
         out_dir = Path(self.cfg.paths.save_dir)
         if not os.path.exists(out_dir):
@@ -77,12 +83,11 @@ class Collector():
             self.__images_list.append(images)
             self.__images_postprocessed_list.append(images_show)
         else:
-            self.__save(images, raw = True)
-            self.__save(images_show, raw = False)
+            self.__save(images, raw=True)
+            self.__save(images_show, raw=False)
 
         self.__counter += 1
         self.logger.info(f"Images captured (total: {self.__counter} per cam)")
-
 
     def __collect_init(self):
         self.__images_list = []
@@ -90,11 +95,11 @@ class Collector():
         self.__counter = 0
         os.makedirs(self.cfg.paths.save_dir, exist_ok=True)
 
-    def preliminary_show(self, trigger = None):
+    def preliminary_show(self, trigger=None):
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
-            key = Image.show_multiple_images(images_postprocessed, wk = 1)
+            key = Image.show_multiple_images(images_postprocessed, wk=1)
             if trigger is None:
                 if key == 32:
                     break
@@ -103,10 +108,12 @@ class Collector():
                     break
 
     @collect_function
-    def capture_light_sequence(self, in_ram : bool = True, show : bool = False):
+    def capture_light_sequence(self, in_ram: bool = True, show: bool = False):
 
         if self.collection_cfg is None:
-            error_msg = "Not able to collect light sequence: Collection config not found"
+            error_msg = (
+                "Not able to collect light sequence: Collection config not found"
+            )
             self.logger.error(error_msg)
             raise ValueError(error_msg)
 
@@ -114,30 +121,35 @@ class Collector():
         self.cam_controller.wait_exposure_end(0)
         p = mp.Process(target=self.__led_sequence_updater, args=[])
         p.start()
-        self.cam_controller.grab_images(self.camera_ids) # remove first image from buffer
-        for _ in range(self.collection_cfg.light_sequence.rounds + len(self.collection_cfg.light_sequence.sequence)):
+        self.cam_controller.grab_images(
+            self.camera_ids
+        )  # remove first image from buffer
+        for _ in range(
+            self.collection_cfg.light_sequence.rounds
+            + len(self.collection_cfg.light_sequence.sequence)
+        ):
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
             self.__collect(images, images_postprocessed, in_ram)
             if show:
-                Image.show_multiple_images(images_postprocessed, wk = 0)
+                Image.show_multiple_images(images_postprocessed, wk=0)
         self.cam_controller.stop_cameras()
 
     @collect_function
-    def capture_manual(self, in_ram : bool = True):
+    def capture_manual(self, in_ram: bool = True):
 
         self.cam_controller.start_cameras_synchronous_latest()
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
-            key = Image.show_multiple_images(images_postprocessed, wk = 1)
-            if key == ord('q'):
+            key = Image.show_multiple_images(images_postprocessed, wk=1)
+            if key == ord("q"):
                 break
             if key == 32:
                 self.__collect(images, images_postprocessed, in_ram)
 
     @collect_function
-    def capture_n_images(self, n : int, in_ram : bool = True, show : bool = False):
+    def capture_n_images(self, n: int, in_ram: bool = True, show: bool = False):
         self.cam_controller.start_cameras_synchronous_latest()
 
         self.preliminary_show()
@@ -146,15 +158,17 @@ class Collector():
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
             if show:
-                Image.show_multiple_images(images_postprocessed, wk = 1)
+                Image.show_multiple_images(images_postprocessed, wk=1)
             self.__collect(images, images_postprocessed, in_ram)
 
     @collect_function
-    def capture_till_q(self, in_ram : bool = True, trigger_start = None, trigger_capture = None):
+    def capture_till_q(
+        self, in_ram: bool = True, trigger_start=None, trigger_capture=None
+    ):
         self.cam_controller.start_cameras_synchronous_latest()
 
         # preliminary show with trigger start
-        self.preliminary_show(trigger = trigger_start)
+        self.preliminary_show(trigger=trigger_start)
 
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
@@ -168,13 +182,17 @@ class Collector():
                     self.__collect(images, images_postprocessed, in_ram)
 
             # show + exit
-            wk = Image.show_multiple_images(images_postprocessed, wk = 1)
-            if wk == ord('q'):
+            wk = Image.show_multiple_images(images_postprocessed, wk=1)
+            if wk == ord("q"):
                 break
 
-    def save(self, save_raw : bool = False, save_postprocessed : bool = True, verbose = True) -> bool:
+    def save(
+        self, save_raw: bool = False, save_postprocessed: bool = True, verbose=True
+    ) -> bool:
 
-        self.logger.info(f"Saving images, Raw: {save_raw}, Postprocessed: {save_postprocessed}")
+        self.logger.info(
+            f"Saving images, Raw: {save_raw}, Postprocessed: {save_postprocessed}"
+        )
 
         # if not save_raw, delete raw images
         if not save_raw:
@@ -182,51 +200,55 @@ class Collector():
 
         # if not save_postprocessed, delete postprocessed images
         if not save_postprocessed:
-            rmtree(str(Path(self.cfg.paths.save_dir) / "postprocessed"), ignore_errors=True)
+            rmtree(
+                str(Path(self.cfg.paths.save_dir) / "postprocessed"), ignore_errors=True
+            )
 
         # save images (if any)
         self.__counter = 0
         for i in range(len(self.__images_list)):
             if save_raw:
-                self.__save(self.__images_list[i], raw = True, verbose = verbose)
+                self.__save(self.__images_list[i], raw=True, verbose=verbose)
             if save_postprocessed:
-                self.__save(self.__images_postprocessed_list[i], raw = False, verbose = verbose)
+                self.__save(
+                    self.__images_postprocessed_list[i], raw=False, verbose=verbose
+                )
             self.__counter += 1
-
 
         # save devices info
         devices_info = self.cam_controller.get_devices_info()
-        with open(str(Path(self.cfg.paths.save_dir) / "devices_info.yaml"), 'w') as f:
+        with open(str(Path(self.cfg.paths.save_dir) / "devices_info.yaml"), "w") as f:
             omegaconf.OmegaConf.save(devices_info, f)
         self.logger.info(f"Devices info saved in {self.cfg.paths.save_dir}")
 
         # save collection config
         if self.collection_cfg is not None:
-            with open(str(Path(self.cfg.paths.save_dir) / "collection_cfg.yaml"), 'w') as f:
+            with open(
+                str(Path(self.cfg.paths.save_dir) / "collection_cfg.yaml"), "w"
+            ) as f:
                 omegaconf.OmegaConf.save(self.collection_cfg, f)
             self.logger.info(f"Collection config saved in {self.cfg.paths.save_dir}")
 
         return True
 
-    def __save(self, images : List[Image], raw : bool, verbose : bool = False):
+    def __save(self, images: List[Image], raw: bool, verbose: bool = False):
         subdir = "raw" if raw else "postprocessed"
         img_name = str(self.__counter).zfill(3) + ".png"
         if images is not None:
             for cam_id in range(len(images)):
                 cam_name = "cam_" + str(self.camera_ids[cam_id]).zfill(3)
                 image = images[cam_id]
-                o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name 
+                o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name
                 if not o_dir.exists():
                     os.makedirs(o_dir)
-                image.save_parallel(o_dir / img_name, verbose = verbose)
+                image.save_parallel(o_dir / img_name, verbose=verbose)
 
 
-class CollectorLoader():
+class CollectorLoader:
 
     n_cams: int = -1
     n_images: int = -1
     resolutions: List[int] = []
-
 
     @classmethod
     def load_info(cls, save_dir: str):
@@ -237,11 +259,12 @@ class CollectorLoader():
 
         path = Path(save_dir) / "collection_cfg.yaml"
         if not path.exists():
-            raise ValueError(f"Cannot load collection configuration, path {path} does not exist")
+            raise ValueError(
+                f"Cannot load collection configuration, path {path} does not exist"
+            )
         collection_info = omegaconf.OmegaConf.load(path)
 
         return devices_info, collection_info
-
 
     @classmethod
     def load_images(cls, save_dir: str, in_ram: bool = False, raw: bool = True):
@@ -253,7 +276,7 @@ class CollectorLoader():
             raise ValueError(f"Cannot load images, path {str(dir)} does not exist")
 
         cam_paths = sorted(dir.iterdir())
-        img_paths = [ sorted(cam_path.iterdir()) for cam_path in cam_paths]
+        img_paths = [sorted(cam_path.iterdir()) for cam_path in cam_paths]
         cls.n_cams = len(cam_paths)
         cls.n_images = max([len(p) for p in img_paths])
         images = []
@@ -271,7 +294,7 @@ class CollectorLoader():
                 for img_path in sorted(cam_dir.iterdir()):
                     img = Image.from_path(str(img_path))
                     cam_images.append(img)
-                    images.append(cam_images) # [cam_id][img_id]
+                    images.append(cam_images)  # [cam_id][img_id]
             yield True
 
             for i in range(cls.n_images):
@@ -286,7 +309,7 @@ class CollectorLoader():
                 res = []
                 for c in range(cls.n_cams):
                     if i >= len(img_paths[c]):
-                        res.append(Image.from_img(torch.zeros(1,1,3)))
+                        res.append(Image.from_img(torch.zeros(1, 1, 3)))
                     else:
                         res.append(Image.from_path(str(img_paths[c][i])))
                 yield res

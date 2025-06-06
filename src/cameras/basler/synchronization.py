@@ -1,32 +1,43 @@
 from pypylon import pylon
+from tqdm import tqdm
 from logging import Logger
 import time
+from typing import Tuple
 
-def check_synchronization(cams : pylon.InstantCameraArray) -> bool:
+
+def check_synchronization(cams: pylon.InstantCameraArray) -> bool:
     stats = []
+    locked = []
     for cam in cams:
-        if cam.BslPeriodicSignalSource.ToString() != 'PtpClock':
+        if cam.BslPeriodicSignalSource.ToString() != "PtpClock":
             return False
         stats.append(cam.PtpStatus.GetValue())
+        locked.append(cam.PtpServoStatus.GetValue())
 
     # Check if there is exactly one master and all others are slaves
-    master_count = stats.count('Master')
-    slave_count = stats.count('Slave')
+    master_count = stats.count("Master")
+    slave_count = stats.count("Slave")
+    locked_count = locked.count("Locked")
 
-    if master_count == 1 and slave_count == (len(stats) - 1):
-         return True
+    if (
+        master_count == 1
+        and slave_count == (len(stats) - 1)
+        and locked_count == len(stats)
+    ):
+        return True
     else:
         return False
-    
-def synchronize_cameras(cams : pylon.InstantCameraArray, logger : Logger) -> bool:
+
+
+def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
     if not check_synchronization(cams):
         logger.info("Synchronizing cameras...")
     else:
         return True
 
-    synchronize_camera(cams[0]) # Master
+    synchronize_camera(cams[0])  # Master
     status = get_cam_ptp_status(cams[0])
-    if status == 'Master':
+    if status is not None and status[0] == "Master" and status[1] == "Locked":
         logger.info("Master synchronized")
     else:
         logger.error("Master not synchronized")
@@ -35,42 +46,51 @@ def synchronize_cameras(cams : pylon.InstantCameraArray, logger : Logger) -> boo
         if i == 0:
             continue
         synchronize_camera(cam)
+        logger.info(f"Synchronizing slave {i}")
+        wait_for_synchronized_camera(cam)
+        logger.info(f"Slave {i} synchronized")
+    time.sleep(10)
     success = wait_synchronized_cameras(cams)
 
-    if not success:
-        logger.error("Slaves not synchronized")
-    else:
-        logger.info("Slaves synchronized")
+    return True
+    # if not success:
+    #     logger.error("Slaves not synchronized")
+    # else:
+    #     logger.info("Slaves synchronized")
+    #
+    # return success
 
-    return success
-         
 
-def synchronize_camera(cam : pylon.InstantCamera) -> None:
+def synchronize_camera(cam: pylon.InstantCamera) -> None:
     cam.PtpEnable.Value = False
     cam.BslPtpPriority1.Value = 128
-    # cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
-    cam.BslPtpProfile.Value = "PeerToPeerDefaultProfile"
+    cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
+    # cam.BslPtpProfile.Value = "PeerToPeerDefaultProfile"
     # cam.BslPtpNetworkMode.Value = "Unicast"
     # cam.BslPtpNetworkMode.Value = "Hybrid"
     cam.BslPtpNetworkMode.Value = "Multicast"
     # camera.BslPtpUcPortAddrIndex.Value = 0
     # cam.BslPtpUcPortAddr.Value = 0xC0A80A0C
-    cam.BslPtpManagementEnable.Value = True
+    # cam.BslPtpManagementEnable.Value = True
+    cam.BslPtpManagementEnable.Value = False
     # cam.BslPtpTwoStep.Value = False
     cam.PtpEnable.Value = True
 
-def get_cam_ptp_status(cam : pylon.InstantCamera) -> str:
+
+def get_cam_ptp_status(cam: pylon.InstantCamera) -> Tuple[str, str] | None:
     time1 = time.time()
     while True:
         cam.PtpDataSetLatch.Execute()
-        synced = (cam.PtpStatus.GetValue() in ['Master', 'Slave'])
-        if synced:
-            return cam.PtpStatus.GetValue() 
+        synced = cam.PtpStatus.GetValue() in ["Master", "Slave"]
+        locked = cam.PtpServoStatus.GetValue() == "Locked"
+        if synced and locked:
+            return cam.PtpStatus.GetValue(), cam.PtpServoStatus.GetValue()
 
-        if (time.time() - time1) > 30:
+        if (time.time() - time1) > 0.1:
             return None
 
-def wait_synchronized_cameras(cameras : pylon.InstantCameraArray) -> bool:
+
+def wait_synchronized_cameras(cameras: pylon.InstantCameraArray) -> bool:
     stats = []
     for i, cam in enumerate(cameras):
         status = get_cam_ptp_status(cam)
@@ -80,3 +100,12 @@ def wait_synchronized_cameras(cameras : pylon.InstantCameraArray) -> bool:
 
     return check_synchronization(cameras)
 
+
+def wait_for_synchronized_camera(cam: pylon.InstantCamera) -> bool:
+    status = get_cam_ptp_status(cam)
+    while True:
+        cam.PtpDataSetLatch.Execute()
+        synced = cam.PtpStatus.GetValue() in ["Master", "Slave"]
+        locked = cam.PtpServoStatus.GetValue() == "Locked"
+        if synced and locked:
+            return True

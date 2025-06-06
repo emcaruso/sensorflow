@@ -1,7 +1,7 @@
 defaults:
   - _self_
   - cameras: none
-  - lights: gardasoft
+  - lights: microtec
   - strategies: light_sequence # null for no particular collection modes
   - postprocessings: none
   - override hydra/hydra_logging: disabled
