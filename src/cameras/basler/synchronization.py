@@ -49,7 +49,6 @@ def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
         logger.info(f"Synchronizing slave {i}")
         wait_for_synchronized_camera(cam)
         logger.info(f"Slave {i} synchronized")
-    time.sleep(10)
     success = wait_synchronized_cameras(cams)
 
     return True

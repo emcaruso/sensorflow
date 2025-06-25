@@ -4202,3 +4202,87 @@
 2025-06-06 17:59:06,750 - global_logger - INFO - Synchronizing slave 5
 2025-06-06 17:59:35,535 - global_logger - INFO - Slave 5 synchronized
 2025-06-06 17:59:46,348 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-06-13 14:26:08,984 - global_logger - INFO - Program started.
+2025-06-13 14:26:08,984 - global_logger - INFO - No light controller specified
+2025-06-13 14:26:09,267 - global_logger - ERROR - No devices detected!
+2025-06-13 14:36:39,456 - global_logger - INFO - Program started.
+2025-06-13 14:36:39,456 - global_logger - INFO - No light controller specified
+2025-06-13 14:36:41,193 - global_logger - INFO - 6 Basler camera detected
+2025-06-13 14:36:41,582 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40540882
+2025-06-13 14:36:43,745 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600138
+2025-06-13 14:36:45,712 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40600139
+2025-06-13 14:36:47,708 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627567
+2025-06-13 14:36:49,678 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627568
+2025-06-13 14:36:51,664 - global_logger - INFO - Loading features for camera a2A5320-7gcBAS_40627571
+2025-06-13 14:36:54,258 - global_logger - INFO - Collecting for cameras: [0, 1, 2, 3, 4, 5]
+2025-06-13 14:36:54,259 - global_logger - INFO - Synchronizing cameras...
+2025-06-13 14:36:54,372 - global_logger - ERROR - Master not synchronized
+2025-06-13 14:36:54,383 - global_logger - INFO - Synchronizing slave 1
+2025-06-13 14:37:00,619 - global_logger - INFO - Slave 1 synchronized
+2025-06-13 14:37:00,630 - global_logger - INFO - Synchronizing slave 2
+2025-06-13 14:37:27,265 - global_logger - INFO - Slave 2 synchronized
+2025-06-13 14:37:27,276 - global_logger - INFO - Synchronizing slave 3
+2025-06-13 14:37:55,528 - global_logger - INFO - Slave 3 synchronized
+2025-06-13 14:37:55,539 - global_logger - INFO - Synchronizing slave 4
+2025-06-13 14:38:22,663 - global_logger - INFO - Slave 4 synchronized
+2025-06-13 14:38:22,673 - global_logger - INFO - Synchronizing slave 5
+2025-06-13 14:38:49,741 - global_logger - INFO - Slave 5 synchronized
+2025-06-13 14:39:00,560 - global_logger - INFO - Cameras started, synch = True, strategy = GrabStrategy_LatestImages
+2025-06-13 16:52:32,981 - global_logger - INFO - Program started.
+2025-06-13 16:52:32,985 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-06-13 16:52:32,985 - global_logger - INFO - Light controller connection is working
+2025-06-13 16:52:32,985 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-06-13 16:52:34,988 - global_logger - INFO - Starting light controller loop.
+2025-06-13 16:52:34,989 - global_logger - INFO - No cameras specified
+2025-06-13 16:52:34,990 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-06-13 16:52:37,904 - global_logger - INFO - All leds on
+2025-06-13 16:52:44,578 - global_logger - INFO - Program started.
+2025-06-13 16:52:44,582 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-06-13 16:52:44,582 - global_logger - INFO - Light controller connection is working
+2025-06-13 16:52:44,583 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-06-13 16:52:46,586 - global_logger - INFO - Starting light controller loop.
+2025-06-13 16:52:46,586 - global_logger - INFO - No cameras specified
+2025-06-13 16:52:46,587 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-06-13 16:52:48,554 - global_logger - INFO - All leds on
+2025-06-13 16:53:01,885 - global_logger - INFO - Program started.
+2025-06-13 16:53:01,889 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-06-13 16:53:01,889 - global_logger - INFO - Light controller connection is working
+2025-06-13 16:53:01,889 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-06-13 16:53:03,892 - global_logger - INFO - Starting light controller loop.
+2025-06-13 16:53:03,892 - global_logger - INFO - No cameras specified
+2025-06-13 16:53:03,893 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-06-13 16:53:07,444 - global_logger - INFO - All leds off
+2025-06-13 16:53:09,899 - global_logger - INFO - All leds on
+2025-06-13 16:53:16,972 - global_logger - INFO - All leds off
+2025-06-13 16:53:17,502 - global_logger - INFO - All leds on
+2025-06-13 16:53:20,722 - global_logger - INFO - All leds off
+2025-06-13 16:53:21,179 - global_logger - INFO - All leds on
+2025-06-13 16:53:21,569 - global_logger - INFO - All leds off
+2025-06-13 16:53:22,435 - global_logger - INFO - All leds on
+2025-06-13 16:53:23,152 - global_logger - INFO - All leds off
+2025-06-13 16:53:23,414 - global_logger - INFO - All leds on
+2025-06-13 16:53:23,827 - global_logger - INFO - All leds off
+2025-06-13 16:53:24,269 - global_logger - INFO - All leds on
+2025-06-13 16:53:24,862 - global_logger - INFO - All leds off
+2025-06-13 16:53:25,372 - global_logger - INFO - All leds on
+2025-06-13 16:53:25,979 - global_logger - INFO - All leds off
+2025-06-13 16:53:26,279 - global_logger - INFO - All leds on
+2025-06-13 16:53:32,754 - global_logger - INFO - All leds off
+2025-06-13 17:14:32,899 - global_logger - INFO - Program started.
+2025-06-13 17:14:35,904 - global_logger - INFO - Light controller connection is working
+2025-06-13 17:14:35,905 - global_logger - INFO - No cameras specified
+2025-06-13 17:14:35,905 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-06-13 17:14:37,611 - global_logger - INFO - All leds on
+2025-06-13 17:14:39,546 - global_logger - INFO - All leds off
+2025-06-13 17:14:39,973 - global_logger - INFO - Channel 0
+2025-06-13 17:14:40,221 - global_logger - INFO - Channel 1
+2025-06-13 17:14:40,446 - global_logger - INFO - Channel 2
+2025-06-13 17:14:40,673 - global_logger - INFO - Channel 3
+2025-06-13 17:14:40,900 - global_logger - INFO - Channel 4
+2025-06-13 17:14:41,126 - global_logger - INFO - Channel 5
+2025-06-13 17:14:41,353 - global_logger - INFO - Channel 6
+2025-06-13 17:14:41,580 - global_logger - INFO - Channel 7
+2025-06-13 17:14:41,806 - global_logger - INFO - Channel 8
+2025-06-13 17:14:42,163 - global_logger - INFO - All leds off
+2025-06-13 17:14:42,433 - global_logger - INFO - All leds on
+2025-06-13 17:14:42,861 - global_logger - INFO - All leds off
