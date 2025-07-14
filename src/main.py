@@ -28,7 +28,7 @@ def main(cfg: DictConfig):
 def run(cfg: DictConfig, logger: Logger):
     coll = Collector(logger=logger, cfg=cfg)
 
-    images_list = []
+    # prototype
     if cfg.test_lights:
         if coll.light_controller is None:
             raise ValueError("No light controller specified in the config file.")
@@ -45,7 +45,9 @@ def run(cfg: DictConfig, logger: Logger):
         else:
             coll.light_controller.leds_off()
 
+    # collection
     else:
+        images_list = []
         if cfg.mode.val == "manual":
             images_list, postprocessed = coll.capture_manual()
         elif cfg.mode.val == "light_sequence":
