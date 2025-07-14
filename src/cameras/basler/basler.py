@@ -44,6 +44,7 @@ class CameraController(CameraControllerAbstract):
                 self.logger.info(f"Loading features for camera {iden}")
                 pylon.FeaturePersistence_Load(str(path), cam.GetNodeMap(), True)
             else:
+                self.logger.info(f"Saving features for camera {iden}")
                 pylon.FeaturePersistence_Save(str(path), cam.GetNodeMap())
 
     def load_devices(self) -> None:
