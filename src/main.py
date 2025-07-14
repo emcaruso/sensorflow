@@ -34,12 +34,12 @@ def run(cfg: DictConfig, logger: Logger):
             raise ValueError("No light controller specified in the config file.")
         else:
             coll.light_controller.test_leds()
-    elif cfg.lights_on:
+    elif "lights_on" in cfg.keys():
         if coll.light_controller is None:
             raise ValueError("No light controller specified in the config file.")
         else:
             coll.light_controller.leds_on()
-    elif cfg.lights_off:
+    elif "lights_off" in cfg.keys():
         if coll.light_controller is None:
             raise ValueError("No light controller specified in the config file.")
         else:
