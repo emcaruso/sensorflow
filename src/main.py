@@ -48,19 +48,13 @@ def run(cfg: DictConfig, logger: Logger):
     # collection
     else:
         images_list = []
-        if cfg.mode.val == "manual":
-            images_list, postprocessed = coll.capture_manual()
-        elif cfg.mode.val == "light_sequence":
-            images_list, postprocessed = coll.capture_light_sequence()
 
-        if cfg.save.raw:
-            res = coll.save(images_list)
-            if res:
-                logger.info(f"Raw images saved in {cfg.paths.save_dir}")
-        if cfg.save.postprocessed:
-            res = coll.save(postprocessed)
-            if res:
-                logger.info(f"Postprocessed images saved in {cfg.paths.save_dir}")
+        if cfg.mode.val == "manual":
+            # coll.capture_manual()
+            coll.capture_manual()
+        elif cfg.mode.val == "light_sequence":
+            # images_list, postprocessed = coll.capture_light_sequence()
+            coll.capture_light_sequence()
 
 
 if __name__ == "__main__":

@@ -45,11 +45,16 @@ class Collector:
     # decorator that perform function multiple times
     def collect_function(func):
         def wrapper(self, *args, **kwargs):
+            if self.cfg.camera_ids is None:
+                camera_ids_cfg = list(range(self.cam_controller.num_cameras))
+            else:
+                camera_ids_cfg = self.cfg.camera_ids
+
             rmtree(self.cfg.paths.save_dir, ignore_errors=True)
             if self.cfg.mode.one_cam_at_time:
-                camera_ids = [[i] for i in range(self.cam_controller.num_cameras)]
+                camera_ids = [[i] for i in camera_ids_cfg]
             else:
-                camera_ids = [list(range(self.cam_controller.num_cameras))]
+                camera_ids = [camera_ids_cfg]
             for ids in camera_ids:
                 self.__collect_init()
                 self.logger.info(f"Collecting for cameras: {ids}")
@@ -71,20 +76,14 @@ class Collector:
                     )
                 time.sleep(self.period - delta)
 
-    def __collect(
-        self, images: List[Image], images_show: List[Image], in_ram: bool = True
-    ):
+    def __collect(self, images: List[Image], images_show: List[Image]):
 
         out_dir = Path(self.cfg.paths.save_dir)
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
 
-        if in_ram:
-            self.__images_list.append(images)
-            self.__images_postprocessed_list.append(images_show)
-        else:
-            self.__save(images, raw=True)
-            self.__save(images_show, raw=False)
+        self.__save(images, raw=True)
+        self.__save(images_show, raw=False)
 
         self.__counter += 1
         self.logger.info(f"Images captured (total: {self.__counter} per cam)")
@@ -96,19 +95,29 @@ class Collector:
         os.makedirs(self.cfg.paths.save_dir, exist_ok=True)
 
     def preliminary_show(self, trigger=None):
+
+        if trigger == None:
+            self.logger.info(
+                "Press space to exit the preliminary show, or press 'q' to exit."
+            )
+
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
             key = Image.show_multiple_images(images_postprocessed, wk=1)
             if trigger is None:
                 if key == 32:
-                    break
+                    return True
+                elif key == ord("q"):
+                    return False
             else:
                 if trigger(images):
-                    break
+                    return True
+                elif key == ord("q"):
+                    return False
 
     @collect_function
-    def capture_light_sequence(self, in_ram: bool = True, show: bool = False):
+    def capture_light_sequence(self, show: bool = False):
 
         if self.collection_cfg is None:
             error_msg = (
@@ -130,15 +139,16 @@ class Collector:
         ):
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
-            self.__collect(images, images_postprocessed, in_ram)
+            self.__collect(images, images_postprocessed)
             if show:
                 Image.show_multiple_images(images_postprocessed, wk=0)
         self.cam_controller.stop_cameras()
 
     @collect_function
-    def capture_manual(self, in_ram: bool = True):
+    def capture_manual(self):
 
         self.cam_controller.start_cameras_synchronous_latest()
+
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
@@ -146,29 +156,33 @@ class Collector:
             if key == ord("q"):
                 break
             if key == 32:
-                self.__collect(images, images_postprocessed, in_ram)
+                self.__collect(images, images_postprocessed)
+        return True
 
     @collect_function
-    def capture_n_images(self, n: int, in_ram: bool = True, show: bool = False):
+    def capture_n_images(self, n: int, show: bool = False) -> bool:
         self.cam_controller.start_cameras_synchronous_latest()
 
-        self.preliminary_show()
+        res = self.preliminary_show()
+        if not res:
+            return False
 
         for _ in range(n):
             images = self.cam_controller.grab_images(self.camera_ids)
             images_postprocessed = self.postprocessing.postprocess(images)
             if show:
                 Image.show_multiple_images(images_postprocessed, wk=1)
-            self.__collect(images, images_postprocessed, in_ram)
+            self.__collect(images, images_postprocessed)
+        return True
 
     @collect_function
-    def capture_till_q(
-        self, in_ram: bool = True, trigger_start=None, trigger_capture=None
-    ):
+    def capture_till_q(self, trigger_start=None, trigger_capture=None) -> bool:
         self.cam_controller.start_cameras_synchronous_latest()
 
         # preliminary show with trigger start
-        self.preliminary_show(trigger=trigger_start)
+        res = self.preliminary_show(trigger=trigger_start)
+        if not res:
+            return False
 
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
@@ -176,15 +190,16 @@ class Collector:
 
             # trigger capture
             if trigger_capture is None:
-                self.__collect(images, images_postprocessed, in_ram)
+                self.__collect(images, images_postprocessed)
             else:
                 if trigger_capture(images):
-                    self.__collect(images, images_postprocessed, in_ram)
+                    self.__collect(images, images_postprocessed)
 
             # show + exit
             wk = Image.show_multiple_images(images_postprocessed, wk=1)
             if wk == ord("q"):
                 break
+        return True
 
     def save(
         self, save_raw: bool = False, save_postprocessed: bool = True, verbose=True
@@ -267,7 +282,7 @@ class CollectorLoader:
         return devices_info, collection_info
 
     @classmethod
-    def load_images(cls, save_dir: str, in_ram: bool = False, raw: bool = True):
+    def load_images(cls, save_dir: str, raw: bool = True):
 
         subdir = "raw" if raw else "postprocessed"
         dir = Path(save_dir) / subdir
@@ -288,28 +303,13 @@ class CollectorLoader:
             resolutions.append(img.resolution())
         cls.resolutions = resolutions
 
-        if in_ram:
-            for cam_dir in sorted(dir.iterdir()):
-                cam_images = []
-                for img_path in sorted(cam_dir.iterdir()):
-                    img = Image.from_path(str(img_path))
-                    cam_images.append(img)
-                    images.append(cam_images)  # [cam_id][img_id]
-            yield True
+        yield True
 
-            for i in range(cls.n_images):
-                res = []
-                for img in images:
-                    res.append(img[i])
-                yield res
-        else:
-            yield True
-
-            for i in range(cls.n_images):
-                res = []
-                for c in range(cls.n_cams):
-                    if i >= len(img_paths[c]):
-                        res.append(Image.from_img(torch.zeros(1, 1, 3)))
-                    else:
-                        res.append(Image.from_path(str(img_paths[c][i])))
-                yield res
+        for i in range(cls.n_images):
+            res = []
+            for c in range(cls.n_cams):
+                if i >= len(img_paths[c]):
+                    res.append(Image.from_img(torch.zeros(1, 1, 3)))
+                else:
+                    res.append(Image.from_path(str(img_paths[c][i])))
+            yield res
