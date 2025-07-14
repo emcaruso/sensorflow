@@ -1,4 +1,5 @@
 import sys
+import os
 import torch
 from pathlib import Path
 from logging import Logger
@@ -38,6 +39,7 @@ class CameraController(CameraControllerAbstract):
             mn = device.GetModelName()
             iden = f"{mn}_{sn}"
             path = Path(self.cfg.pfs_dir) / f"{iden}.pfs"
+            os.makedirs(self.cfg.pfs_dir, exist_ok=True)
             if path.exists():
                 self.logger.info(f"Loading features for camera {iden}")
                 pylon.FeaturePersistence_Load(str(path), cam.GetNodeMap(), True)
