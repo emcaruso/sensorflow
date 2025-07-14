@@ -7,11 +7,12 @@ from logging import Logger
 from utils_ema.log import get_logger_default
 from collector import Collector
 
+
 # load conf with hydra and run
 @hydra.main(version_base=None)
 def main(cfg: DictConfig):
 
-    os.environ["ROOT"] =str(os.getcwd()) 
+    os.environ["ROOT"] = str(os.getcwd())
     OmegaConf.resolve(cfg)
 
     # init logger
@@ -25,14 +26,24 @@ def main(cfg: DictConfig):
 
 # run the program
 def run(cfg: DictConfig, logger: Logger):
-    coll = Collector(logger=logger, cfg = cfg)
+    coll = Collector(logger=logger, cfg=cfg)
 
     images_list = []
-    if cfg.test_lights: 
+    if cfg.test_lights:
         if coll.light_controller is None:
             raise ValueError("No light controller specified in the config file.")
         else:
             coll.light_controller.test_leds()
+    elif cfg.lights_on:
+        if coll.light_controller is None:
+            raise ValueError("No light controller specified in the config file.")
+        else:
+            coll.light_controller.leds_on()
+    elif cfg.lights_off:
+        if coll.light_controller is None:
+            raise ValueError("No light controller specified in the config file.")
+        else:
+            coll.light_controller.leds_off()
 
     else:
         if cfg.mode.val == "manual":
@@ -42,11 +53,11 @@ def run(cfg: DictConfig, logger: Logger):
 
         if cfg.save.raw:
             res = coll.save(images_list)
-            if res: 
+            if res:
                 logger.info(f"Raw images saved in {cfg.paths.save_dir}")
         if cfg.save.postprocessed:
             res = coll.save(postprocessed)
-            if res: 
+            if res:
                 logger.info(f"Postprocessed images saved in {cfg.paths.save_dir}")
 
 

@@ -4286,3 +4286,73 @@
 2025-06-13 17:14:42,163 - global_logger - INFO - All leds off
 2025-06-13 17:14:42,433 - global_logger - INFO - All leds on
 2025-06-13 17:14:42,861 - global_logger - INFO - All leds off
+2025-07-14 14:41:41,289 - global_logger - INFO - Program started.
+2025-07-14 14:41:41,300 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-14 14:41:41,300 - global_logger - INFO - Light controller connection is working
+2025-07-14 14:41:41,300 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-14 14:41:43,303 - global_logger - INFO - Starting light controller loop.
+2025-07-14 14:41:43,303 - global_logger - INFO - No cameras specified
+2025-07-14 14:41:43,304 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-14 14:41:44,039 - global_logger - INFO - Channel 0
+2025-07-14 14:41:44,489 - global_logger - INFO - Channel 1
+2025-07-14 14:41:46,031 - global_logger - INFO - Channel 2
+2025-07-14 14:41:49,311 - global_logger - INFO - All leds on
+2025-07-14 14:41:51,111 - global_logger - INFO - All leds off
+2025-07-14 14:41:51,730 - global_logger - INFO - Channel 0
+2025-07-14 14:41:51,930 - global_logger - INFO - Channel 1
+2025-07-14 14:41:52,131 - global_logger - INFO - Channel 2
+2025-07-14 14:41:52,521 - global_logger - INFO - Channel 1
+2025-07-14 14:41:52,721 - global_logger - INFO - Channel 0
+2025-07-14 14:41:52,922 - global_logger - INFO - Channel 31
+2025-07-14 14:41:53,122 - global_logger - INFO - Channel 30
+2025-07-14 14:41:53,781 - global_logger - INFO - Channel 29
+2025-07-14 14:41:53,981 - global_logger - INFO - Channel 28
+2025-07-14 14:41:54,182 - global_logger - INFO - Channel 27
+2025-07-14 14:41:54,382 - global_logger - INFO - Channel 26
+2025-07-14 14:41:54,606 - global_logger - INFO - Channel 27
+2025-07-14 14:41:54,806 - global_logger - INFO - Channel 28
+2025-07-14 14:41:55,008 - global_logger - INFO - Channel 29
+2025-07-14 14:41:55,209 - global_logger - INFO - Channel 30
+2025-07-14 14:41:55,410 - global_logger - INFO - Channel 31
+2025-07-14 14:41:56,001 - global_logger - INFO - Channel 0
+2025-07-14 14:41:58,919 - global_logger - INFO - Program ended.
+2025-07-14 14:42:47,181 - global_logger - INFO - Program started.
+2025-07-14 14:42:47,191 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-14 14:42:47,191 - global_logger - INFO - Light controller connection is working
+2025-07-14 14:42:47,191 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-14 14:42:49,194 - global_logger - INFO - Starting light controller loop.
+2025-07-14 14:42:49,194 - global_logger - INFO - No cameras specified
+2025-07-14 14:42:49,195 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-14 14:50:27,138 - global_logger - INFO - Program started.
+2025-07-14 14:50:27,151 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-14 14:50:27,151 - global_logger - INFO - Light controller connection is working
+2025-07-14 14:50:27,151 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-14 14:50:29,154 - global_logger - INFO - Starting light controller loop.
+2025-07-14 14:50:29,155 - global_logger - INFO - No cameras specified
+2025-07-14 14:50:29,156 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-14 14:50:31,336 - global_logger - INFO - All leds off
+2025-07-14 14:50:32,156 - global_logger - INFO - All leds on
+2025-07-14 14:50:32,649 - global_logger - INFO - Channel 0
+2025-07-14 14:50:33,114 - global_logger - INFO - Channel 31
+2025-07-14 14:50:33,315 - global_logger - INFO - Channel 30
+2025-07-14 14:50:33,541 - global_logger - INFO - Channel 29
+2025-07-14 14:50:33,796 - global_logger - INFO - Channel 30
+2025-07-14 14:50:34,674 - global_logger - INFO - Program ended.
+2025-07-14 14:53:26,185 - global_logger - INFO - Program started.
+2025-07-14 14:53:29,191 - global_logger - INFO - Light controller connection is working
+2025-07-14 14:53:29,192 - global_logger - INFO - No cameras specified
+2025-07-14 14:53:29,192 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-14 14:53:31,144 - global_logger - INFO - All leds on
+2025-07-14 14:53:34,324 - global_logger - INFO - All leds off
+2025-07-14 14:53:35,554 - global_logger - INFO - Program ended.
+2025-07-14 15:03:04,855 - global_logger - INFO - Program started.
+2025-07-14 15:03:07,861 - global_logger - INFO - Light controller connection is working
+2025-07-14 15:03:07,861 - global_logger - INFO - No cameras specified
+2025-07-14 15:05:21,335 - global_logger - INFO - Program started.
+2025-07-14 15:05:21,335 - global_logger - INFO - No light controller specified
+2025-07-14 15:05:34,695 - global_logger - INFO - Program started.
+2025-07-14 15:05:34,696 - global_logger - INFO - No light controller specified
+2025-07-14 15:05:36,789 - global_logger - INFO - 7 Basler camera detected
+2025-07-14 15:07:09,814 - global_logger - INFO - Program started.
+2025-07-14 15:07:09,814 - global_logger - INFO - No light controller specified
+2025-07-14 15:07:09,814 - global_logger - INFO - No cameras specified
