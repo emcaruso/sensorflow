@@ -50,7 +50,7 @@ class Collector:
             else:
                 camera_ids_cfg = self.cfg.camera_ids
 
-            rmtree(self.cfg.paths.save_dir, ignore_errors=True)
+            os.makedirs(self.cfg.paths.save_dir, exist_ok=True)
             if self.cfg.mode.one_cam_at_time:
                 camera_ids = [[i] for i in camera_ids_cfg]
             else:
@@ -58,6 +58,14 @@ class Collector:
             for ids in camera_ids:
                 self.__collect_init()
                 self.logger.info(f"Collecting for cameras: {ids}")
+                for id in ids:
+                    raw_dir = Path(self.cfg.paths.save_dir) / "raw" / f"cam_{id:03}"
+                    ppr_dir = (
+                        Path(self.cfg.paths.save_dir) / "postprocessed" / f"cam_{id:03}"
+                    )
+                    rmtree(str(raw_dir), ignore_errors=True)
+                    rmtree(str(ppr_dir), ignore_errors=True)
+
                 self.camera_ids = ids
                 func(self, *args, **kwargs)
 
@@ -291,8 +299,10 @@ class CollectorLoader:
             raise ValueError(f"Cannot load images, path {str(dir)} does not exist")
 
         cam_paths = sorted(dir.iterdir())
+        cam_ids = [int(p.stem.split("cam_")[1]) for p in cam_paths]
         img_paths = [sorted(cam_path.iterdir()) for cam_path in cam_paths]
         cls.n_cams = len(cam_paths)
+        cls.cam_ids = cam_ids
         cls.n_images = max([len(p) for p in img_paths])
         images = []
 
