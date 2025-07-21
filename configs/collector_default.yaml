@@ -1,7 +1,7 @@
 defaults:
   - _self_
   - cameras: basler
-  - lights: none
+  - lights: microtec
   - strategies: light_sequence # null for no particular collection modes
   - postprocessings: none
   - override hydra/hydra_logging: disabled

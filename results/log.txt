@@ -1,0 +1,185 @@
+2025-07-16 09:56:55,971 - global_logger - INFO - Program started.
+2025-07-16 09:56:55,976 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-16 09:56:55,976 - global_logger - INFO - Light controller connection is working
+2025-07-16 09:56:55,976 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-16 09:56:57,979 - global_logger - INFO - Starting light controller loop.
+2025-07-16 09:56:57,979 - global_logger - INFO - No cameras specified
+2025-07-16 09:56:57,980 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-16 09:57:00,075 - global_logger - INFO - Channel 0
+2025-07-16 09:57:00,434 - global_logger - INFO - Channel 1
+2025-07-16 09:57:00,816 - global_logger - INFO - Channel 2
+2025-07-16 09:57:01,139 - global_logger - INFO - Channel 3
+2025-07-16 09:57:01,574 - global_logger - INFO - Channel 4
+2025-07-16 09:57:02,242 - global_logger - INFO - Channel 5
+2025-07-16 09:57:02,637 - global_logger - INFO - Channel 6
+2025-07-16 09:57:03,261 - global_logger - INFO - Channel 7
+2025-07-16 09:57:03,629 - global_logger - INFO - Channel 8
+2025-07-16 09:57:03,974 - global_logger - INFO - Channel 7
+2025-07-16 09:57:04,175 - global_logger - INFO - Channel 6
+2025-07-16 09:57:04,375 - global_logger - INFO - All leds on
+2025-07-16 09:57:07,087 - global_logger - INFO - All leds off
+2025-07-16 09:57:07,349 - global_logger - INFO - All leds on
+2025-07-16 09:57:07,604 - global_logger - INFO - All leds off
+2025-07-16 09:57:07,805 - global_logger - INFO - All leds on
+2025-07-16 09:57:08,005 - global_logger - INFO - All leds off
+2025-07-16 09:57:20,776 - global_logger - INFO - Program started.
+2025-07-16 09:57:20,780 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-16 09:57:20,780 - global_logger - INFO - Light controller connection is working
+2025-07-16 09:57:20,780 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-16 09:57:22,783 - global_logger - INFO - Starting light controller loop.
+2025-07-16 09:57:22,784 - global_logger - INFO - No cameras specified
+2025-07-16 09:57:22,784 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-16 09:57:23,492 - global_logger - INFO - All leds on
+2025-07-16 09:57:24,456 - global_logger - INFO - All leds off
+2025-07-16 09:57:24,675 - global_logger - INFO - All leds on
+2025-07-16 09:57:24,944 - global_logger - INFO - All leds off
+2025-07-16 09:57:32,336 - global_logger - INFO - Channel 0
+2025-07-16 09:57:32,693 - global_logger - INFO - Channel 1
+2025-07-16 09:57:33,044 - global_logger - INFO - Channel 2
+2025-07-16 09:57:33,299 - global_logger - INFO - Channel 3
+2025-07-16 09:57:33,518 - global_logger - INFO - Channel 4
+2025-07-16 09:57:35,003 - global_logger - INFO - Channel 5
+2025-07-16 09:57:48,624 - global_logger - INFO - Channel 6
+2025-07-16 09:57:48,848 - global_logger - INFO - Channel 7
+2025-07-16 09:57:49,237 - global_logger - INFO - Channel 8
+2025-07-16 09:57:49,437 - global_logger - INFO - Channel 9
+2025-07-16 09:57:50,467 - global_logger - INFO - Channel 10
+2025-07-16 09:57:50,667 - global_logger - INFO - Channel 11
+2025-07-16 09:57:50,887 - global_logger - INFO - Channel 12
+2025-07-16 09:57:51,210 - global_logger - INFO - Channel 13
+2025-07-16 09:57:51,427 - global_logger - INFO - Channel 14
+2025-07-16 09:57:51,685 - global_logger - INFO - Channel 15
+2025-07-16 09:57:51,960 - global_logger - INFO - Channel 16
+2025-07-16 09:57:52,282 - global_logger - INFO - Channel 17
+2025-07-16 09:57:57,825 - global_logger - INFO - Channel 16
+2025-07-16 09:58:29,198 - global_logger - INFO - Channel 15
+2025-07-16 09:58:29,398 - global_logger - INFO - Channel 14
+2025-07-16 09:58:29,599 - global_logger - INFO - Channel 13
+2025-07-16 09:58:29,799 - global_logger - INFO - Channel 12
+2025-07-16 09:58:30,225 - global_logger - INFO - Channel 11
+2025-07-16 09:58:30,425 - global_logger - INFO - Channel 10
+2025-07-16 09:58:30,626 - global_logger - INFO - Channel 9
+2025-07-16 09:58:30,918 - global_logger - INFO - Channel 8
+2025-07-16 10:01:03,302 - global_logger - INFO - All leds off
+2025-07-16 10:01:04,127 - global_logger - INFO - All leds on
+2025-07-16 10:01:14,402 - global_logger - INFO - All leds off
+2025-07-16 10:02:20,801 - global_logger - INFO - Channel 31
+2025-07-16 10:02:22,303 - global_logger - INFO - Channel 30
+2025-07-16 10:02:23,238 - global_logger - INFO - Channel 29
+2025-07-16 10:02:23,723 - global_logger - INFO - Channel 30
+2025-07-16 10:02:23,973 - global_logger - INFO - Channel 31
+2025-07-16 10:02:24,356 - global_logger - INFO - Channel 0
+2025-07-16 10:02:26,373 - global_logger - INFO - All leds off
+2025-07-16 10:03:52,550 - global_logger - INFO - Channel 31
+2025-07-16 10:03:53,645 - global_logger - INFO - All leds on
+2025-07-16 10:04:02,022 - global_logger - INFO - All leds off
+2025-07-16 10:05:49,845 - global_logger - INFO - Channel 31
+2025-07-16 10:05:51,101 - global_logger - INFO - Channel 30
+2025-07-16 10:06:00,780 - global_logger - INFO - Channel 29
+2025-07-16 10:06:01,785 - global_logger - INFO - Channel 30
+2025-07-16 10:06:06,480 - global_logger - INFO - All leds off
+2025-07-16 10:06:08,032 - global_logger - INFO - Program ended.
+2025-07-17 09:39:19,854 - global_logger - INFO - Program started.
+2025-07-17 09:39:19,859 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-17 09:39:19,859 - global_logger - INFO - Light controller connection is working
+2025-07-17 09:39:19,859 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-17 09:39:21,862 - global_logger - INFO - Starting light controller loop.
+2025-07-17 09:39:21,863 - global_logger - INFO - No cameras specified
+2025-07-17 09:39:21,864 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-17 09:39:26,869 - global_logger - INFO - Channel 0
+2025-07-17 09:39:27,598 - global_logger - INFO - Channel 1
+2025-07-17 09:39:28,049 - global_logger - INFO - Channel 2
+2025-07-17 09:39:29,039 - global_logger - INFO - Channel 3
+2025-07-17 09:39:29,497 - global_logger - INFO - Channel 4
+2025-07-17 09:39:29,714 - global_logger - INFO - Channel 5
+2025-07-17 09:39:29,915 - global_logger - INFO - Channel 6
+2025-07-17 09:39:30,262 - global_logger - INFO - Channel 7
+2025-07-17 09:39:30,659 - global_logger - INFO - Channel 6
+2025-07-17 09:39:30,922 - global_logger - INFO - Channel 5
+2025-07-17 09:39:31,357 - global_logger - INFO - Channel 4
+2025-07-17 09:39:31,557 - global_logger - INFO - Channel 3
+2025-07-17 09:39:32,763 - global_logger - INFO - Channel 4
+2025-07-17 09:39:33,149 - global_logger - INFO - Channel 5
+2025-07-17 09:39:34,754 - global_logger - INFO - Channel 6
+2025-07-17 09:39:34,954 - global_logger - INFO - Channel 7
+2025-07-17 09:39:35,257 - global_logger - INFO - Channel 8
+2025-07-17 09:39:35,902 - global_logger - INFO - Channel 7
+2025-07-17 09:39:38,814 - global_logger - INFO - Channel 8
+2025-07-17 09:39:39,749 - global_logger - INFO - Channel 7
+2025-07-17 09:39:44,039 - global_logger - INFO - Channel 8
+2025-07-17 09:52:44,777 - global_logger - INFO - Program started.
+2025-07-17 09:52:44,781 - global_logger - INFO - Using port /dev/ttyUSB0 as light controller.
+2025-07-17 09:52:44,781 - global_logger - INFO - Light controller connection is working
+2025-07-17 09:52:44,781 - global_logger - INFO - Configuring serial: /dev/ttyUSB0 at 160000 baudrate.
+2025-07-17 09:52:46,784 - global_logger - INFO - Starting light controller loop.
+2025-07-17 09:52:46,785 - global_logger - INFO - No cameras specified
+2025-07-17 09:52:46,786 - global_logger - INFO - Testing LEDs. Press 'h' or 'l' to switch channels, and press 'q' to quit.
+2025-07-17 09:52:48,750 - global_logger - INFO - Channel 0
+2025-07-17 09:52:51,894 - global_logger - INFO - Channel 31
+2025-07-17 09:52:58,394 - global_logger - INFO - Channel 30
+2025-07-17 09:52:58,745 - global_logger - INFO - Channel 29
+2025-07-17 09:52:58,945 - global_logger - INFO - Channel 28
+2025-07-17 09:52:59,146 - global_logger - INFO - Channel 27
+2025-07-17 09:52:59,347 - global_logger - INFO - Channel 26
+2025-07-17 09:52:59,575 - global_logger - INFO - Channel 25
+2025-07-17 09:52:59,830 - global_logger - INFO - Channel 24
+2025-07-17 09:53:00,074 - global_logger - INFO - Channel 23
+2025-07-17 09:53:00,275 - global_logger - INFO - Channel 22
+2025-07-17 09:53:00,475 - global_logger - INFO - Channel 21
+2025-07-17 09:53:00,676 - global_logger - INFO - Channel 20
+2025-07-17 09:53:01,238 - global_logger - INFO - Channel 19
+2025-07-17 09:53:01,480 - global_logger - INFO - Channel 18
+2025-07-17 09:53:01,788 - global_logger - INFO - Channel 17
+2025-07-17 09:53:04,871 - global_logger - INFO - Channel 16
+2025-07-17 09:53:45,754 - global_logger - INFO - Channel 17
+2025-07-17 09:53:45,955 - global_logger - INFO - Channel 18
+2025-07-17 09:53:46,156 - global_logger - INFO - Channel 19
+2025-07-17 09:53:46,421 - global_logger - INFO - Channel 20
+2025-07-17 09:53:46,691 - global_logger - INFO - Channel 21
+2025-07-17 09:53:46,924 - global_logger - INFO - Channel 22
+2025-07-17 09:53:47,169 - global_logger - INFO - Channel 23
+2025-07-17 09:53:47,681 - global_logger - INFO - Channel 24
+2025-07-17 09:53:57,483 - global_logger - INFO - Channel 23
+2025-07-17 09:53:58,211 - global_logger - INFO - Channel 24
+2025-07-17 09:53:58,608 - global_logger - INFO - Channel 25
+2025-07-17 09:53:59,388 - global_logger - INFO - Channel 24
+2025-07-17 09:54:12,176 - global_logger - INFO - Channel 23
+2025-07-17 09:54:12,377 - global_logger - INFO - Channel 22
+2025-07-17 09:54:12,577 - global_logger - INFO - Channel 21
+2025-07-17 09:54:12,778 - global_logger - INFO - Channel 20
+2025-07-17 09:54:12,978 - global_logger - INFO - Channel 19
+2025-07-17 09:54:13,179 - global_logger - INFO - Channel 18
+2025-07-17 09:54:13,379 - global_logger - INFO - Channel 17
+2025-07-17 09:54:13,580 - global_logger - INFO - Channel 16
+2025-07-17 09:54:13,780 - global_logger - INFO - Channel 15
+2025-07-17 09:54:13,981 - global_logger - INFO - Channel 14
+2025-07-17 09:54:14,182 - global_logger - INFO - Channel 13
+2025-07-17 09:54:14,382 - global_logger - INFO - Channel 12
+2025-07-17 09:54:14,658 - global_logger - INFO - Channel 11
+2025-07-17 09:54:14,859 - global_logger - INFO - Channel 10
+2025-07-17 09:54:15,059 - global_logger - INFO - Channel 9
+2025-07-17 09:54:15,303 - global_logger - INFO - Channel 8
+2025-07-17 09:54:24,776 - global_logger - INFO - Channel 7
+2025-07-17 09:54:24,977 - global_logger - INFO - Channel 6
+2025-07-17 09:54:25,178 - global_logger - INFO - Channel 7
+2025-07-17 09:54:25,378 - global_logger - INFO - Channel 8
+2025-07-17 09:54:25,646 - global_logger - INFO - Channel 9
+2025-07-17 09:54:25,847 - global_logger - INFO - Channel 10
+2025-07-17 09:54:26,238 - global_logger - INFO - Channel 11
+2025-07-17 09:54:26,493 - global_logger - INFO - Channel 12
+2025-07-17 09:55:08,539 - global_logger - INFO - Channel 13
+2025-07-17 09:55:08,752 - global_logger - INFO - Channel 14
+2025-07-17 09:55:08,953 - global_logger - INFO - Channel 15
+2025-07-17 09:55:09,154 - global_logger - INFO - Channel 16
+2025-07-17 09:55:22,377 - global_logger - INFO - Channel 17
+2025-07-17 09:55:22,654 - global_logger - INFO - Channel 18
+2025-07-17 09:55:23,337 - global_logger - INFO - Channel 19
+2025-07-17 09:55:23,537 - global_logger - INFO - Channel 20
+2025-07-17 09:55:28,444 - global_logger - INFO - Channel 21
+2025-07-17 09:55:28,694 - global_logger - INFO - Channel 22
+2025-07-17 09:55:28,904 - global_logger - INFO - Channel 23
+2025-07-17 09:55:29,464 - global_logger - INFO - Channel 24
+2025-07-17 09:55:36,070 - global_logger - INFO - Channel 25
+2025-07-17 09:55:36,271 - global_logger - INFO - Channel 26
+2025-07-17 09:55:36,471 - global_logger - INFO - Channel 27
+2025-07-17 09:55:36,829 - global_logger - INFO - Channel 28
