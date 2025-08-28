@@ -61,14 +61,14 @@ def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
 
 
 def synchronize_camera(cam: pylon.InstantCamera) -> None:
-    cam.PtpEnable.Value = False
+    # cam.PtpEnable.Value = False
     cam.BslPtpPriority1.Value = 128
     cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
     # cam.BslPtpProfile.Value = "PeerToPeerDefaultProfile"
     # cam.BslPtpNetworkMode.Value = "Unicast"
     # cam.BslPtpNetworkMode.Value = "Hybrid"
     cam.BslPtpNetworkMode.Value = "Multicast"
-    # camera.BslPtpUcPortAddrIndex.Value = 0
+    # cam.BslPtpUcPortAddrIndex.Value = 0
     # cam.BslPtpUcPortAddr.Value = 0xC0A80A0C
     # cam.BslPtpManagementEnable.Value = True
     cam.BslPtpManagementEnable.Value = False
@@ -85,7 +85,7 @@ def get_cam_ptp_status(cam: pylon.InstantCamera) -> Tuple[str, str] | None:
         if synced and locked:
             return cam.PtpStatus.GetValue(), cam.PtpServoStatus.GetValue()
 
-        if (time.time() - time1) > 0.1:
+        if (time.time() - time1) > 20.0:
             return None
 
 
