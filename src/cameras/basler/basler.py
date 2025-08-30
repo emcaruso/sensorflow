@@ -1,4 +1,6 @@
 import sys
+import time
+from collections import defaultdict
 import os
 import torch
 from pathlib import Path
@@ -8,6 +10,8 @@ from omegaconf import DictConfig
 from typing import Dict, List, Optional, Tuple
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
+from copy import deepcopy
+import threading
 
 # local imports
 sys.path.append(Path(__file__).parents[2].as_posix())
@@ -23,6 +27,11 @@ class CameraController(CameraControllerAbstract):
         self.cfg = cfg
         self.logger = logger
         self.load_devices()
+        self.cam_results = None
+        self.cam_ids = None
+        self.thread_collector = None
+        self.lock = threading.Lock()
+        self.is_running = False
 
     @property
     def num_cameras(self) -> int:
@@ -83,8 +92,8 @@ class CameraController(CameraControllerAbstract):
     def set_camera_fps(self, cam: pylon.InstantCamera, fps: float) -> None:
         cam.BslPeriodicSignalPeriod = fps2microseconds(fps)
         cam.BslPeriodicSignalDelay = self.cfg.trigger.delay
-        # cam.TriggerSelector.Value = "FrameStart"
-        cam.TriggerSelector.Value = "ExposureStart"
+        cam.TriggerSelector.Value = "FrameStart"
+        # cam.TriggerSelector.Value = "ExposureStart"
         # cam.TriggerMode.Value = "On"
         cam.TriggerSource.Value = "PeriodicSignal1"
 
@@ -141,15 +150,38 @@ class CameraController(CameraControllerAbstract):
         return True
 
     def open_cameras(self) -> None:
+
         if not self.cam_array.IsOpen():
             self.cam_array.Open()
 
     def stop_cameras(self) -> None:
+        self.is_running = False
+        if self.thread_collector is not None:
+            self.thread_collector.join()
+
         if self.cam_array.IsOpen():
             self.cam_array.Close()
 
+    def __results_collector(self) -> None:
+        camera_ids = list(range(self.n_devices))
+        while self.is_running:
+            results = {
+                cam_id: self.__grab_image_base(self.cam_array[cam_id])
+                for cam_id in camera_ids
+            }
+            ids = [r.GetID() for r in results.values()]
+            succ = [r.GrabSucceeded() for r in results.values()]
+            # print("collected ", ids, ", succ ", succ)
+            if all(succ):
+                self.cam_results = {
+                    k: self.__process_result(v) for k, v in results.items()
+                }
+                self.cam_ids = ids
+
     def __start_base(self, strategy: str, synch: bool, verbose: bool = True) -> None:
         self.open_cameras()
+        self.is_running = True
+
         if synch:
             success = synchronize_cameras(self.cam_array, self.logger)
             if not success:
@@ -160,6 +192,11 @@ class CameraController(CameraControllerAbstract):
             self.cam_array.StartGrabbing(getattr(pylon, strategy))
         if verbose:
             self.logger.info(f"Cameras started, synch = {synch}, strategy = {strategy}")
+        # self.__results_collector()
+        self.thread_collector = threading.Thread(target=self.__results_collector)
+        self.thread_collector.start()
+        while self.cam_results is None:
+            time.sleep(0.1)
 
     def start_cameras_asynchronous_latest(self, verbose: bool = True) -> None:
         self.__start_base(
@@ -191,13 +228,11 @@ class CameraController(CameraControllerAbstract):
     def start_cameras_synchronous_oneByOne(self, verbose: bool = True) -> None:
         self.__start_base(synch=True, strategy="GrabStrategy_OneByOne", verbose=verbose)
 
-    def __grab_image_base(
-        self, cam: pylon.InstantCamera, dtype=torch.float32
-    ) -> Tuple[Image, int]:
+    def __grab_image_base(self, cam: pylon.InstantCamera) -> Image:
         grabResult = cam.RetrieveResult(
             self.cfg.timeout, pylon.TimeoutHandling_ThrowException
         )
-        return grabResult, grabResult.GetID()
+        return grabResult
 
     def __process_result(
         self, grabResult: pylon.GrabResult, dtype=torch.float32
@@ -215,7 +250,7 @@ class CameraController(CameraControllerAbstract):
     def grab_image(self, cam_id: int, dtype=torch.float32) -> Image:
         cam = self.cam_array[cam_id]
         while True:
-            grabResult, _ = self.__grab_image_base(cam, dtype)
+            grabResult, _ = self.__grab_image_base(cam)
             if grabResult.GrabSucceeded():
                 break
         img = self.__process_result(grabResult, dtype)
@@ -226,25 +261,54 @@ class CameraController(CameraControllerAbstract):
     ) -> List[Image]:
         camera_ids = list(range(self.n_devices)) if camera_ids is None else camera_ids
 
-        results = [None] * len(camera_ids)
-        ids = [None] * len(camera_ids)
-        while True:
-            result = self.cam_array.RetrieveResult(
-                self.cfg.timeout, pylon.TimeoutHandling_ThrowException
-            )
-            id = result.GetID()
-            cam_id = result.GetCameraContext()
+        results = {}
+        for k, v in self.cam_results.items():
+            results[k] = v
+        ids = self.cam_ids
+        if not len(set(ids)) == 1:
+            import ipdb
 
-            results[cam_id] = result
-            ids[cam_id] = id
+            ipdb.set_trace()
 
-            same_id = len(set(ids)) == 1
-
-            if same_id:
-                imgs = [self.__process_result(r, dtype) for r in results]
-                for id in camera_ids:
-                    self.cam_array[id].PtpDataSetLatch()
-                return imgs
+        return [results[k] for k in sorted(results.keys())]
+        # res = [r for r in results.values()]
+        # print(res)
+        #     if len(set(res)) != 1:
+        #         import ipdb
+        #
+        #         ipdb.set_trace()
+        #         break
+        # # for id in camera_ids:
+        # #     self.cam_array[id].PtpDataSetLatch()
+        #
+        # while True:
+        #
+        #     print(" ")
+        #     for i, cam_id in enumerate(camera_ids):
+        #         cam = self.cam_array[cam_id]
+        #         result, _ = self.__grab_image_base(cam)
+        #
+        #         # result = self.cam_array.RetrieveResult(
+        #         #     self.cfg.timeout, pylon.TimeoutHandling_ThrowException
+        #         # )
+        #         id = result.GetID()
+        #         # cam_id = result.GetCameraContext()
+        #
+        #         print(cam_id, id)
+        #         if cam_id not in camera_ids:
+        #             continue
+        #
+        #         # results[id][cam_id] = result
+        #         #
+        #         # sync = len(list(results[id].keys())) == len(camera_ids)
+        #         # succ = all([r.GrabSucceeded() for r in results[id].values()])
+        #
+        #         # if sync and succ:
+        #         #     imgs = [
+        #         #         self.__process_result(results[id][k], dtype)
+        #         #         for k in sorted(results[id].keys())
+        #         #     ]
+        #         # #     return imgs
 
     def show_stream(self, cam_id: int) -> None:
         cam = self.cam_array[cam_id]

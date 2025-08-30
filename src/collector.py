@@ -2,6 +2,8 @@ import os, sys
 import torch
 from typing import List
 
+from tqdm import tqdm
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from shutil import rmtree
 from pathlib import Path
@@ -26,6 +28,7 @@ class Collector:
         self.postprocessing = Postprocessing(cfg=self.cfg.postprocessings)
         self.callback_collect = None
         self.collection_cfg = self.cfg.strategies
+        self.processes = []
 
     def check_real_fps(self):
         self.logger.info("Checking real fps...")
@@ -94,8 +97,8 @@ class Collector:
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
 
-        self.__save(images, raw=True)
-        self.__save(images_show, raw=False)
+        self.__save(images, raw=True, verbose=False)
+        self.__save(images_show, raw=False, verbose=False)
 
         self.__counter += 1
         self.logger.info(f"Images captured (total: {self.__counter} per cam)")
@@ -121,16 +124,18 @@ class Collector:
             images_preprocessed = self.preprocessing.postprocess(images)
             images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
             key = Image.show_multiple_images(images_postprocessed, wk=1)
-            if trigger is None:
-                if key == 32:
-                    return True
-                elif key == ord("q"):
-                    return False
-            else:
+            # key = images_postprocessed[-1].show(wk=1)
+            if trigger is not None:
                 if trigger(images):
                     return True
                 elif key == ord("q"):
                     return False
+            else:
+                if key == 32:
+                    return True
+                elif key == ord("q"):
+                    return False
+        self.queue_postprocessed.put(images_postprocessed)
 
     @collect_function
     def capture_light_sequence(self, show: bool = False):
@@ -159,7 +164,6 @@ class Collector:
             self.__collect(images_preprocessed, images_postprocessed)
             if show:
                 Image.show_multiple_images(images_postprocessed, wk=0)
-        self.cam_controller.stop_cameras()
 
     @collect_function
     def capture_manual(self):
@@ -209,13 +213,14 @@ class Collector:
     def capture_till_q(
         self, trigger_start=None, trigger_capture=None, trigger_exit=None
     ) -> bool:
+
         self.cam_controller.start_cameras_synchronous_latest()
 
         self.__set_lights()
 
-        # warmup
-        for _ in range(6):
-            images = self.cam_controller.grab_images(self.camera_ids)
+        # # warmup
+        # for _ in tqdm(range(6), desc="Warming up cameras"):
+        #     images = self.cam_controller.grab_images(self.camera_ids)
 
         # preliminary show with trigger start
         res = self.preliminary_show(trigger=trigger_start)
@@ -236,6 +241,7 @@ class Collector:
 
             # show + exit
             wk = Image.show_multiple_images(images_postprocessed, wk=1)
+            # wk = images_postprocessed[-1].show(wk=1)
             if trigger_exit is not None:
                 if trigger_exit(images):
                     break
@@ -289,11 +295,14 @@ class Collector:
                 omegaconf.OmegaConf.save(self.collection_cfg, f)
             self.logger.info(f"Collection config saved in {self.cfg.paths.save_dir}")
 
+        self.cam_controller.stop_cameras()
+
         return True
 
     def __save(self, images: List[Image], raw: bool, verbose: bool = False):
         subdir = "raw" if raw else "postprocessed"
         img_name = str(self.__counter).zfill(3) + ".png"
+        paths = []
         if images is not None:
             for cam_id in range(len(images)):
                 cam_name = "cam_" + str(self.camera_ids[cam_id]).zfill(3)
@@ -301,7 +310,28 @@ class Collector:
                 o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name
                 if not o_dir.exists():
                     os.makedirs(o_dir)
-                image.save_parallel(o_dir / img_name, verbose=verbose)
+
+                paths.append(o_dir / img_name)
+                processes_to_remove = []
+
+                while True:
+                    n_alive_processes = 0
+                    for process in self.processes:
+                        if not process.is_alive():
+                            processes_to_remove.append(process)
+                        else:
+                            n_alive_processes += 1
+
+                    # remove processes
+                    for p in processes_to_remove:
+                        self.processes.remove(p)
+
+                    if n_alive_processes < 3:
+                        break
+
+                process = image.save_parallel(o_dir / img_name, verbose=verbose)
+                self.processes.append(process)
+                # image.save(o_dir / img_name, verbose=verbose)
 
     def __set_lights(self):
         if self.light_controller is not None:

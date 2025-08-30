@@ -2,8 +2,8 @@ from utils_ema.config_utils import DictConfig, load_yaml
 from utils_ema.image import Image
 
 
-class Postprocessing():
-    def __init__(self, cfg : DictConfig):
+class Postprocessing:
+    def __init__(self, cfg: DictConfig):
         self.functions = []
         self.kwargs = []
         self.cfg = cfg
@@ -15,7 +15,7 @@ class Postprocessing():
         if self.cfg.functions is None:
             return False
 
-        for k,v in self.cfg.functions.items():
+        for k, v in self.cfg.functions.items():
             if k not in dir(self):
                 raise ValueError(f"Function {k} not found in postprocessing class")
             self.functions.append(getattr(self, k))

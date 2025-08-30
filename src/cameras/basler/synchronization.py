@@ -51,6 +51,17 @@ def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
         logger.info(f"Slave {i} synchronized")
     success = wait_synchronized_cameras(cams)
 
+    # logger.info("Setting sync free-run timer on all cameras.")
+    # for cam in cams:
+    #     cam.Open()
+    # cam.TriggerSelector.SetValue("FrameStart")
+    # cam.TriggerMode.SetValue("Off")
+    # cam.SyncFreeRunTimerStartTimeLow.Value = 0
+    # cam.SyncFreeRunTimerStartTimeHigh.SetValue(0)
+    # cam.SyncFreeRunTimerTriggerRateAbs.SetValue(3.0)
+    # cam.SyncFreeRunTimerUpdate.Execute()
+    # cam.SyncFreeRunTimerEnable.SetValue(True)
+
     return True
     # if not success:
     #     logger.error("Slaves not synchronized")
