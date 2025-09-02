@@ -1,6 +1,6 @@
 import os, sys
 import torch
-from typing import List
+from typing import List, Optional
 
 from tqdm import tqdm
 
@@ -29,6 +29,9 @@ class Collector:
         self.callback_collect = None
         self.collection_cfg = self.cfg.strategies
         self.processes = []
+        self.images = []
+        self.images_preprocessed = []
+        self.images_postprocessed = []
 
     def check_real_fps(self):
         self.logger.info("Checking real fps...")
@@ -45,7 +48,7 @@ class Collector:
             self.logger.warning(error_msg)
         self.fps = 1 / period_real
         self.period = period_real
-        self.cam_controller.stop_cameras()
+        # self.cam_controller.stop_cameras()
 
     # decorator that perform function multiple times
     def collect_function(func):
@@ -91,18 +94,37 @@ class Collector:
                     )
                 time.sleep(self.period - delta)
 
-    def __collect(self, images: List[Image], images_show: List[Image]):
+    def __collect(
+        self,
+        images: List[Image],
+        images_preprocessed: Optional[List[Image]] = None,
+        images_show: Optional[List[Image]] = None,
+    ):
 
-        out_dir = Path(self.cfg.paths.save_dir)
-        if not os.path.exists(out_dir):
-            os.makedirs(out_dir)
+        if self.cfg.in_ram:
+            self.images.append(images)
+            if images_preprocessed is not None:
+                self.images_preprocessed.append(images_preprocessed)
+            if images_show is not None:
+                self.images_postprocessed.append(images_show)
 
-        self.__save(images, raw=True, verbose=False)
-        self.__save(images_show, raw=False, verbose=False)
+        else:
+            out_dir = Path(self.cfg.paths.save_dir)
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
+
+            self.__save(images, dir="raw", verbose=False)
+
+            if images_preprocessed is not None:
+                self.__save(images_preprocessed, dir="preprocessed", verbose=False)
+
+            if images_show is not None:
+                self.__save(images_show, dir="postprocessed", verbose=False)
 
         self.__counter += 1
-        self.logger.info(f"Images captured (total: {self.__counter} per cam)")
-
+        print(f"Images captured (total: {self.__counter} per cam)")
+        # self.logger.info(f"Images captured (total: {self.__counter} per cam)")
+        #
         if self.callback_collect is not None:
             self.callback_collect()
 
@@ -112,7 +134,7 @@ class Collector:
         self.__counter = 0
         os.makedirs(self.cfg.paths.save_dir, exist_ok=True)
 
-    def preliminary_show(self, trigger=None):
+    def preliminary_show(self, trigger=None) -> bool:
 
         if trigger == None:
             self.logger.info(
@@ -137,86 +159,143 @@ class Collector:
                     return False
         self.queue_postprocessed.put(images_postprocessed)
 
+    # @collect_function
+    # def capture_light_sequence(self, show: bool = False):
+    #
+    #     if self.collection_cfg is None:
+    #         error_msg = (
+    #             "Not able to collect light sequence: Collection config not found"
+    #         )
+    #         self.logger.error(error_msg)
+    #         raise ValueError(error_msg)
+    #
+    #     # self.cam_controller.start_cameras_synchronous_oneByOne()
+    #     self.cam_controller.start_cameras_synchronous_latest()
+    #     self.cam_controller.wait_exposure_end(0)
+    #     p = mp.Process(target=self.__led_sequence_updater, args=[])
+    #     p.start()
+    #     self.cam_controller.grab_images(
+    #         self.camera_ids
+    #     )  # remove first image from buffer
+    #     for _ in range(
+    #         self.collection_cfg.light_sequence.rounds
+    #         + len(self.collection_cfg.light_sequence.sequence)
+    #     ):
+    #         images = self.cam_controller.grab_images(self.camera_ids)
+    #         images_preprocessed = self.preprocessing.postprocess(images)
+    #         images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
+    #         self.__collect(images, images_preprocessed, images_postprocessed)
+    #         if show:
+    #             Image.show_multiple_images(images_postprocessed, wk=0)
+
     @collect_function
-    def capture_light_sequence(self, show: bool = False):
-
-        if self.collection_cfg is None:
-            error_msg = (
-                "Not able to collect light sequence: Collection config not found"
-            )
-            self.logger.error(error_msg)
-            raise ValueError(error_msg)
-
-        self.cam_controller.start_cameras_synchronous_oneByOne()
-        self.cam_controller.wait_exposure_end(0)
-        p = mp.Process(target=self.__led_sequence_updater, args=[])
-        p.start()
-        self.cam_controller.grab_images(
-            self.camera_ids
-        )  # remove first image from buffer
-        for _ in range(
-            self.collection_cfg.light_sequence.rounds
-            + len(self.collection_cfg.light_sequence.sequence)
-        ):
-            images = self.cam_controller.grab_images(self.camera_ids)
-            images_preprocessed = self.preprocessing.postprocess(images)
-            images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
-            self.__collect(images_preprocessed, images_postprocessed)
-            if show:
-                Image.show_multiple_images(images_postprocessed, wk=0)
-
-    @collect_function
-    def capture_manual(self):
+    def capture_manual(self, postprocess: bool = True) -> bool:
 
         self.__set_lights()
 
         self.cam_controller.start_cameras_synchronous_latest()
+
+        # show fake images
+        fake_imgs = [Image(torch.zeros(1, 1, 3)) for i in range(len(self.camera_ids))]
+        Image.show_multiple_images(fake_imgs, wk=1)
+
+        # start cameras
+        while True:
+            images = self.cam_controller.grab_images(self.camera_ids)
+            # print(ids)
+            if images is None:
+                self.logger.warning("No images grabbed, retrying...")
+                # self.cam_controller.stop_cameras()
+            else:
+                break
 
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_preprocessed = self.preprocessing.postprocess(images)
-            images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
-            key = Image.show_multiple_images(images_postprocessed, wk=1)
+            images_postprocessed = None
+            if postprocess:
+                if images_preprocessed != []:
+                    images_postprocessed = self.postprocessing.postprocess(
+                        images_preprocessed
+                    )
+                else:
+                    imagess_postprocessed = self.postprocessing.postprocess(images)
+                key = Image.show_multiple_images(images_postprocessed, wk=1)
+            else:
+                key = Image.show_multiple_images(images_preprocessed, wk=1)
+
             if key == ord("q"):
                 break
             if key == 32:
-                self.__collect(images_preprocessed, images_postprocessed)
+                self.__collect(
+                    images,
+                    images_preprocessed,
+                    images_postprocessed,
+                )
 
         self.__lights_off()
 
         return True
 
-    @collect_function
-    def capture_n_images(self, n: int, show: bool = False) -> bool:
-
-        self.__set_lights()
-
-        self.cam_controller.start_cameras_synchronous_latest()
-
-        res = self.preliminary_show()
-        if not res:
-            return False
-
-        for _ in range(n):
-            images = self.cam_controller.grab_images(self.camera_ids)
-            images_preprocessed = self.preprocessing.postprocess(images)
-            images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
-            if show:
-                Image.show_multiple_images(images_postprocessed, wk=1)
-            self.__collect(images_preprocessed, images_postprocessed)
-
-        self.__lights_off()
-
-        return True
+    # @collect_function
+    # def capture_n_images(self, n: int, show: bool = False) -> bool:
+    #
+    #     self.__set_lights()
+    #
+    #     self.cam_controller.start_cameras_synchronous_latest()
+    #
+    #     res = self.preliminary_show()
+    #     if not res:
+    #         return False
+    #
+    #     for _ in range(n):
+    #         images = self.cam_controller.grab_images(self.camera_ids)
+    #         images_preprocessed = self.preprocessing.postprocess(images)
+    #         images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
+    #         if show:
+    #             Image.show_multiple_images(
+    #                 images_postprocessed[: min(3, len(images_postprocessed))], wk=1
+    #             )
+    #         self.__collect(
+    #             images,
+    #             (
+    #                 None
+    #                 if self.preprocessing.cfg == {"functions": None}
+    #                 else images_preprocessed
+    #             ),
+    #             images_postprocessed,
+    #         )
+    #
+    #     self.__lights_off()
+    #
+    #     return True
 
     @collect_function
     def capture_till_q(
-        self, trigger_start=None, trigger_capture=None, trigger_exit=None
+        self,
+        trigger_start=None,
+        trigger_capture=None,
+        trigger_exit=None,
+        postprocess=False,
     ) -> bool:
 
+        self.__set_lights()
+
+        # show fake images
+        fake_imgs = [Image(torch.zeros(1, 1, 3)) for i in range(len(self.camera_ids))]
+        Image.show_multiple_images(fake_imgs, wk=1)
+
+        # start cameras
+        # self.cam_controller.start_cameras_synchronous_oneByOne()
         self.cam_controller.start_cameras_synchronous_latest()
 
-        self.__set_lights()
+        # while True:
+        # images = self.cam_controller.grab_images(self.camera_ids)
+        # if images is None:
+        #     self.logger.warning("No images grabbed, retrying...")
+        #     self.cam_controller.stop_cameras()
+        # else:
+        #     break
 
         # # warmup
         # for _ in tqdm(range(6), desc="Warming up cameras"):
@@ -229,18 +308,33 @@ class Collector:
 
         while True:
             images = self.cam_controller.grab_images(self.camera_ids)
+            # print(ids)
+            # if not len(set(ids)) == 1:
+            #     continue
             images_preprocessed = self.preprocessing.postprocess(images)
-            images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
+            images_postprocessed = None
+            if postprocess:
+                images_postprocessed = self.postprocessing.postprocess(
+                    images_preprocessed
+                )
 
             # trigger capture
             if trigger_capture is None:
-                self.__collect(images_preprocessed, images_postprocessed)
+                self.__collect(
+                    images,
+                    images_preprocessed,
+                    images_postprocessed,
+                )
             else:
                 if trigger_capture(images):
-                    self.__collect(images_preprocessed, images_postprocessed)
+                    self.__collect(
+                        images,
+                        images_preprocessed,
+                        images_postprocessed,
+                    )
 
             # show + exit
-            wk = Image.show_multiple_images(images_postprocessed, wk=1)
+            wk = Image.show_multiple_images(images, wk=1)
             # wk = images_postprocessed[-1].show(wk=1)
             if trigger_exit is not None:
                 if trigger_exit(images):
@@ -253,38 +347,79 @@ class Collector:
         return True
 
     def save(
-        self, save_raw: bool = False, save_postprocessed: bool = True, verbose=True
+        self,
+        save_raw: bool = False,
+        save_postprocessed: bool = True,
+        save_preprocessed: bool = False,
+        verbose=True,
     ) -> bool:
 
-        self.logger.info(
-            f"Saving images, Raw: {save_raw}, Postprocessed: {save_postprocessed}"
-        )
+        self.logger.info(f"Saving images")
 
-        # if not save_raw, delete raw images
-        if not save_raw:
-            rmtree(str(Path(self.cfg.paths.save_dir) / "raw"), ignore_errors=True)
-
-        # if not save_postprocessed, delete postprocessed images
-        if not save_postprocessed:
-            rmtree(
-                str(Path(self.cfg.paths.save_dir) / "postprocessed"), ignore_errors=True
-            )
-
-        # save images (if any)
+        # save data in ram
         self.__counter = 0
-        for i in range(len(self.__images_list)):
-            if save_raw:
-                self.__save(self.__images_list[i], raw=True, verbose=verbose)
-            if save_postprocessed:
-                self.__save(
-                    self.__images_postprocessed_list[i], raw=False, verbose=verbose
-                )
-            self.__counter += 1
+        if self.cfg.in_ram:
+            dir = Path(self.cfg.paths.save_dir)
+            rmtree(str(dir), ignore_errors=True)
+            os.makedirs(dir, exist_ok=True)
+            for i in tqdm(range(len(self.images))):
+
+                self.__save(self.images[i], dir="raw", verbose=False)
+
+                if self.images_preprocessed != []:
+                    self.__save(
+                        self.images_preprocessed[i], dir="preprocessed", verbose=False
+                    )
+
+                if self.images_postprocessed != []:
+                    self.__save(
+                        self.images_postprocessed[i], dir="postprocessed", verbose=False
+                    )
+                self.__counter += 1
+        #
+        # # if not save_raw, delete raw images
+        # if not save_raw:
+        #     rmtree(str(Path(self.cfg.paths.save_dir) / "raw"), ignore_errors=True)
+        #
+        # # if not save_preprocessed, delete preprocessed images
+        # if not save_preprocessed:
+        #     rmtree(
+        #         str(Path(self.cfg.paths.save_dir) / "preprocessed"), ignore_errors=True
+        #     )
+        #
+        # # if not save_postprocessed, delete postprocessed images
+        # if not save_postprocessed:
+        #     rmtree(
+        #         str(Path(self.cfg.paths.save_dir) / "postprocessed"), ignore_errors=True
+        #     )
+
+        # # save images (if any)
+        # self.__counter = 0
+        # for i in range(len(self.__images_list)):
+        #     if save_raw:
+        #         self.__save(self.__images_list[i], dir="raw", verbose=verbose)
+        #     if save_preprocessed:
+        #         self.__save(
+        #             self.preprocessing.postprocess(self.__images_list[i]),
+        #             dir="preprocessed",
+        #             verbose=verbose,
+        #         )
+        #     if save_postprocessed:
+        #         self.__save(
+        #             self.__images_postprocessed_list[i],
+        #             dir="postprocessed",
+        #             verbose=verbose,
+        #         )
+        #     self.__counter += 1
 
         # save devices info
         devices_info = self.cam_controller.get_devices_info()
         with open(str(Path(self.cfg.paths.save_dir) / "devices_info.yaml"), "w") as f:
             omegaconf.OmegaConf.save(devices_info, f)
+
+        # if not save_raw, delete raw images
+        if not save_raw:
+            rmtree(str(Path(self.cfg.paths.save_dir) / "raw"), ignore_errors=True)
         self.logger.info(f"Devices info saved in {self.cfg.paths.save_dir}")
 
         # save collection config
@@ -295,14 +430,13 @@ class Collector:
                 omegaconf.OmegaConf.save(self.collection_cfg, f)
             self.logger.info(f"Collection config saved in {self.cfg.paths.save_dir}")
 
-        self.cam_controller.stop_cameras()
+        # self.cam_controller.stop_cameras()
 
         return True
 
-    def __save(self, images: List[Image], raw: bool, verbose: bool = False):
-        subdir = "raw" if raw else "postprocessed"
+    def __save(self, images: List[Image], dir: str, verbose: bool = False):
+        subdir = dir
         img_name = str(self.__counter).zfill(3) + ".png"
-        paths = []
         if images is not None:
             for cam_id in range(len(images)):
                 cam_name = "cam_" + str(self.camera_ids[cam_id]).zfill(3)
@@ -311,27 +445,26 @@ class Collector:
                 if not o_dir.exists():
                     os.makedirs(o_dir)
 
-                paths.append(o_dir / img_name)
                 processes_to_remove = []
 
-                while True:
-                    n_alive_processes = 0
-                    for process in self.processes:
-                        if not process.is_alive():
-                            processes_to_remove.append(process)
-                        else:
-                            n_alive_processes += 1
+                # while True:
+                #     n_alive_processes = 0
+                #     for process in self.processes:
+                #         if not process.is_alive():
+                #             processes_to_remove.append(process)
+                #         else:
+                #             n_alive_processes += 1
+                #
+                #     # remove processes
+                #     for p in processes_to_remove:
+                #         self.processes.remove(p)
+                #
+                #     if n_alive_processes < 3:
+                #         break
 
-                    # remove processes
-                    for p in processes_to_remove:
-                        self.processes.remove(p)
-
-                    if n_alive_processes < 3:
-                        break
-
-                process = image.save_parallel(o_dir / img_name, verbose=verbose)
-                self.processes.append(process)
+                image.save_parallel(o_dir / img_name, verbose=verbose)
                 # image.save(o_dir / img_name, verbose=verbose)
+                # self.processes.append(process)
 
     def __set_lights(self):
         if self.light_controller is not None:

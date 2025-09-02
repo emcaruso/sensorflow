@@ -90,12 +90,17 @@ class CameraController(CameraControllerAbstract):
         self.set_cameras_config()
 
     def set_camera_fps(self, cam: pylon.InstantCamera, fps: float) -> None:
+        cam.AcquisitionFrameRateEnable.Value = True
+        cam.AcquisitionFrameRate.Value = fps
+        # cam.AcquisitionFrameRate.Value = 500
         cam.BslPeriodicSignalPeriod = fps2microseconds(fps)
+        # cam.BslPeriodicSignalPeriod = fps2microseconds(10)
         cam.BslPeriodicSignalDelay = self.cfg.trigger.delay
-        cam.TriggerSelector.Value = "FrameStart"
+        # cam.BslPeriodicSignalDelay = 100000
+        # cam.TriggerSelector.Value = "FrameStart"
         # cam.TriggerSelector.Value = "ExposureStart"
-        # cam.TriggerMode.Value = "On"
         cam.TriggerSource.Value = "PeriodicSignal1"
+        cam.TriggerMode.Value = "On"
 
     def set_trigger_ouput(self, cam: pylon.InstantCamera) -> None:
         cam.BslPeriodicSignalDelay.Value = 0
@@ -164,23 +169,67 @@ class CameraController(CameraControllerAbstract):
 
     def __results_collector(self) -> None:
         camera_ids = list(range(self.n_devices))
-        while self.is_running:
-            results = {
-                cam_id: self.__grab_image_base(self.cam_array[cam_id])
-                for cam_id in camera_ids
-            }
-            ids = [r.GetID() for r in results.values()]
-            succ = [r.GrabSucceeded() for r in results.values()]
-            # print("collected ", ids, ", succ ", succ)
-            if all(succ):
-                self.cam_results = {
-                    k: self.__process_result(v) for k, v in results.items()
-                }
-                self.cam_ids = ids
+        # status = []
+        # for cam in self.cam_array:
+        #     cam.PtpDataSetLatch()
+        #     status.append(cam.PtpStatus.GetValue())
+        #     print(cam.PtpOffsetFromMaster.GetValue())
+        #     if cam.PtpServoStatus.GetValue() != "Locked":
+        #         self.logger.warning("Camera not locked")
+
+        # # count masters and slaves
+        # n_masters = sum([1 for s in status if s == "Master"])
+        # n_slaves = sum([1 for s in status if s == "Slave"])
+        # assert n_masters == 1 and n_slaves == (self.n_devices - 1)
+
+        results = {}
+        ids = []
+        cam_ids = []
+        for cam_id in camera_ids:
+            res = self.__grab_image_base(self.cam_array)
+            id = res.GetID()
+            ids.append(id)
+            cam_id = res.GetCameraContext()
+            cam_ids.append(cam_id)
+            results[cam_id] = res
+        print(ids)
+        results = [results[cam_id] for cam_id in camera_ids]
+        # # for _ in range(15):
+        # results = [
+        #     self.__grab_image_base(self.cam_array[cam_id]) for cam_id in camera_ids
+        # ]
+        return results
+        # while self.is_running:
+
+        # for cam in self.cam_array:
+        #     cam.PtpDataSetLatch()
+
+        # results = [self.__grab_image_base(self.cam_array) for _ in camera_ids]
+        # with self.lock:
+        #     self.cam_results = results
+
+        # ids = [r.GetID() for r in results]
+        # cam_ids = [r.GetCameraContext() for r in results]
+        # images = {k: self.__process_result(v) for k, v in zip(cam_ids, results)}
+        # print(ids)
+        # return images, ids
+
+        # # cam_id = res.GetCameraContext()
+        # id = res.GetID()
+        # print(id)
+        # import ipdb
+        #
+        # ipdb.set_trace()
+        # print(ids)
+
+        #     results[cam_id] = res
+        # ids = [r.GetID() for r in results.values()]
+        # print(ids)
+        # self.cam_results = {k: self.__process_result(v) for k, v in results.items()}
+        # self.cam_ids = ids
 
     def __start_base(self, strategy: str, synch: bool, verbose: bool = True) -> None:
         self.open_cameras()
-        self.is_running = True
 
         if synch:
             success = synchronize_cameras(self.cam_array, self.logger)
@@ -190,13 +239,17 @@ class CameraController(CameraControllerAbstract):
                 raise ValueError(error_msg)
         if not self.cam_array.IsGrabbing():
             self.cam_array.StartGrabbing(getattr(pylon, strategy))
+
+        res = [self.__grab_image_base(self.cam_array) for _ in range(self.n_devices)]
+        print([r.GetID() for r in res])
+
         if verbose:
             self.logger.info(f"Cameras started, synch = {synch}, strategy = {strategy}")
         # self.__results_collector()
-        self.thread_collector = threading.Thread(target=self.__results_collector)
-        self.thread_collector.start()
-        while self.cam_results is None:
-            time.sleep(0.1)
+        # self.thread_collector = threading.Thread(target=self.__results_collector)
+        # self.thread_collector.start()
+        # while self.cam_results is None:
+        #     time.sleep(0.1)
 
     def start_cameras_asynchronous_latest(self, verbose: bool = True) -> None:
         self.__start_base(
@@ -235,7 +288,7 @@ class CameraController(CameraControllerAbstract):
         return grabResult
 
     def __process_result(
-        self, grabResult: pylon.GrabResult, dtype=torch.float32
+        self, grabResult: pylon.GrabResult, dtype=torch.uint8
     ) -> Image:
         if grabResult.GrabSucceeded():
             if self.converter is not None:
@@ -261,16 +314,29 @@ class CameraController(CameraControllerAbstract):
     ) -> List[Image]:
         camera_ids = list(range(self.n_devices)) if camera_ids is None else camera_ids
 
-        results = {}
-        for k, v in self.cam_results.items():
-            results[k] = v
-        ids = self.cam_ids
-        if not len(set(ids)) == 1:
-            import ipdb
+        cam_results = self.__results_collector()
+        # for r in cam_results:
+        #     import ipdb
+        #
+        #     ipdb.set_trace()
+        # ids = [r.GetID() for r in cam_results]
+        # if not len(set(ids)) == 1:
+        #     raise ValueError("Cameras are not synchronized")
+        results = [self.__process_result(res) for res in cam_results]
+        return results
+        # results = {}
+        # for k, v in self.cam_results.items():
+        #     results[k] = v
+        # ids = self.cam_ids
+        # if not len(set(ids)) == 1:
+        #     import ipdb
+        #
+        #     ipdb.set_trace()
+        #     return None
 
-            ipdb.set_trace()
-
-        return [results[k] for k in sorted(results.keys())]
+        # return {
+        #     k: self.__process_result(self.cam_results[i]) for i, k in enumerate(cam_ids)
+        # }
         # res = [r for r in results.values()]
         # print(res)
         #     if len(set(res)) != 1:
