@@ -159,13 +159,16 @@ class CameraController(CameraControllerAbstract):
         if not self.cam_array.IsOpen():
             self.cam_array.Open()
 
-    def stop_cameras(self) -> None:
-        self.is_running = False
-        if self.thread_collector is not None:
-            self.thread_collector.join()
+    def stop_grabbing(self) -> None:
+        self.cam_array.StopGrabbing()
 
-        if self.cam_array.IsOpen():
-            self.cam_array.Close()
+    def stop_cameras(self) -> None:
+        # self.is_running = False
+        # if self.thread_collector is not None:
+        #     self.thread_collector.join()
+
+        # if self.cam_array.IsOpen():
+        self.cam_array.Close()
 
     def __results_collector(self) -> None:
         camera_ids = list(range(self.n_devices))

@@ -277,8 +277,12 @@ class Collector:
         trigger_capture=None,
         trigger_exit=None,
         postprocess=False,
+        sync=True,
     ) -> bool:
 
+        self.images = []
+        self.images_preprocessed = []
+        self.images_postprocessed = []
         self.__set_lights()
 
         # show fake images
@@ -287,7 +291,10 @@ class Collector:
 
         # start cameras
         # self.cam_controller.start_cameras_synchronous_oneByOne()
-        self.cam_controller.start_cameras_synchronous_latest()
+        if sync:
+            self.cam_controller.start_cameras_synchronous_latest()
+        else:
+            self.cam_controller.start_cameras_asynchronous_latest()
 
         # while True:
         # images = self.cam_controller.grab_images(self.camera_ids)
@@ -336,12 +343,14 @@ class Collector:
             # show + exit
             wk = Image.show_multiple_images(images, wk=1)
             # wk = images_postprocessed[-1].show(wk=1)
+            if wk == ord("q"):
+                break
             if trigger_exit is not None:
                 if trigger_exit(images):
                     break
-            if wk == ord("q"):
-                break
 
+        images = self.cam_controller.grab_images(self.camera_ids)
+        self.cam_controller.stop_grabbing()
         self.__lights_off()
 
         return True
@@ -441,6 +450,7 @@ class Collector:
             for cam_id in range(len(images)):
                 cam_name = "cam_" + str(self.camera_ids[cam_id]).zfill(3)
                 image = images[cam_id]
+                # image.set_type(torch.float32)
                 o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name
                 if not o_dir.exists():
                     os.makedirs(o_dir)
@@ -462,8 +472,10 @@ class Collector:
                 #     if n_alive_processes < 3:
                 #         break
 
-                image.save_parallel(o_dir / img_name, verbose=verbose)
+                #
+                # image.img = (image.img * 255).to(torch.uint8)
                 # image.save(o_dir / img_name, verbose=verbose)
+                image.save_parallel(o_dir / img_name, verbose=verbose)
                 # self.processes.append(process)
 
     def __set_lights(self):

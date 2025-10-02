@@ -33,7 +33,7 @@ def check_synchronization(cams: pylon.InstantCameraArray) -> bool:
     #     and locked_count == len(stats)
     # ):
     if locked_count == len(stats):
-        time.sleep(1)
+        time.sleep(0.5)
         return True
     else:
         return False
@@ -64,8 +64,8 @@ def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
         for i, cam in enumerate(cams):
             cam.PtpDataSetLatch.Execute()
             offsets[i] = cam.PtpOffsetFromMaster.Value
-        offset_max = max([o for o in offsets if o != 0])
         print(offsets)
+        offset_max = max([o for o in offsets if o != 0])
 
     assert check_synchronization(cams)
     return True
@@ -112,10 +112,10 @@ def wait_synchronized_cameras(cameras: pylon.InstantCameraArray) -> bool:
     while True:
         for i, cam in enumerate(cameras):
             cam.PtpDataSetLatch.Execute()
-            # status = get_cam_ptp_status(cam)
-            # if status is None:
-            #     return False
-            # stats.append(status)
+            status = get_cam_ptp_status(cam)
+            if status is None:
+                return False
+            stats.append(status)
 
         if check_synchronization(cameras):
             return True
