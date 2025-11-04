@@ -64,7 +64,6 @@ def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
         for i, cam in enumerate(cams):
             cam.PtpDataSetLatch.Execute()
             offsets[i] = cam.PtpOffsetFromMaster.Value
-        print(offsets)
         offset_max = max([o for o in offsets if o != 0])
 
     assert check_synchronization(cams)
@@ -78,7 +77,6 @@ def synchronize_cameras(cams: pylon.InstantCameraArray, logger: Logger) -> bool:
 
 
 def synchronize_camera(cam: pylon.InstantCamera) -> None:
-
     # cam.PtpEnable.Value = False
     cam.BslPtpPriority1.Value = 128
     cam.BslPtpProfile.Value = "DelayRequestResponseDefaultProfile"
