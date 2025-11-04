@@ -44,7 +44,7 @@ class Collector:
         self.cam_controller.wait_exposure_end(0)
         period_real = time.time() - t1
         if period_real > period_nominal + 0.05:
-            error_msg = f"Real fps is {1/period_real}, less than nominal fps: {1/period_nominal}"
+            error_msg = f"Real fps is {1 / period_real}, less than nominal fps: {1 / period_nominal}"
             self.logger.warning(error_msg)
         self.fps = 1 / period_real
         self.period = period_real
@@ -53,7 +53,6 @@ class Collector:
     # decorator that perform function multiple times
     def collect_function(func):
         def wrapper(self, *args, **kwargs):
-
             if self.cfg.camera_ids is None:
                 camera_ids_cfg = list(range(self.cam_controller.num_cameras))
             else:
@@ -79,6 +78,8 @@ class Collector:
 
                 func(self, *args, **kwargs)
 
+                self.save(save_raw=True, save_postprocessed=True)
+
         return wrapper
 
     def __led_sequence_updater(self):
@@ -100,7 +101,6 @@ class Collector:
         images_preprocessed: Optional[List[Image]] = None,
         images_show: Optional[List[Image]] = None,
     ):
-
         if self.cfg.in_ram:
             self.images.append(images)
             if images_preprocessed is not None:
@@ -135,7 +135,6 @@ class Collector:
         os.makedirs(self.cfg.paths.save_dir, exist_ok=True)
 
     def preliminary_show(self, trigger=None) -> bool:
-
         if trigger == None:
             self.logger.info(
                 "Press space to exit the preliminary show, or press 'q' to exit."
@@ -145,7 +144,9 @@ class Collector:
             images = self.cam_controller.grab_images(self.camera_ids)
             images_preprocessed = self.preprocessing.postprocess(images)
             images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
-            key = Image.show_multiple_images(images_postprocessed, wk=1)
+            key = Image.show_multiple_images(
+                [images_postprocessed[i] for i in self.camera_ids], wk=1
+            )
             # key = images_postprocessed[-1].show(wk=1)
             if trigger is not None:
                 if trigger(images):
@@ -190,7 +191,6 @@ class Collector:
 
     @collect_function
     def capture_manual(self, postprocess: bool = True) -> bool:
-
         self.__set_lights()
 
         self.cam_controller.start_cameras_synchronous_latest()
@@ -219,10 +219,14 @@ class Collector:
                         images_preprocessed
                     )
                 else:
-                    imagess_postprocessed = self.postprocessing.postprocess(images)
-                key = Image.show_multiple_images(images_postprocessed, wk=1)
+                    images_postprocessed = self.postprocessing.postprocess(images)
+                key = Image.show_multiple_images(
+                    [images_postprocessed[i] for i in self.camera_ids], wk=1
+                )
             else:
-                key = Image.show_multiple_images(images_preprocessed, wk=1)
+                key = Image.show_multiple_images(
+                    [images_postprocessed[i] for i in self.camera_ids], wk=1
+                )
 
             if key == ord("q"):
                 break
@@ -279,7 +283,6 @@ class Collector:
         postprocess=False,
         sync=True,
     ) -> bool:
-
         self.images = []
         self.images_preprocessed = []
         self.images_postprocessed = []
@@ -341,7 +344,7 @@ class Collector:
                     )
 
             # show + exit
-            wk = Image.show_multiple_images(images, wk=1)
+            wk = Image.show_multiple_images([images[i] for i in self.camera_ids], wk=1)
             # wk = images_postprocessed[-1].show(wk=1)
             if wk == ord("q"):
                 break
@@ -362,17 +365,16 @@ class Collector:
         save_preprocessed: bool = False,
         verbose=True,
     ) -> bool:
-
         self.logger.info(f"Saving images")
+
+        dir = Path(self.cfg.paths.save_dir)
+        # rmtree(str(dir), ignore_errors=True)
 
         # save data in ram
         self.__counter = 0
         if self.cfg.in_ram:
-            dir = Path(self.cfg.paths.save_dir)
-            rmtree(str(dir), ignore_errors=True)
             os.makedirs(dir, exist_ok=True)
             for i in tqdm(range(len(self.images))):
-
                 self.__save(self.images[i], dir="raw", verbose=False)
 
                 if self.images_preprocessed != []:
@@ -447,8 +449,9 @@ class Collector:
         subdir = dir
         img_name = str(self.__counter).zfill(3) + ".png"
         if images is not None:
-            for cam_id in range(len(images)):
-                cam_name = "cam_" + str(self.camera_ids[cam_id]).zfill(3)
+            # for cam_id in range(len(images)):
+            for cam_id in self.camera_ids:
+                cam_name = "cam_" + str(cam_id).zfill(3)
                 image = images[cam_id]
                 # image.set_type(torch.float32)
                 o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name
@@ -490,7 +493,6 @@ class Collector:
 
 
 class CollectorLoader:
-
     n_cams: int = -1
     n_images: int = -1
     resolutions: List[int] = []
@@ -513,7 +515,6 @@ class CollectorLoader:
 
     @classmethod
     def load_images(cls, save_dir: str, raw: bool = True):
-
         subdir = "raw" if raw else "postprocessed"
         dir = Path(save_dir) / subdir
 

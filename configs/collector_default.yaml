@@ -17,10 +17,15 @@ paths:
   log_file: "${oc.env:ROOT}/results/log.txt"
 
 mode:
-  val: manual
+  val: automatic
   valid_options:
     - manual
     - light_sequence
+    - automatic
+  charuco_distance_trigger:
+    do: False
+    pix_dist_thresh: 100
+    pix_dist_keep: 0
   one_cam_at_time: False
   in_ram: False
 

@@ -22,7 +22,6 @@ from synchronization import synchronize_cameras
 
 
 class CameraController(CameraControllerAbstract):
-
     def __init__(self, logger: Logger, cfg: DictConfig):
         self.cfg = cfg
         self.logger = logger
@@ -57,7 +56,6 @@ class CameraController(CameraControllerAbstract):
                 pylon.FeaturePersistence_Save(str(path), cam.GetNodeMap())
 
     def load_devices(self) -> None:
-
         # get devices
         self.tlf = pylon.TlFactory.GetInstance()
         self.devices = self.tlf.EnumerateDevices(
@@ -139,7 +137,6 @@ class CameraController(CameraControllerAbstract):
                 cam.Width.Value = cam.SensorWidth.Value
 
     def set_cameras_config(self) -> bool:
-
         for i, cam in enumerate(self.cam_array):
             self.set_camera_fps(cam, self.cfg.trigger.fps)
             cam.BslColorSpace.Value = "Off"
@@ -155,7 +152,6 @@ class CameraController(CameraControllerAbstract):
         return True
 
     def open_cameras(self) -> None:
-
         if not self.cam_array.IsOpen():
             self.cam_array.Open()
 
@@ -195,7 +191,7 @@ class CameraController(CameraControllerAbstract):
             cam_id = res.GetCameraContext()
             cam_ids.append(cam_id)
             results[cam_id] = res
-        print(ids)
+        # print(ids)
         results = [results[cam_id] for cam_id in camera_ids]
         # # for _ in range(15):
         # results = [
