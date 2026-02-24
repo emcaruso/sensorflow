@@ -131,6 +131,7 @@ class Collector:
             images, id = self.cam_controller.get_images()
             if id == self.previous_id:
                 continue
+            print(images)
             self.previous_id = id
 
             # postprocess
@@ -159,12 +160,9 @@ class Collector:
                 "Press space to exit the preliminary show, or press 'q' to exit."
             )
 
-        images, images_preprocessed, images_postprocessed, key = (
-            self.get_images_with_preprocess(show=True)
-        )
+        images, _, _, key = self.get_images_with_preprocessing(show=True)
 
         while True:
-            # key = images_postprocessed[-1].show(wk=1)
             if trigger is not None:
                 if trigger(images):
                     return True
@@ -175,36 +173,6 @@ class Collector:
                     return True
                 elif key == ord("q"):
                     return False
-        self.queue_postprocessed.put(images_postprocessed)
-
-    # @collect_function
-    # def capture_light_sequence(self, show: bool = False):
-    #
-    #     if self.collection_cfg is None:
-    #         error_msg = (
-    #             "Not able to collect light sequence: Collection config not found"
-    #         )
-    #         self.logger.error(error_msg)
-    #         raise ValueError(error_msg)
-    #
-    #     # self.cam_controller.start_cameras_synchronous_oneByOne()
-    #     self.cam_controller.start_cameras_synchronous_latest()
-    #     self.cam_controller.wait_exposure_end(0)
-    #     p = mp.Process(target=self.__led_sequence_updater, args=[])
-    #     p.start()
-    #     self.cam_controller.grab_images(
-    #         self.camera_ids
-    #     )  # remove first image from buffer
-    #     for _ in range(
-    #         self.collection_cfg.light_sequence.rounds
-    #         + len(self.collection_cfg.light_sequence.sequence)
-    #     ):
-    #         images = self.cam_controller.grab_images(self.camera_ids)
-    #         images_preprocessed = self.preprocessing.postprocess(images)
-    #         images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
-    #         self.__collect(images, images_preprocessed, images_postprocessed)
-    #         if show:
-    #             Image.show_multiple_images(images_postprocessed, wk=0)
 
     @collect_function
     def capture_manual(self) -> bool:
