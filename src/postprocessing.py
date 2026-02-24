@@ -1,5 +1,6 @@
 from utils_ema.config_utils import DictConfig, load_yaml
 from utils_ema.image import Image
+from copy import deepcopy
 
 
 class Postprocessing:
@@ -37,9 +38,12 @@ class Postprocessing:
         return images
 
     def postprocess(self, images):
-        for fn in self.functions:
-            images = fn(images)
-        return images
+        if self.functions == []:
+            return None
+        else:
+            for fn in self.functions:
+                images = fn(images)
+            return images
 
     def add_function(self, fn):
         self.functions.append(fn)

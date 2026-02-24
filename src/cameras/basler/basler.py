@@ -10,7 +10,6 @@ from omegaconf import DictConfig
 from typing import Dict, List, Optional, Tuple
 from utils_ema.image import Image
 from utils_ema.config_utils import load_yaml
-from copy import deepcopy
 import threading
 import multiprocessing as mp
 import queue
@@ -22,6 +21,7 @@ from camera_controller import CameraControllerAbstract
 from utils_basler import fps2microseconds
 from synchronization import synchronize_cameras
 from circular_buffer import SharedCircularBuffer
+from multiprocessing import Value
 
 
 class StoppableThread(threading.Thread):
@@ -38,15 +38,40 @@ class CameraController:
         self.cfg = cfg
         self.logger = logger
 
-        # initialize worker process
-        event_init = mp.Event()
-        pipe_child, pipe_parent = mp.Pipe()
-        self.event_start_grabbing = mp.Event()
-        self.event_stop_grabbing = mp.Event()
-        self.circular_buffer = SharedCircularBuffer(self.cfg.buffer_size, 8)
+        # --------------------------------------------------
+        # 1️⃣ Detect cameras in parent process
+        # --------------------------------------------------
+        tlf = pylon.TlFactory.GetInstance()
+        devices = tlf.EnumerateDevices([pylon.DeviceInfo()])
+        self.num_cameras = len(devices)
+
+        if self.num_cameras == 0:
+            raise ValueError("No cameras detected")
+
+        # --------------------------------------------------
+        # 2️⃣ Create shared circular buffer using real count
+        # --------------------------------------------------
+        self.circular_buffer = SharedCircularBuffer(
+            self.cfg.buffer_size, self.num_cameras
+        )
+
         self.buffer_id = mp.Value("i", 0)
         self.lock = mp.Lock()
-        process = mp.Process(
+
+        # --------------------------------------------------
+        # 3️⃣ IPC primitives
+        # --------------------------------------------------
+        event_init = mp.Event()
+        pipe_child, pipe_parent = mp.Pipe()
+
+        self.event_start_grabbing = mp.Event()
+        self.event_stop_grabbing = mp.Event()
+        self.event_reset_index = mp.Event()
+
+        # --------------------------------------------------
+        # 4️⃣ Start worker process
+        # --------------------------------------------------
+        self.process = mp.Process(
             target=self.init_worker,
             daemon=True,
             args=(
@@ -54,17 +79,20 @@ class CameraController:
                 pipe_child,
                 self.event_start_grabbing,
                 self.event_stop_grabbing,
+                self.event_reset_index,
                 self.circular_buffer,
                 self.buffer_id,
                 self.lock,
             ),
         )
-        process.start()
+
+        self.process.start()
+
+        # Wait for worker initialization
         event_init.wait()
 
-        # get dictionary of devices info
+        # Receive devices info from worker
         self.devices_info = pipe_parent.recv()
-        self.num_cameras = len(self.devices_info)
 
     def init_worker(
         self,
@@ -72,13 +100,19 @@ class CameraController:
         pipe_child,
         event_start_grabbing,
         event_stop_grabbing,
+        event_reset_index,
         circular_buffer,
         buffer_id,
         lock,
     ) -> None:
         worker = CameraControllerWorker(self.logger, self.cfg, event_init, pipe_child)
         worker.run(
-            event_start_grabbing, event_stop_grabbing, circular_buffer, buffer_id, lock
+            event_start_grabbing,
+            event_stop_grabbing,
+            event_reset_index,
+            circular_buffer,
+            buffer_id,
+            lock,
         )
 
     def start_grabbing(self) -> None:
@@ -88,9 +122,16 @@ class CameraController:
     def stop_grabbing(self) -> None:
         self.event_start_grabbing.clear()
         self.event_stop_grabbing.set()
+        self.process.join()
 
     def close(self):
         self.circular_buffer.close()
+        self.process.join()
+
+    def reset_buffer_id(self):
+        self.buffer_id.value = 0
+        self.circular_buffer.reset_index()
+        self.event_reset_index.set()
 
     def get_images(self) -> Tuple[List[Image], int]:
         with self.lock:
@@ -127,34 +168,39 @@ class CameraControllerWorker(CameraControllerAbstract):
         self,
         event_start: mp.Event,
         event_stop: mp.Event,
+        event_reset_index: mp.Event,
         circular_buffer: SharedCircularBuffer,
         buffer_id: mp.Value,
         lock: mp.Lock,
         verbose: bool = True,
     ) -> None:
 
-        while True:
+        self.logger.info("Camera worker waiting to start grabbing...")
+        event_start.wait()
+        if self.cfg.synch:
+            self.start_cameras_synchronous_oneByOne(verbose=verbose)
+        else:
+            self.start_cameras_asynchronous_oneByOne(verbose=verbose)
+        self.logger.info("Camera worker started grabbing...")
 
-            self.logger.info("Camera worker waiting to start grabbing...")
-            event_start.wait()
-            if self.cfg.synch:
-                self.start_cameras_synchronous_oneByOne(verbose=verbose)
-            else:
-                self.start_cameras_asynchronous_oneByOne(verbose=verbose)
-            self.logger.info("Camera worker started grabbing...")
+        counter = 0
+        while not event_stop.is_set():
 
-            counter = 0
-            while not event_stop.is_set():
-                images = self.grab_images()
-                id = counter % self.cfg.buffer_size
-                circular_buffer.append(images, id)
-                with lock:
-                    buffer_id.value = id
-                counter += 1
-            self.logger.info("Camera worker stopped grabbing...")
-            self.stop_grabbing()
+            if event_reset_index.is_set():
+                buffer_id.value = 0
+                counter = 0
+                event_reset_index.clear()
 
-        # circular_buffer.close()
+            images = self.grab_images()
+            id = counter % self.cfg.buffer_size
+            circular_buffer.append(images, id)
+            with lock:
+                buffer_id.value = id
+            counter += 1
+
+        self.stop_grabbing()
+        circular_buffer.close()
+        self.logger.info("Camera worker stopped grabbing...")
 
     @property
     def num_cameras(self) -> int:
@@ -352,7 +398,7 @@ class CameraControllerWorker(CameraControllerAbstract):
         # self.logger.info(f" ")
         if len(set(ids)) > 1:
             self.logger.warning(
-                f"Grabbed images have different IDs: {ids}, possible synchronization issue"
+                f"Grabbed images have different IDs: {ids}, possible synchronization issue, try to reduce fps"
             )
         results = [results[cam_id] for cam_id in camera_ids]
         # # for _ in range(15):
@@ -441,9 +487,9 @@ class CameraControllerWorker(CameraControllerAbstract):
         self.__start_base(
             synch=True,
             # strategy="GrabStrategy_LatestImages",
-            strategy="GrabStrategy_LatestImageOnly",
+            # strategy="GrabStrategy_LatestImageOnly",
             # strategy="GrabStrategy_UpcomingImage",
-            # strategy="GrabStrategy_OneByOne",
+            strategy="GrabStrategy_OneByOne",
             verbose=verbose,
             # synch=False, strategy="GrabStrategy_UpcomingImage",verbose=verbose,
         )
