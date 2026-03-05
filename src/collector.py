@@ -131,12 +131,20 @@ class Collector:
             images, id = self.cam_controller.get_images()
             if id == self.previous_id:
                 continue
-            print(images)
+            # filter images with camera ids
+            images = [images[i] for i in self.camera_ids]
             self.previous_id = id
 
-            # postprocess
+            # preprocess
             images_preprocessed = self.preprocessing.postprocess(images)
-            images_postprocessed = self.postprocessing.postprocess(images_preprocessed)
+
+            # postprocess
+            if images_preprocessed is not None:
+                images_postprocessed = self.postprocessing.postprocess(
+                    images_preprocessed
+                )
+            else:
+                images_postprocessed = self.postprocessing.postprocess(images)
 
             # show images
             key = None
@@ -147,9 +155,7 @@ class Collector:
                     images_show = images_preprocessed
                 else:
                     images_show = images
-                key = Image.show_multiple_images(
-                    [images_show[i] for i in self.camera_ids], wk=1
-                )
+                key = Image.show_multiple_images(images_show, wk=1)
             break
 
         return images, images_preprocessed, images_postprocessed, key
@@ -160,16 +166,18 @@ class Collector:
                 "Press space to exit the preliminary show, or press 'q' to exit."
             )
 
-        images, _, _, key = self.get_images_with_preprocessing(show=True)
-
         while True:
+            images, _, _, key = self.get_images_with_preprocessing(show=True)
+
             if trigger is not None:
                 if trigger(images):
+                    self.logger.info("Trigger condition met, exiting preliminary show.")
                     return True
                 elif key == ord("q"):
                     return False
             else:
                 if key == 32:
+                    self.logger.info("Trigger condition met, exiting preliminary show.")
                     return True
                 elif key == ord("q"):
                     return False
@@ -214,7 +222,6 @@ class Collector:
         trigger_start=None,
         trigger_capture=None,
         trigger_exit=None,
-        postprocess=False,
         sync=True,
     ) -> bool:
         self.__set_lights()
@@ -348,8 +355,8 @@ class Collector:
             omegaconf.OmegaConf.save(devices_info, f)
 
         # if not save_raw, delete raw images
-        if not save_raw:
-            rmtree(str(Path(self.cfg.paths.save_dir) / "raw"), ignore_errors=True)
+        # if not save_raw:
+        #     rmtree(str(Path(self.cfg.paths.save_dir) / "raw"), ignore_errors=True)
         self.logger.info(f"Devices info saved in {self.cfg.paths.save_dir}")
 
         # save collection config
@@ -370,9 +377,10 @@ class Collector:
         if images is not None:
             # for cam_id in range(len(images)):
             processes = []
-            for cam_id in self.camera_ids:
+            for i in range(len(self.camera_ids)):
+                cam_id = self.camera_ids[i]
                 cam_name = "cam_" + str(cam_id).zfill(3)
-                image = images[cam_id]
+                image = images[i]
                 # image.set_type(torch.float32)
                 o_dir = Path(self.cfg.paths.save_dir) / subdir / cam_name
                 if not o_dir.exists():

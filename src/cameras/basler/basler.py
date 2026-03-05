@@ -325,6 +325,7 @@ class CameraControllerWorker(CameraControllerAbstract):
 
     def set_cameras_config(self) -> bool:
         # fps = self.check_real_fps()
+
         for i, cam in enumerate(self.cam_array):
 
             # self.set_camera_fps(cam, fps)
@@ -395,7 +396,7 @@ class CameraControllerWorker(CameraControllerAbstract):
         #     self.logger.info(f"Grabbed image ID {id} from camera {cam_id}")
         #     cam_ids.append(cam_id)
         #     results[cam_id] = res
-        # self.logger.info(f" ")
+        # self.logger.info(ids)
         if len(set(ids)) > 1:
             self.logger.warning(
                 f"Grabbed images have different IDs: {ids}, possible synchronization issue, try to reduce fps"
@@ -406,34 +407,6 @@ class CameraControllerWorker(CameraControllerAbstract):
         #     self.__grab_image_base(self.cam_array[cam_id]) for cam_id in camera_ids
         # ]
         return results
-        # while self.is_running:
-
-        # for cam in self.cam_array:
-        #     cam.PtpDataSetLatch()
-
-        # results = [self.__grab_image_base(self.cam_array) for _ in camera_ids]
-        # with self.lock:
-        #     self.cam_results = results
-
-        # ids = [r.GetID() for r in results]
-        # cam_ids = [r.GetCameraContext() for r in results]
-        # images = {k: self.__process_result(v) for k, v in zip(cam_ids, results)}
-        # print(ids)
-        # return images, ids
-
-        # # cam_id = res.GetCameraContext()
-        # id = res.GetID()
-        # print(id)
-        # import ipdb
-        #
-        # ipdb.set_trace()
-        # print(ids)
-
-        #     results[cam_id] = res
-        # ids = [r.GetID() for r in results.values()]
-        # print(ids)
-        # self.cam_results = {k: self.__process_result(v) for k, v in results.items()}
-        # self.cam_ids = ids
 
     def __start_base(self, strategy: str, synch: bool, verbose: bool = True) -> None:
         self.open_cameras()
